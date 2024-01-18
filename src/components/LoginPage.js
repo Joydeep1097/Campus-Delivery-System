@@ -2,11 +2,11 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const LoginPage = () => {
+import UserProfile from './UserProfile';
+const LoginPage = (props) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
-
+  const [flag, setflag] = useState(0);
   const handleLogin = () => {
     // Validate ID format (same as during signup)
     if (!/^\d{8}$/.test(id)) {
@@ -17,9 +17,12 @@ const LoginPage = () => {
     // Implement login logic here
     console.log('ID:', id);
     console.log('Password:', password);
+    setflag(1);
   };
 
   return (
+    <div>
+    {flag===1?<UserProfile id={id}/>:
     <div className="outer">
     <div className='container'>
       <h1>Login</h1>
@@ -55,6 +58,8 @@ const LoginPage = () => {
       </form>
     </div>
     </div>
+  }
+  </div>
   );
 };
 

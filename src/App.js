@@ -5,8 +5,7 @@ import HomePage from './components/HomePage'; // Import your home page component
 import LoginPage from './components/LoginPage'; // Import your login page component
 import SignupPage from './components/SignupPage'; // Import your signup page component
 import VendorPage from './components/VendorPage';
-import ShopListPage from './components/ShopListPage';
-import NavbarWithProfile from './components/NavbarWithProfile';
+import AboutUsPage from './components/AboutUsPage';
 import './App.css';
 
 const App = () => {
@@ -18,8 +17,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/vendor" element={<VendorPage />} />
-        <Route path="/shoplist" element={<ShopListPage />} />
-        <Route path="/profile" element={<NavbarWithProfile />} />
+        <Route path="/aboutus" element={<AboutUsPage />} />
         </Routes>
         
         </div>

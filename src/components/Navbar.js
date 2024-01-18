@@ -8,7 +8,7 @@ const Navbar = () => {
       <div className="quicklinks">
         <Link to="https://www.iitbhilai.ac.in/index.php?pid=aca_ourcampus">Our Campus</Link>
         <Link to="/campus-map">Campus Map</Link>
-        <Link to="/contact-us">About Us</Link>
+        <Link to="/aboutus">About Us</Link>
       </div>
       <div>
         <Link to="/">

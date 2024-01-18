@@ -66,7 +66,7 @@
   background-position: center;
   background-repeat: no-repeat;
   height: 100vh; /* Set the desired height */
-  opacity: 80%;
+  opacity: 60%;
   flex-direction: column;
   align-items: left;
   justify-content: center;
@@ -81,7 +81,7 @@
 }
 .writings-right{
   text-align: center;
-  color: rgb(201, 34, 5);
+  color: rgb(248, 157, 0);
   
 }
 /*carausel css*/
@@ -93,7 +93,7 @@
 }
 /*login signup css*/
 .outer{
-  background-color: #473554;
+  background-color: #a044e1;
   height: 100vh;
   padding: 100px;
 }
@@ -167,7 +167,7 @@ button:hover {
   list-style: none;
   display: flex;
   margin-bottom: 20px;
-  background-color: #fff;
+  background-color: #f8e8e8;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -206,48 +206,48 @@ button {
 
 /* NavbarWithProfile.css */
 
-.navbar1 {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-}
-
-.navbar1-logo a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.navbar1-items {
-  display: flex;
-  align-items: center;
-}
-
-.navbar1-profile-options {
-  margin-right: 20px;
-}
-
-.toggle-btn {
-  margin-left: 10px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.dropdown-menu {
+.ulinnavbar {
   list-style: none;
   padding: 0;
   margin: 0;
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  display: none;
+  flex-direction: column;
+  text-align: right;
+  z-index: 1;
+}
+.navbar-menu {
+  display: flex;
+  align-items: center;
 }
 
-.dropdown-menu li {
-  margin: 5px 0;
+.navbar-menu.open ul {
+  display: flex;
 }
 
+ul li {
+  padding: 10px;
+  border-bottom: 1px solid #cf2727;
+  background-color: #1500ff;
+}
+
+ul li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .navbar-menu {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  ul {
+    top: 40px;
+  }
+}
 

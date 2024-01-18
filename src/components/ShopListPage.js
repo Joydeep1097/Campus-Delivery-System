@@ -1,7 +1,6 @@
 // ShopListPage.js
 
 import React, { useState, useEffect } from 'react';
-import NavbarWithProfile from './NavbarWithProfile';
 
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
@@ -39,10 +38,9 @@ const ShopListPage = () => {
 
   return (
     <div>
-    <NavbarWithProfile/>
     <div className="outer">
     <div className="shop-list-page">
-      <ul>
+      <ul className='ul1'>
         {shops.map((shop) => (
           <li key={shop.id} className="shop-card">
             <div className="shop-image">
