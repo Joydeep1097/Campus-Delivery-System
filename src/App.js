@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage'; // Import your login page compon
 import SignupPage from './components/SignupPage'; // Import your signup page component
 import VendorPage from './components/VendorPage';
 import ShopListPage from './components/ShopListPage';
+import NavbarWithProfile from './components/NavbarWithProfile';
 import './App.css';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/vendor" element={<VendorPage />} />
         <Route path="/shoplist" element={<ShopListPage />} />
+        <Route path="/profile" element={<NavbarWithProfile />} />
         </Routes>
         
         </div>
