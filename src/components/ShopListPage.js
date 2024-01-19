@@ -1,10 +1,11 @@
 // ShopListPage.js
 
 import React, { useState, useEffect } from 'react';
+import UserView from './UserView';
 
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
-
+  const [shopid,setshopid]= useState([0]);
   useEffect(() => {
     // Mock shop data
     const mockShops = [
@@ -34,9 +35,12 @@ const ShopListPage = () => {
   const handleShopSelection = (selectedShopId) => {
     console.log('User selected shop with ID:', selectedShopId);
     // You can add logic to navigate to the selected shop's page or perform other actions
+    setshopid(selectedShopId);
   };
 
   return (
+    <>
+   {shopid>0 ? <UserView/>:
     <div>
     <div className="outer">
     <div className="shop-list-page">
@@ -49,9 +53,8 @@ const ShopListPage = () => {
             <div className="shop-details">
               <h3>{shop.name}</h3>
               <p>{shop.description}</p>
-              <button onClick={() => handleShopSelection(shop.id)}>
-                Select Shop
-              </button>
+              <button onClick={() => handleShopSelection(shop.id)}/>
+              
             </div>
           </li>
         ))}
@@ -59,6 +62,8 @@ const ShopListPage = () => {
     </div>
     </div>
     </div>
+    }
+    </>
   );
 };
 
