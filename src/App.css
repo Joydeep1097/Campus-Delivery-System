@@ -61,7 +61,7 @@
 }
 /*homepage css*/
 .contents {
-  background-image: url('..\\public\\images\\1704102229834.jpeg'); /* Replace with the path to your image */
+  background-image: url('../public/images/1704102229834.jpeg'); /* Replace with the path to your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
