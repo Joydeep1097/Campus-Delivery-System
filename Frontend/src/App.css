@@ -2,6 +2,8 @@
 /*navbar css*/
 .navbar {
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 5px;
@@ -24,28 +26,8 @@
 }
 
 .logo {
-  width: 350px; /* Adjust the size as needed */
+  max-width: 350px; /* Adjust the size as needed */
   height: 60px;
-}
-
-.search-bar {
-  flex: 2;
-  background-color: #555;
-  width: 3px;
-}
-
-.search-bar input {
-  padding: 5px;
-  margin-right: 5px;
-  width: 80%;
-}
-
-.search-bar button {
-  padding: 5px;
-  background-color: #555; /* Change the button color as needed */
-  color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .auth-options {
@@ -62,40 +44,44 @@
 /*homepage css*/
 .contents {
   background-image: url('../public/images/1704102229834.jpeg'); /* Replace with the path to your image */
-  background-size: cover;
+  background-size:cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100vh; /* Set the desired height */
+  min-height: 100vh; /* Set the desired height */
   opacity: 100%;
   flex-direction: column;
   align-items: left;
   justify-content: center;
   color: rgb(213, 204, 204); /* Set the color of your text to be visible against the background */
-  
+  position: static;
+  display: block;
+}
+@media only screen and (max-width: 500px) {
+  #background-container {
+      background: url('../public/images/1704102229834small.jpeg') center center/cover no-repeat;
+  }
 }
 .writings-left{
   font-size:xx-large;
   color: rgb(33, 9, 117);
   padding: 30px;
   font-family: cursive;
+  position:static;
+  min-width: 500px;
+  max-width: 900px;
 }
 .writings-right{
   padding-top: 200px;
   text-align: center;
   color: rgb(255, 255, 255);
+  position:relative;
   
 }
-/*carausel css*/
-.carousel{
-  height:300px;
-  width: 900px;
-  padding-left: 240px;
-  
-}
+
 /*login signup css*/
 .outer{
   background-color: #a044e1;
-  height: 100vh;
+  min-height: 100vh;
   padding: 100px;
 }
 .container {
@@ -166,14 +152,15 @@ button:hover {
 
 .shop-card {
   list-style: none;
-  display: flex;
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   margin-bottom: 20px;
   background-color: #f8e8e8;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
-
   &:hover {
     transform: scale(1.05);
   }
@@ -191,7 +178,7 @@ button:hover {
 }
 
 button {
-  background-color: #007bff;
+  background-color: #1184f8;
   color: #fff;
   padding: 8px 12px;
   border: none;
@@ -203,11 +190,13 @@ button {
     background-color: #0056b3;
   }
 }
-/* NavbarWithProfile.css */
 
 /* NavbarWithProfile.css */
 
 .ulinnavbar {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
   list-style: none;
   padding: 0;
   margin: 0;

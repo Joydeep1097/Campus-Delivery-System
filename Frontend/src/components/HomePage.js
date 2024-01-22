@@ -2,6 +2,7 @@
 import React from 'react';
 import Navbar from './Navbar'; // Adjust the path based on your project structure
 import Footer from './Footer';
+
 import { Link } from 'react-router-dom';
 const HomePage = () => {
   return (

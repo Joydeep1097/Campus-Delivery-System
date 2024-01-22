@@ -1,5 +1,5 @@
 // SignupPage.js
-
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 const SignupPage = () => {
@@ -9,10 +9,7 @@ const SignupPage = () => {
   const [mobileNo, setMobileNo] = useState('');
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const handleSignup = () => {
-    // Implement signup logic here (e.g., send data to server, handle form validation)
-
-    // For now, let's just log the signup information to the console
+  const handleSignup = async () => {
     if (!/^\d{8}$/.test(idNo)) {
       alert('ID Number must be 8 digits');
       return;
@@ -25,7 +22,7 @@ const SignupPage = () => {
       alert('Mobile Number must be 10 digits');
       return;
     }
-    if (!/^\d+@\w+\.\w+$/.test(email)) {
+    if (!/^\w+@\w+\.\w+$/.test(email)) {
       alert('Email must be in the format digits@alphabetical.alphabetical');
       return;
     }
@@ -35,6 +32,27 @@ const SignupPage = () => {
     console.log('Mobile Number:', mobileNo);
     console.log('Email:', email);
 
+    // Implement signup logic here (e.g., send data to server, handle form validation)
+    try {
+      // Make a POST request to the backend API
+      const data={
+        "idno":idNo,
+        "name":name,
+        "password":password,
+        "mobileno": mobileNo,
+        "email":email
+      }
+      console.log(data);
+      const response = await axios.post('http://localhost:4000/signup', data);
+
+      // Handle the response (you can redirect or show a success message)
+      console.log(response.data);
+  } catch (error) {
+      // Handle errors (show an error message to the user)
+      console.error(error.response.data);
+  }
+    // For now, let's just log the signup information to the console
+    
     // You can redirect the user or perform other actions after successful signup
   };
 

@@ -53,8 +53,7 @@ const ShopListPage = () => {
             <div className="shop-details">
               <h3>{shop.name}</h3>
               <p>{shop.description}</p>
-              <button onClick={() => handleShopSelection(shop.id)}/>
-              
+              <button onClick={() => handleShopSelection(shop.id)}>Enter</button>
             </div>
           </li>
         ))}
