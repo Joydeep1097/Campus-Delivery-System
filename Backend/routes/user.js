@@ -2,12 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 
-const {userSignup, userLogin, userchangePassword} = require("../Controllers/Auth");
+const {userSignup, userLogin } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
 
 router.post("/login",userLogin);
 router.post("/signup", userSignup);
-router.post("/ChangePassword", userchangePassword); 
+//router.post("/ChangePassword", userchangePassword); 
 //router.post("/getShopList", userchangePassword);   
 // router.post("/getProductList", userchangePassword); 
 // router.post("/searchProduct", userchangePassword); 
