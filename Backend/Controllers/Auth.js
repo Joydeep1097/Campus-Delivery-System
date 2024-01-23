@@ -7,7 +7,7 @@ const { generateToken } = require("../utils/authUtils");
 exports.userSignup = async (req, res) => {
     try {
         // Get data from the request body
-        const { name, contactNo, contactMail, password, addressData } = req.body;
+        const { name, contactNo, contactMail, password } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ contactMail });
@@ -30,8 +30,9 @@ exports.userSignup = async (req, res) => {
             });
         }
 
+        
         // Create entry for Address
-        const address = await Address.create(addressData);
+        //const address = await Address.create(addressData);
 
         // Create entry for User with reference to the Address
         const user = await User.create({
@@ -39,7 +40,7 @@ exports.userSignup = async (req, res) => {
             contactNo,
             contactMail,
             password: hashedPassword,
-            addressId: address._id, // Reference to the created Address
+            //addressId: address._id, // Reference to the created Address
         });
 
         return res.status(201).json({
