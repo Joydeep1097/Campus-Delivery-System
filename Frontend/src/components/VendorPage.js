@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router
-
+import VendorSignup from './VendorSignup';
 const VendorPage = () => {
   const [shopId, setShopId] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +19,6 @@ const VendorPage = () => {
 
   return (
     <div className='outer'>
-      
       <div className='container'>
         <h3>Login</h3>
         {/* Add your login form with event handlers */}
