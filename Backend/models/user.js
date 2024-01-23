@@ -17,11 +17,6 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    addressId: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Address', 
-        required: true 
-    },
 });
 
 module.exports = mongoose.model('user', userSchema);
