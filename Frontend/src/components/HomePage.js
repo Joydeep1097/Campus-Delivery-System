@@ -6,7 +6,7 @@ import Footer from './Footer';
 import { Link } from 'react-router-dom';
 const HomePage = () => {
   return (
-    <div>
+    <div className='home'>
       <Navbar />
       <div className="contents">
       <div className='writings-left'>

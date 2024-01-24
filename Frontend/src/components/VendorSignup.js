@@ -62,6 +62,7 @@ const VendorSignup = () => {
           />
           <label htmlFor="showPassword">Show Password</label>
         </div>
+        <br />
         <div className="button-container">
         <button type="button" onClick={handleSubmit}>
           Signup

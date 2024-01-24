@@ -64,6 +64,7 @@ const LoginPage = (props) => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        <br />
         <div className="button-container">
           <button type="button" className="login-button" onClick={handleLogin}>
             Login

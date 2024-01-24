@@ -27,7 +27,6 @@ const VendorPage = () => {
             Shop ID:
             <input
               type="text"
-              placeholder="Enter Shop ID"
               value={shopId}
               onChange={(e) => setShopId(e.target.value)}
             />
@@ -36,11 +35,11 @@ const VendorPage = () => {
             Password:
             <input
               type="password"
-              placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
+          <br />
           <div className="button-container">
           <button type="button" className="login-button" onClick={handleLogin}>
             Login
