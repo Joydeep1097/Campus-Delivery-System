@@ -17,6 +17,19 @@ const userSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
+    addressId: [
+        { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Address', 
+        required: true 
+        }
+    ],
+    orders: [ 
+        { 
+            type:mongoose.Schema.Types.ObjectId, 
+            ref:"Order", 
+        } 
+    ], 
 });
 
 module.exports = mongoose.model('user', userSchema);

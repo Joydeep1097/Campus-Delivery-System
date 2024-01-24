@@ -1,12 +1,20 @@
 const bcrypt = require("bcrypt");
 const Address = require("../models/address");
 const Vendor = require("../models/vendor");
+const Shop = require("../models/shop");
 
-// Vendor Signup route handler
 exports.vendorSignup = async (req, res) => {
     try {
         // Get data from the request body
-        const { name, contactNo, contactMail, password, addressData } = req.body;
+        const { name, contactNo, contactMail, password, shopData, addressData } = req.body;
+
+        // Validate required fields
+        if (!name || !contactNo || !contactMail || !password || !shopData || !addressData) {
+            return res.status(400).json({
+                success: false,
+                message: 'All fields are required',
+            });
+        }
 
         // Check if vendor already exists
         const existingVendor = await Vendor.findOne({ contactMail });
@@ -32,15 +40,21 @@ exports.vendorSignup = async (req, res) => {
         // Create entry for Address
         const address = await Address.create(addressData);
 
-        // Create entry for Vendor with reference to the Address
+        // Create entry for Shop with reference to the Address
+        const shop = await Shop.create({
+            name: shopData.name,
+            shopDescription: shopData.shopDescription,
+            addressId: address._id, // Reference to the created Address
+        });
+
+        // Create entry for Vendor with reference to the created Shop
         const vendor = await Vendor.create({
             name,
             contactNo,
             contactMail,
             password: hashedPassword,
-            addressId: address._id, // Reference to the created Address
+            shop: shop._id, // Reference to the created Shop
         });
-        
 
         return res.status(201).json({
             success: true,
@@ -55,6 +69,7 @@ exports.vendorSignup = async (req, res) => {
         });
     }
 };
+
 
 // Vendor Login route handler
 exports.vendorLogin = async (req, res) => {
