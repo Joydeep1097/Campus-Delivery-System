@@ -1,7 +1,8 @@
 // Import required modules and create an Express app
 const express = require("express");
 const app = express();
-
+var cors = require('cors')
+app.use(cors()) // Use this after the variable declaration
 // Load environment variables from .env file
 require('dotenv').config();
 

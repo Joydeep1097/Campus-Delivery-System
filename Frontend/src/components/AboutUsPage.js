@@ -11,7 +11,7 @@ const MemberDetails = ({ name, id }) => (
 const AboutUsPage = () => {
   const members = [
     { name: 'Amitesh Singh', id: '12310520' },
-    { name: 'Bhakti', id: '12310000' },
+    { name: 'Bhakti Dhorajiya', id: '12310590' },
     { name: 'Chayan Pathak', id: '12310630' },
     { name: 'Jaickey Joy Minj', id: '12310700' },
   ];

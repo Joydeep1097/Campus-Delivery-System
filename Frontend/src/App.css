@@ -114,6 +114,8 @@ input {
 }
 .show-password {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
   align-items: left;
   margin-bottom: 5px;
 }
