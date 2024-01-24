@@ -17,7 +17,7 @@ const SignupPage = () => {
       alert('Mobile Number must be 10 digits');
       return;
     }
-    if (!/^\w+@\w+\.\w+$/.test(email)) {
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       alert('Email must be in the format digits@alphabetical.alphabetical');
       return;
     }
@@ -49,9 +49,6 @@ const SignupPage = () => {
       // Handle errors (show an error message to the user)
       console.error(error.response.data);
     }
-    // For now, let's just log the signup information to the console
-
-    // You can redirect the user or perform other actions after successful signup
   };
 
   return (
