@@ -21,10 +21,10 @@ const SignupPage = () => {
       alert('Email must be in the format digits@alphabetical.alphabetical');
       return;
     }
-    console.log('Name:', name);
-    console.log('Password:', password);
-    console.log('Mobile Number:', mobileNo);
-    console.log('Email:', email);
+    //console.log('Name:', name);
+    //console.log('Password:', password);
+    //console.log('Mobile Number:', mobileNo);
+    //console.log('Email:', email);
 
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
@@ -44,10 +44,19 @@ const SignupPage = () => {
       }
     });
     const result = await response.json();
-    alert(result.message);
+    if(result.success===true){
+      alert("Successful. You can now Log in to your account");
+    }
+    else if(result.message==="User already exists"){
+      alert("already registerd. Go for log in");
+    }
+    else{
+      alert("Sorry we are facing some problem. Please try again after some time");
+    }
     } catch (error) {
       // Handle errors (show an error message to the user)
-      console.error(error.response.data);
+      //console.error(error.response.data);
+      alert("Sorry we are facing some problem. Please try again after some time");
     }
   };
 

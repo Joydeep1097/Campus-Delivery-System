@@ -8,7 +8,12 @@ const NavbarWithProfile = (props) => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  //console.log(props.name)
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('name');
+    window.location.reload();
+  };
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -16,12 +21,12 @@ const NavbarWithProfile = (props) => {
       </div>
       <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
       <Cart/>
-        <button onClick={toggleMenu}><span className="user-name">🙍‍♂️{props.id}</span></button>
+        <span onMouseUp={toggleMenu} className="user-name">🙍‍♂️{props.name}</span>
         <ul className='ulinnavbar'>
           <li>Orders</li>
           <li>Address</li>
           <li>Change Password</li>
-          <li>Logout</li>
+          <li><span onClick={logout}>LogOut</span></li>
         </ul>
       </div>
     </nav>

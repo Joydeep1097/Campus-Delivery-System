@@ -1,12 +1,19 @@
 // LoginPage.js
 
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import UserProfile from './UserProfile';
 const LoginPage = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [flag, setflag] = useState(0);
+  const [flag, setflag] = useState('');
+  const [name,setName] = useState('');
+  useEffect(()=>{
+    if(localStorage.getItem('token')){
+      setflag(localStorage.getItem('token'));
+      setName(localStorage.getItem('name'));
+    }
+  },[]);
   const handleLogin = async () => {
     // ValEmailate Email format (same as during signup)
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
@@ -14,7 +21,7 @@ const LoginPage = (props) => {
       return;}
 
     // Implement login logic here
-    //console.log('Email:', email);
+    //console.log(name);
     //console.log('Password:', password);
     //setflag(1);
 
@@ -34,7 +41,15 @@ const LoginPage = (props) => {
       }
     });
     const result = await response.json();
-    alert("welcome:"+result.user.name)
+    console.log(result);
+    if(result.success===true){
+      localStorage.setItem('token',result.token);
+      localStorage.setItem('name',result.user.name);
+      setflag(result.token);
+      setName(result.user.name)
+      alert("welcome:"+result.user.name);
+    }
+    
     } catch (error) {
       // Handle errors (show an error message to the user)
       console.error(error.response.data);
@@ -43,7 +58,7 @@ const LoginPage = (props) => {
 
   return (
     <div>
-    {flag===1?<UserProfile email={email}/>:
+    {flag!==''?<UserProfile name={name}/>:
     <div className="outer">
     <div className='container'>
       <h1>Login</h1>

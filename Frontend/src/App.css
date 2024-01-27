@@ -59,7 +59,7 @@
   color: rgb(213, 204, 204); /* Set the color of your text to be visible against the background */
   position: static;
   display: block;
-  background-color: #070218;
+  background-color: #080501f3;
 }
 @media only screen and (max-width: 500px) {
 }
@@ -86,7 +86,7 @@
   padding: 50px;
 }
 .container {
-  max-width: 600px;
+  max-width: 450px;
   margin: 0px auto;
   padding: 20px;
   background-color: #c070e8;
@@ -152,8 +152,8 @@ button {
   justify-content: space-evenly;
 }
 button:hover {
-  background-color: #ec1278;
-  transform: scale(1.5);
+  background-color: #12aaec;
+  transform: scale(1.2);
 }
 /*footer css*/
 .footer{
@@ -258,3 +258,4 @@ ul li:last-child {
   }
 }
 
+/*vendorsignup*/
