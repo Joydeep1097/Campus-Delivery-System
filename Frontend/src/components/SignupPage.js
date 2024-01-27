@@ -17,14 +17,14 @@ const SignupPage = () => {
       alert('Mobile Number must be 10 digits');
       return;
     }
-    if (!/^\w+@\w+\.\w+$/.test(email)) {
+    if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
       alert('Email must be in the format digits@alphabetical.alphabetical');
       return;
     }
-    console.log('Name:', name);
-    console.log('Password:', password);
-    console.log('Mobile Number:', mobileNo);
-    console.log('Email:', email);
+    //console.log('Name:', name);
+    //console.log('Password:', password);
+    //console.log('Mobile Number:', mobileNo);
+    //console.log('Email:', email);
 
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
@@ -44,14 +44,20 @@ const SignupPage = () => {
       }
     });
     const result = await response.json();
-    alert(result.message);
+    if(result.success===true){
+      alert("Successful. You can now Log in to your account");
+    }
+    else if(result.message==="User already exists"){
+      alert("already registerd. Go for log in");
+    }
+    else{
+      alert("Sorry we are facing some problem. Please try again after some time");
+    }
     } catch (error) {
       // Handle errors (show an error message to the user)
-      console.error(error.response.data);
+      //console.error(error.response.data);
+      alert("Sorry we are facing some problem. Please try again after some time");
     }
-    // For now, let's just log the signup information to the console
-
-    // You can redirect the user or perform other actions after successful signup
   };
 
   return (
