@@ -41,6 +41,7 @@ exports.userSignup = async (req, res) => {
             contactMail,
             password: hashedPassword,
             //addressId: address._id, // Reference to the created Address
+            // image: 'https://api.dicebear.com/7.x/initials/svg?seed=${name}',
         });
 
         return res.status(201).json({
