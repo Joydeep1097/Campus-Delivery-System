@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
             ref:"Order", 
         } 
     ], 
+    // image: {
+    //     type: String,
+    //     required: true
+    // },
 });
 
 module.exports = mongoose.model('user', userSchema);

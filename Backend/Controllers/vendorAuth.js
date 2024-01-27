@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
+const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 
 exports.vendorSignup = async (req, res) => {
     try {
