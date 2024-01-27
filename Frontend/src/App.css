@@ -257,5 +257,11 @@ ul li:last-child {
     top: 40px;
   }
 }
-
+/*navbarwithprofile*/
+.user-name{
+  cursor: pointer;
+}
+.user-name:hover{
+  transform: scale(1.05);
+}
 /*vendorsignup*/
