@@ -87,6 +87,7 @@
 }
 .container {
   max-width: 450px;
+  min-width: 200px;
   margin: 0px auto;
   padding: 20px;
   background-color: #c070e8;
@@ -134,6 +135,10 @@ input {
 .show-password input {
   align-content: left;
   font-size: 14px;
+}
+.fileselector{
+  background-color: #22ebe1;
+  color: #007bff;
 }
 button {
   padding: 10px;
