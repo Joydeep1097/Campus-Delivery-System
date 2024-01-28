@@ -7,7 +7,28 @@ const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 exports.vendorSignup = async (req, res) => {
     try {
         // Get data from the request body
-        const { name, contactNo, contactMail, password, shopData, addressData } = req.body;
+        const { name, contactNo, contactMail, password, shopData } = req.body;
+
+        console.log(req.file);
+        console.log(req.body);
+        console.log(name);
+        console.log(contactNo);
+        console.log(contactMail);
+        console.log(password);
+        console.log(shopData);
+        // console.log(addressData);
+        console.log(shopData.addressData);
+        addressData = shopData.addressData;
+
+        // const upload = cloudinary.uploader.upload('C:\\Users\\jaick\\Downloads\\world.jpeg', function(error, result) {
+        //     if (error) {
+        //       console.error(error);
+        //     } else {
+        //       console.log(result);
+        //       // `result` contains information about the uploaded image
+        //     }
+        //   });
+        // console.log(upload);
 
         // Validate required fields
         if (!name || !contactNo || !contactMail || !password || !shopData || !addressData) {
@@ -45,6 +66,7 @@ exports.vendorSignup = async (req, res) => {
         const shop = await Shop.create({
             name: shopData.name,
             shopDescription: shopData.shopDescription,
+            image:shopData.image,
             addressId: address._id, // Reference to the created Address
         });
 

@@ -6,7 +6,7 @@ const addressSchema = new mongoose.Schema({
         required: true 
     },
     houseNo: { 
-        type: Number, 
+        type: String, 
         required: true 
     },
     state: { 
@@ -18,8 +18,8 @@ const addressSchema = new mongoose.Schema({
         required: true 
     },
     pincode: { 
-        type: Number, 
-        required: true 
+        type: String, 
+        required: true
     },
 });
 
