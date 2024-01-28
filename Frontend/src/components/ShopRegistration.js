@@ -93,7 +93,7 @@ const ShopRegistration = (props) => {
   return (
     <div className="outer">
       <div className='container'>
-        <h1>Shop Registration</h1>
+        <h1>Shop</h1>
         <form>
           <label>
             Shop Name:
@@ -171,6 +171,7 @@ const ShopRegistration = (props) => {
           <label>
             Logo Or Photo:
             <input
+            className='fileselector'
               type="file"
               value={photo}
               accept="image/*"

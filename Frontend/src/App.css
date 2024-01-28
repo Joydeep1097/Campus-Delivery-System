@@ -136,6 +136,10 @@ input {
   align-content: left;
   font-size: 14px;
 }
+.fileselector{
+  background-color: #22ebe1;
+  color: #007bff;
+}
 button {
   padding: 10px;
   background-color: #007bff;
