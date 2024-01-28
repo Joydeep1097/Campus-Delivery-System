@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-const ShopRegistration = () => {
+const ShopRegistration = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState('');
@@ -17,27 +17,27 @@ const ShopRegistration = () => {
       return;
     }
     if (!/^[A-Za-z0-9\s]+$/.test(description)) {
-        alert('Name must contain only alphabetical characters');
+        alert('description must contain only alphabetical characters');
         return;
       }
       if (!/^[A-Za-z0-9\s]+$/.test(shopno)) {
-        alert('Name must contain only alphabetical characters');
+        alert('shopno must contain only alphabetical characters');
         return;
       }
       if (!/^[A-Za-z0-9\s]+$/.test(locality)) {
-        alert('Name must contain only alphabetical characters');
+        alert('locality must contain only alphabetical characters');
         return;
       }
       if (!/^[A-Za-z0-9\s]+$/.test(city)) {
-        alert('Name must contain only alphabetical characters');
+        alert('city must contain only alphabetical characters');
         return;
       }
       if (!/^[A-Za-z0-9\s]+$/.test(state)) {
-        alert('Name must contain only alphabetical characters');
+        alert('state must contain only alphabetical characters');
         return;
       }
       if (!/^[0-9\s]+$/.test(pincode)) {
-        alert('Name must contain only alphabetical characters');
+        alert('pincode must contain only alphabetical characters');
         return;
       }
     
@@ -46,8 +46,25 @@ const ShopRegistration = () => {
     try {
       // Make a POST request to the backend API
       const data = {
+        "image":photo,
+         "name":props.name,
+         "contactNo":props.contactNo,
+         "contactMail":props.contactMail,
+         "password":props.password,
+         "shopData":{
+          "name":name,
+          "shopDescription":description,
+          "addressData":{
+            "streetAddress":locality,
+            "houseNo":shopno,
+            "state":state,
+            "city":city,
+            "pincode":pincode
+          }
+         }
 
       }
+      console.log(data);
       const response = await fetch('http://localhost:27017/api/v1/signup', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -56,6 +73,7 @@ const ShopRegistration = () => {
       }
     });
     const result = await response.json();
+    console.log(result);
     if(result.success===true){
       alert("Successful. You can now Log in to your account");
     }
@@ -67,7 +85,7 @@ const ShopRegistration = () => {
     }
     } catch (error) {
       // Handle errors (show an error message to the user)
-      //console.error(error.response.data);
+      console.log(error.response.data);
       alert("Sorry we are facing some problem. Please try again after some time");
     }
   };
