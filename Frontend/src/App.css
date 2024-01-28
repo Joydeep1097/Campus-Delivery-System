@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px;
-  background-color: #5f0367b1; /* Change the background color as needed */
+  background-color: #971b91; /* Change the background color as needed */
   color: white;
 }
 .quicklinks{
@@ -59,7 +59,7 @@
   color: rgb(213, 204, 204); /* Set the color of your text to be visible against the background */
   position: static;
   display: block;
-  background-color: #080501f3;
+  background-color: #3b2406f3;
 }
 @media only screen and (max-width: 500px) {
 }
@@ -257,5 +257,18 @@ ul li:last-child {
     top: 40px;
   }
 }
-
+/*navbarwithprofile*/
+.user-name{
+  cursor: pointer;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size:x-large;
+}
+.user-name:hover{
+  transform: scale(1.3);
+}
+.userimage{
+  width: 40px;
+  height: 40px;
+}
 /*vendorsignup*/

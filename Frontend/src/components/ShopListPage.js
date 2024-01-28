@@ -22,6 +22,30 @@ const ShopListPage = () => {
         image: 'https://via.placeholder.com/150',
       },
       {
+        id: 1,
+        name: 'Electro World',
+        description: 'Your one-stop shop for electronic gadgets!',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        name: 'Electro World',
+        description: 'Your one-stop shop for electronic gadgets!',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        name: 'Electro World',
+        description: 'Your one-stop shop for electronic gadgets!',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
+        id: 1,
+        name: 'Electro World',
+        description: 'Your one-stop shop for electronic gadgets!',
+        image: 'https://via.placeholder.com/150',
+      },
+      {
         id: 3,
         name: 'Book Paradise',
         description: 'Explore the world through books!',

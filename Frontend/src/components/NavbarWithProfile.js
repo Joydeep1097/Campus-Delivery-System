@@ -21,12 +21,13 @@ const NavbarWithProfile = (props) => {
       </div>
       <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
       <Cart/>
-        <span onMouseUp={toggleMenu} className="user-name">🙍‍♂️{props.name}</span>
+      <br />
+        <span onMouseUp={toggleMenu} className="user-name"><img src="images\user.png" alt="user" className='userimage' /><br />{props.name}</span>
         <ul className='ulinnavbar'>
           <li>Orders</li>
           <li>Address</li>
           <li>Change Password</li>
-          <li><span onClick={logout}>LogOut</span></li>
+          <li><span onClick={logout} className="user-name">LogOut</span></li>
         </ul>
       </div>
     </nav>

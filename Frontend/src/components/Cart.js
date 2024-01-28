@@ -18,7 +18,7 @@ const Cart = () => {
   };
 
   return (
-    <div className="cart">
+    <div className="user-name">
       <div className="cart-icon" onClick={() => alert('Open cart or show dropdown')}>
         🛒
       </div>
