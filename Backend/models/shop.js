@@ -11,6 +11,7 @@ const shopSchema = new mongoose.Schema({
     },
     image: { 
         type:String, 
+        required:true, 
     },
     addressId: { 
         type: mongoose.Schema.Types.ObjectId, 
