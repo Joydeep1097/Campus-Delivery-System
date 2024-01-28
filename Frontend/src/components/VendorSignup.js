@@ -1,14 +1,15 @@
-// SignupPage.js
-
+// VendorSignup.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-const SignupPage = () => {
+import ShopRegistration from './ShopRegistration';
+const VendorSignup = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const handleSignup = async () => {
+  const [next,setNext] = useState(0);
+  const handleNext = async () => {
     if (!/^[A-Za-z\s]+$/.test(name)) {
       alert('Name must contain only alphabetical characters');
       return;
@@ -21,47 +22,12 @@ const SignupPage = () => {
       alert('Email must be in the format digits@alphabetical.alphabetical');
       return;
     }
-    //console.log('Name:', name);
-    //console.log('Password:', password);
-    //console.log('Mobile Number:', mobileNo);
-    //console.log('Email:', email);
-
-    // Implement signup logic here (e.g., send data to server, handle form validation)
-    try {
-      // Make a POST request to the backend API
-      const data = {
-        "name": name,
-        "contactNo": mobileNo,
-        "contactMail": email,
-        "password": password
-
-      }
-      const response = await fetch('http://localhost:27017/api/v1/signup', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const result = await response.json();
-    if(result.success===true){
-      alert("Successful. You can now Log in to your account");
-    }
-    else if(result.message==="User already exists"){
-      alert("already registerd. Go for log in");
-    }
-    else{
-      alert("Sorry we are facing some problem. Please try again after some time");
-    }
-    } catch (error) {
-      // Handle errors (show an error message to the user)
-      //console.error(error.response.data);
-      alert("Sorry we are facing some problem. Please try again after some time");
-    }
+    setNext(1);
   };
 
   return (
     <div className="outer">
+      {next===1?<ShopRegistration name={name} contactNo={mobileNo} contactMail={email} password={password}/>:
       <div className='container'>
         <h1>Signup</h1>
         <form>
@@ -114,8 +80,8 @@ const SignupPage = () => {
           </div>
           <br />
           <div className="button-container">
-            <button type="button" onClick={handleSignup}>
-              Signup
+            <button type="button" onClick={handleNext}>
+              Next
             </button>
             <Link to="/">
               <button type="button" className="back-button">
@@ -126,8 +92,10 @@ const SignupPage = () => {
 
         </form>
       </div>
+    }   
     </div>
   );
 };
 
-export default SignupPage;
+
+export default VendorSignup;

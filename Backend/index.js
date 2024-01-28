@@ -1,12 +1,15 @@
 // Import required modules and create an Express app
 const express = require("express");
 const app = express();
-
+var cors = require('cors')
+app.use(cors()) // Use this after the variable declaration
 // Load environment variables from .env file
 require('dotenv').config();
 
 // Set the port for the application
 const PORT = process.env.PORT || 4000;
+
+app.use(express.urlencoded({ extended : true }));
 
 // Enable parsing of JSON in the request body
 app.use(express.json());

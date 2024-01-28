@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const Address = require("../models/address");
 const { generateToken } = require("../utils/authUtils");
+const Shop = require("../models/shop");
 
 // User Signup route handler
 exports.userSignup = async (req, res) => {
@@ -111,7 +112,7 @@ exports.userLogin = async (req, res) => {
         console.error(error);
         return res.status(500).json({
             success: false,
-            message: 'Login failed, please try again later, kyuuu',
+            message: 'Login failed, please try again later',
         });
     }
 };
@@ -172,3 +173,26 @@ exports.userchangePassword = async (req, res) => {
     }
 };
 */
+
+// User Signup route handler
+exports.getShopList = async (req, res) => {
+    try{
+        const allShopList = await Shop.find({},{name:true,
+                                                image:true,
+                                                shopDescription:true,}).exec();
+
+        return res.status(200).json({
+            success:true,
+            message:'Data fetched from database successfully',
+            shopData:allShopList,
+        });
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:'Cannot fetch shop list from database',
+            error: error.message,
+        });
+    }
+};

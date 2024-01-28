@@ -6,31 +6,24 @@ import UserView from './UserView';
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
   const [shopid,setshopid]= useState([0]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    // Mock shop data
-    const mockShops = [
-      {
-        id: 1,
-        name: 'Electro World',
-        description: 'Your one-stop shop for electronic gadgets!',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 2,
-        name: 'Fashion Hub',
-        description: 'Trendy fashion for every style!',
-        image: 'https://via.placeholder.com/150',
-      },
-      {
-        id: 3,
-        name: 'Book Paradise',
-        description: 'Explore the world through books!',
-        image: 'https://via.placeholder.com/150',
-      },
-    ];
+    const fetchShops = async () => {
+      try {
+        const response = await fetch('http://localhost:27017/api/v1/getShopList',{method: 'POST'}); // Replace with your actual API endpoint
+        const data = await response.json();
+        console.log(data)
+        setShops(data.shopData);
+        console.log(shops);
+      } catch (error) {
+        console.error('Error fetching shops:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setShops(mockShops);
-  }, []);
+    fetchShops();
+  }, []); 
 
   const handleShopSelection = (selectedShopId) => {
     console.log('User selected shop with ID:', selectedShopId);
@@ -39,7 +32,7 @@ const ShopListPage = () => {
   };
 
   return (
-    <>
+   <>
    {shopid>0 ? <UserView/>:
     <div>
     <div className="outer">
@@ -53,7 +46,7 @@ const ShopListPage = () => {
             <div className="shop-details">
               <h3>{shop.name}</h3>
               <p>{shop.description}</p>
-              <button onClick={() => handleShopSelection(shop.id)}>Enter</button>
+              <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
             </div>
           </li>
         ))}

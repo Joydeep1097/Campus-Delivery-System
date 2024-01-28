@@ -2,11 +2,17 @@ const bcrypt = require("bcrypt");
 const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
+const {uploadImageToCloudinary} = require("../Utils/imageUploader");
+const { generateToken } = require("../utils/authUtils");
+const cloudinary = require("../config/cloudinary");
+const upload = require("../middlewares/multer");
 
 exports.vendorSignup = async (req, res) => {
     try {
-        // Get data from the request body
-        const { name, contactNo, contactMail, password, shopData, addressData } = req.body;
+
+        const { name, contactNo, contactMail, password, shopData } = req.body;
+        const { name: shopName, shopDescription, addressData } = shopData;
+        const { streetAddress, pincode, houseNo, state, city } = addressData;
 
         // Validate required fields
         if (!name || !contactNo || !contactMail || !password || !shopData || !addressData) {
@@ -36,7 +42,9 @@ exports.vendorSignup = async (req, res) => {
                 message: 'Error in hashing password',
             });
         }
-
+        
+        //Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
         // Create entry for Address
         const address = await Address.create(addressData);
 
@@ -44,6 +52,7 @@ exports.vendorSignup = async (req, res) => {
         const shop = await Shop.create({
             name: shopData.name,
             shopDescription: shopData.shopDescription,
+            image:result.url, //cloudinary url
             addressId: address._id, // Reference to the created Address
         });
 
@@ -102,10 +111,16 @@ exports.vendorLogin = async (req, res) => {
         // For simplicity, let's assume you have a function generateToken(vendor) for this purpose
         const token = generateToken(vendor,'Vendor');
         const options = {
-            expires : '2h', 
+            expires : new Date(Date.now() + 2 * 60 * 60 * 1000),
             httpOnly : true,
         };
-        res.cookie("token", token, options).status(200).json({
+        const cookies = req.cookies;
+
+        // Iterate over each cookie and clear it
+        for (const cookieName in cookies) {
+                res.clearCookie(cookieName);
+        }
+        res.cookie("token", token, options).cookie("mail", contactMail).status(200).json({
             success: true,
             message: 'Vendor logged in successfully',
             vendor,

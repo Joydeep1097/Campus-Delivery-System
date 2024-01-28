@@ -7,8 +7,7 @@ import Footer from './Footer';
 const UserProfile = (props) => {
   return (
     <div>
-        <NavbarWithProfile id={props.id}/>
-        {console.log(props)}
+        <NavbarWithProfile name={props.name}/>
         <ShopListPage/>
         <Footer/>
     </div>

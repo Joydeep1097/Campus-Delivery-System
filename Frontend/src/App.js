@@ -6,6 +6,9 @@ import LoginPage from './components/LoginPage'; // Import your login page compon
 import SignupPage from './components/SignupPage'; // Import your signup page component
 import VendorPage from './components/VendorPage';
 import AboutUsPage from './components/AboutUsPage';
+import VendorSignup from './components/VendorSignup';
+import CampusMap from './components/CamusMap';
+import VendorHomepage from './components/VendorHomepage';
 import './App.css';
 
 const App = () => {
@@ -18,6 +21,9 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/vendor" element={<VendorPage />} />
         <Route path="/aboutus" element={<AboutUsPage />} />
+        <Route path="/vendorregistration" element={<VendorSignup />} />
+        <Route path="/campus-map" element={<CampusMap />} />
+        <Route path="/vendorhome" element={<VendorHomepage />} />
         </Routes>
         
         </div>
