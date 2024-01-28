@@ -3,33 +3,14 @@ const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
+const { generateToken } = require("../utils/authUtils");
 
 exports.vendorSignup = async (req, res) => {
     try {
         // Get data from the request body
         const { name, contactNo, contactMail, password, shopData } = req.body;
 
-        console.log(req.file);
-        console.log(req.body);
-        console.log(name);
-        console.log(contactNo);
-        console.log(contactMail);
-        console.log(password);
-        console.log(shopData);
-        // console.log(addressData);
-        console.log(shopData.addressData);
         addressData = shopData.addressData;
-
-        // const upload = cloudinary.uploader.upload('C:\\Users\\jaick\\Downloads\\world.jpeg', function(error, result) {
-        //     if (error) {
-        //       console.error(error);
-        //     } else {
-        //       console.log(result);
-        //       // `result` contains information about the uploaded image
-        //     }
-        //   });
-        // console.log(upload);
-
         // Validate required fields
         if (!name || !contactNo || !contactMail || !password || !shopData || !addressData) {
             return res.status(400).json({
@@ -125,10 +106,16 @@ exports.vendorLogin = async (req, res) => {
         // For simplicity, let's assume you have a function generateToken(vendor) for this purpose
         const token = generateToken(vendor,'Vendor');
         const options = {
-            expires : '2h', 
+            expires : new Date(Date.now() + 2 * 60 * 60 * 1000),
             httpOnly : true,
         };
-        res.cookie("token", token, options).status(200).json({
+        const cookies = req.cookies;
+
+        // Iterate over each cookie and clear it
+        for (const cookieName in cookies) {
+                res.clearCookie(cookieName);
+        }
+        res.cookie("token", token, options).cookie("mail", contactMail).status(200).json({
             success: true,
             message: 'Vendor logged in successfully',
             vendor,
