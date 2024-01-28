@@ -4,13 +4,16 @@ const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 const { generateToken } = require("../utils/authUtils");
+const cloudinary = require("../config/cloudinary");
+const upload = require("../middlewares/multer");
 
 exports.vendorSignup = async (req, res) => {
     try {
-        // Get data from the request body
-        const { name, contactNo, contactMail, password, shopData } = req.body;
 
-        addressData = shopData.addressData;
+        const { name, contactNo, contactMail, password, shopData } = req.body;
+        const { name: shopName, shopDescription, addressData } = shopData;
+        const { streetAddress, pincode, houseNo, state, city } = addressData;
+
         // Validate required fields
         if (!name || !contactNo || !contactMail || !password || !shopData || !addressData) {
             return res.status(400).json({
@@ -39,7 +42,9 @@ exports.vendorSignup = async (req, res) => {
                 message: 'Error in hashing password',
             });
         }
-
+        
+        //Upload image to cloudinary
+        const result = await cloudinary.uploader.upload(req.file.path);
         // Create entry for Address
         const address = await Address.create(addressData);
 
@@ -47,7 +52,7 @@ exports.vendorSignup = async (req, res) => {
         const shop = await Shop.create({
             name: shopData.name,
             shopDescription: shopData.shopDescription,
-            image:shopData.image,
+            image:result.url, //cloudinary url
             addressId: address._id, // Reference to the created Address
         });
 
