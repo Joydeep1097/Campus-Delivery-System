@@ -9,6 +9,8 @@ require('dotenv').config();
 // Set the port for the application
 const PORT = process.env.PORT || 4000;
 
+app.use(express.urlencoded({ extended : true }));
+
 // Enable parsing of JSON in the request body
 app.use(express.json());
 
