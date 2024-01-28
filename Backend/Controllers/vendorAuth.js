@@ -42,7 +42,6 @@ exports.vendorSignup = async (req, res) => {
                 message: 'Error in hashing password',
             });
         }
-        
         //Upload image to cloudinary
         const result = await cloudinary.uploader.upload(req.file.path);
         // Create entry for Address
