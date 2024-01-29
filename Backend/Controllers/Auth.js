@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const Address = require("../models/address");
 const { generateToken } = require("../utils/authUtils");
-// const Shop = require("../models/shop");
+const Shop = require("../models/shop");
 
 // User Signup route handler
 exports.userSignup = async (req, res) => {
@@ -172,7 +172,7 @@ exports.userchangePassword = async (req, res) => {
         });
     }
 };
-
+*/
 
 // User Signup route handler
 exports.getShopList = async (req, res) => {
@@ -196,5 +196,3 @@ exports.getShopList = async (req, res) => {
         });
     }
 };
-
-*/

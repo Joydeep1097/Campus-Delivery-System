@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 
 
-const { userSignup, userLogin } = require("../Controllers/Auth");
-const { vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
-const { userGetShopCProducts } = require("../Controllers/user");
+const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
+const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
+const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
+>>>>>>
 
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
 
@@ -17,7 +18,7 @@ router.post("/shop", userGetShopCProducts);
 
 router.get("/allProductperCategoryShop",vendorGetCategory);
 //router.post("/ChangePassword", userchangePassword); 
-//router.post("/getShopList", getShopList);   
+router.post("/getShopList", getShopList);   
 // router.post("/getProductList", userchangePassword); 
 // router.post("/searchProduct", userchangePassword); 
 // router.post("/addToCart", userchangePassword);

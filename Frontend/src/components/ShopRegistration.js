@@ -11,6 +11,7 @@ const ShopRegistration = (props) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [pincode, setPincode] = useState('');
+  
   const handleSubmit = async () => {
     if (!/^[A-Za-z0-9\s]+$/.test(name)) {
       alert('Name must contain only alphabetical characters');
@@ -40,37 +41,30 @@ const ShopRegistration = (props) => {
         alert('pincode must contain only alphabetical characters');
         return;
       }
-    
+      const formData = new FormData();
+
+      // Append text fields to FormData
+      formData.append('name', props.name);
+      formData.append('contactNo', props.contactNo);
+      formData.append('contactMail', props.contactMail);
+      formData.append('password', props.password);
+      formData.append('shopData[name]', name);
+      formData.append('shopData[shopDescription]', description);
+      formData.append('shopData[addressData][streetAddress]', locality);
+      formData.append('shopData[addressData][houseNo]', shopno);
+      formData.append('shopData[addressData][state]', state);
+      formData.append('shopData[addressData][city]', city);
+      formData.append('shopData[addressData][pincode]', pincode);
+  
+      // Append image file to FormData
+      formData.append('image', photo);
 
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
       // Make a POST request to the backend API
-      const data = {
-        "image":photo,
-         "name":props.name,
-         "contactNo":props.contactNo,
-         "contactMail":props.contactMail,
-         "password":props.password,
-         "shopData":{
-          "name":name,
-          "shopDescription":description,
-          "addressData":{
-            "streetAddress":locality,
-            "houseNo":shopno,
-            "state":state,
-            "city":city,
-            "pincode":pincode
-          }
-         }
-
-      }
-      console.log(data);
-      const response = await fetch('http://localhost:27017/api/v1/signup', {
+      const response = await fetch('http://localhost:27017/api/v1/vendor/signup', {
       method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      body: formData
     });
     const result = await response.json();
     console.log(result);
@@ -173,9 +167,11 @@ const ShopRegistration = (props) => {
             <input
             className='fileselector'
               type="file"
-              value={photo}
               accept="image/*"
-              onChange={(e) => setPhoto(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.files[0]);
+                setPhoto(e.target.files[0]);
+              }}
             />
           </label>
           </div>
