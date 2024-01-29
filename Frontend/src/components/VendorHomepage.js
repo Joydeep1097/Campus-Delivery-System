@@ -6,10 +6,13 @@ const VendorHomePage = (props) => {
   const [newCategory, setNewCategory] = useState('');
   const [newProductName, setNewProductName] = useState('');
   const [newProductPrice, setNewProductPrice] = useState('');
+  const [newProductReturnable, setNewProductReturnable] = useState('No');
+  const [newProductCount, setNewProductCount] = useState(1);
   const [vendor, setVendor] = useState([]);
   const [vendorname, setVendorName] = useState('');
   const [shopname, setShopName] = useState('');
   const [categories, setCategories] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -37,21 +40,30 @@ const VendorHomePage = (props) => {
   }, []);
 
   const handleAddCategory = async () => {
-    //console.log('Adding new category:', newCategory);
-    // Implement logic to add a new category to the vendor's shop
-    // Make an API call to add the category to the backend
     const utoken = localStorage.getItem("token");
+
     try {
-      const response = await fetch('http://localhost:27017/api/v1//vendor/addcategoryproduct', {
+      // Create a payload with the new category and an empty product list
+      const payload = {
+        [newCategory]:{
+          [newProductName]:{
+          "price":newProductPrice,"returnable":newProductReturnable,"count":newProductCount
+          }
+        }
+      };
+       console.log(payload)
+      // Make an API call to add the new category along with an empty product list
+      const response = await fetch('http://localhost:27017/api/v1/vendor/addcategoryproduct', {
         method: 'POST',
-        headers: { Authorization: `Bearer ${utoken}` },
-        body: {newCategory}
+        headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
+
       const data = await response.json();
-      console.log(data)
+      console.log(data);
     } catch (error) {
-      console.error('Error fetching shops:', error);
-    } 
+      console.error('Error adding category:', error);
+    }
   };
 
   const handleAddProduct = () => {
@@ -70,13 +82,13 @@ const VendorHomePage = (props) => {
     <div>
       <VendorNavbar name={vendorname} shop={shopname} />
       <h1>Manage Your Shop</h1>
-      <h3>Categories:</h3> 
+      <h3>Categories:</h3>
       <select value={selectedCategory} onChange={(e) => { if (e.target.value !== "Select a Category") { setSelectedCategory(e.target.value) } }}>
         <option value={null}>Select a Category</option>
         {categories.map((category) => (
           <option key={category.id} value={category.id}>
             {category.name}
-          </option>  
+          </option>
         ))}
       </select>
 
@@ -102,23 +114,38 @@ const VendorHomePage = (props) => {
               New Product Name:
               <input type="text" value={newProductName} onChange={(e) => setNewProductName(e.target.value)} />
             </label>
-            <label>
-              New Product Price:
-              <input type="text" value={newProductPrice} onChange={(e) => setNewProductPrice(e.target.value)} />
-            </label>
             <button type="button" onClick={handleAddProduct}>
               Add Product
             </button>
           </form>
         </>
       )}
-      <br />
+      <p>Add new Categories of Product</p>
 
       <form className='container'>
         <label>
           New Category Name:
           <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
         </label>
+        <label>
+          New Product Name:
+          <input type="text" value={newProductName} onChange={(e) => setNewProductName(e.target.value)} />
+        </label>
+        <label>
+              New Product Price:
+              <input type="text" value={newProductPrice} onChange={(e) => setNewProductPrice(e.target.value)} />
+            </label>
+            <label>
+              New Product Returnable:
+              <select value={newProductReturnable} onChange={(e) => setNewProductReturnable(e.target.value)}>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+            <label>
+              New Product Count:
+              <input type="number" value={newProductCount} onChange={(e) => setNewProductCount(e.target.value)} />
+            </label>
         <button type="button" onClick={handleAddCategory}>
           Add Category
         </button>

@@ -25,7 +25,7 @@ exports.vendorCategory = async (req, res) => {
                 message: 'Token not provided',
             });
         }
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
            
             if (err) {
                 return res.status(401).json({
@@ -34,8 +34,12 @@ exports.vendorCategory = async (req, res) => {
                 });
             }
             console.log("Result : ", req.body);
-            
-            addCategoryAndProducts(decoded.userId, 'joyshop', req.body)
+            // console.log(decoded);
+            const vendorDetails = await Vendor.findOne({contactMail:decoded.email});
+            // console.log(vendorDetails);
+            const shopDetails = await Shop.findById(vendorDetails.shop);
+            // console.log(shopDetails);
+            addCategoryAndProducts(decoded.userId, shopDetails.name, req.body)
                 .then(() => {
                 return res.status(200).json({
                     success: true,
