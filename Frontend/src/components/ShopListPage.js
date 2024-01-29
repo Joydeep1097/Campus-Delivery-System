@@ -36,7 +36,6 @@ const ShopListPage = () => {
    {shopid>0 ? <UserView/>:
     <div>
     <div className="outer">
-    <div className="shop-list-page">
       <ul className='ul1'>
         {shops.map((shop) => (
           <li key={shop.id} className="shop-card">
@@ -45,13 +44,12 @@ const ShopListPage = () => {
             </div>
             <div className="shop-details">
               <h3>{shop.name}</h3>
-              <p>{shop.description}</p>
+              <p>{shop.shopDescription}</p>
               <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
             </div>
           </li>
         ))}
       </ul>
-    </div>
     </div>
     </div>
     }
