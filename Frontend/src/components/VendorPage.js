@@ -56,7 +56,7 @@ const VendorPage = () => {
 
   return (
     <div>
-      {flag!==''?<VendorHomePage/>:
+      {flag!==''?<VendorHomePage name={name}/>:
     <div className='outer'>
       <div className='container'>
         <h3>Login</h3>

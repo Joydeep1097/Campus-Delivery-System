@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ShopRegistration from './ShopRegistration';
-const VendorSignup = () => {
+const VendorSignup = (props) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [mobileNo, setMobileNo] = useState('');

@@ -9,12 +9,16 @@ const ShopListPage = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchShops = async () => {
+      const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/getShopList',{method: 'POST'}); // Replace with your actual API endpoint
+        const response = await fetch('http://localhost:27017/api/v1/getShopList',{
+          method: 'POST',
+          headers: { Authorization: `Bearer ${utoken}` }
+        }); // Replace with your actual API endpoint
         const data = await response.json();
         console.log(data)
         setShops(data.shopData);
-        console.log(shops);
+        //console.log(shops);
       } catch (error) {
         console.error('Error fetching shops:', error);
       } finally {
