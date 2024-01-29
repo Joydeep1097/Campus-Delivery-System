@@ -3,6 +3,7 @@
 import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router
 import VendorSignup from './VendorSignup';
+import VendorHomePage from './VendorHomepage';
 const VendorPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,7 +56,7 @@ const VendorPage = () => {
 
   return (
     <div>
-      {flag!==''?alert("loggedin"):
+      {flag!==''?<VendorHomePage/>:
     <div className='outer'>
       <div className='container'>
         <h3>Login</h3>

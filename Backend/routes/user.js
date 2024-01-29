@@ -6,8 +6,6 @@ const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
 
-
-
 const upload = require("../middlewares/multer");
 
 router.post("/login",userLogin);
