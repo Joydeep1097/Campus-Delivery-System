@@ -8,11 +8,9 @@ const shopSchema = new mongoose.Schema({
     },
     shopDescription : {
         type : String,
-        required:true,
     },
     image: { 
         type:String, 
-        required:true,
     },
     addressId: { 
         type: mongoose.Schema.Types.ObjectId, 
