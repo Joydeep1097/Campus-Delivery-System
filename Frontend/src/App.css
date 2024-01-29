@@ -84,6 +84,8 @@
   background-color: #000000;
   min-height: 100vh;
   padding: 50px;
+  display: flex;
+  justify-content: center;
 }
 .container {
   max-width: 450px;
@@ -170,13 +172,15 @@ button:hover {
 
 .shop-list-page {
   padding: 20px;
+  max-width: 550px;
 }
 
 .shop-card {
+  min-width: 600px;
+  max-width: 700px;
   list-style: none;
   display:flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
   margin-bottom: 20px;
   background-color: #f8e8e8;
   border-radius: 8px;
@@ -189,7 +193,7 @@ button:hover {
 }
 
 .shop-image img {
-  width: 150px;
+  width: 250px;
   height: 150px;
   object-fit: cover;
   border-radius: 8px 0 0 8px;
