@@ -6,6 +6,9 @@ const Category = require("../models/category");
 const Product = require("../models/Product");
 
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
+const cloudinary = require("../config/cloudinary");
+const upload = require("../middlewares/multer");
+
 const { generateToken } = require("../utils/authUtils");
 const jwt = require('jsonwebtoken');
 
@@ -151,8 +154,10 @@ exports.vendorUpdateProductDetail = async (req, res) => {
                     message: 'Invalid request format',
                   });
                 }
-        
-                await updateProductDetails(productId, updatedProductDetails);
+                //Upload image to cloudinary
+                const result = await cloudinary.uploader.upload(req.file.path);
+
+                await updateProductDetails(productId, updatedProductDetails, result.url);
         
                 return res.status(200).json({
                   success: true,
@@ -174,7 +179,7 @@ exports.vendorUpdateProductDetail = async (req, res) => {
 };
 
 
-const updateProductDetails = async (productId, updatedProductDetails) => {
+const updateProductDetails = async (productId, updatedProductDetails, imagePath) => {
     try {
       // Find the product by ID
       const product = await Product.findById(productId);
@@ -186,7 +191,11 @@ const updateProductDetails = async (productId, updatedProductDetails) => {
   
       // Update the product details
       Object.assign(product, updatedProductDetails);
-  
+      
+      if (imagePath) {
+        product.image = imagePath;
+      }
+
       // Save changes to the database
       await product.save();
   
