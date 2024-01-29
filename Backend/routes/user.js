@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
+const { userGetShopCProducts} = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
 
 const upload = require("../middlewares/multer");
@@ -28,7 +29,7 @@ router.post("/vendor/addcategoryproduct",vendorCategory);
 router.post("/vendor/add-product",vendorAddProduct);  //given the category name
 router.delete("/vendor/delete-item",vendorDeleteItem);
 router.post("/vendor/update-category-name",vendorUpdateCategoryName);
-router.post("/vendor/update-product-details",vendorUpdateProductDetail);
+router.post("/vendor/update-product-details",upload.single("image"), vendorUpdateProductDetail);
 // router.post("/vendor/addProduct",vendorLogin);
 // router.post("/vendor/getOrderHistory",vendorLogin);
 // router.post("/vendor/updateProduct",vendorLogin);
