@@ -1,7 +1,8 @@
-.home{
+.home {
   display: grid;
   align-items: start;
 }
+
 /* Navbar.css */
 /*navbar css*/
 .navbar {
@@ -11,26 +12,31 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px;
-  background-color: #971b91; /* Change the background color as needed */
+  background-color: #971b91;
+  /* Change the background color as needed */
   color: white;
 }
-.quicklinks{
+
+.quicklinks {
   flex: 1;
   display: flex;
   justify-content: space-around;
 }
-.quicklinks a{
+
+.quicklinks a {
   color: white;
   text-decoration: none;
   margin: 0 10px;
 }
+
 .logo-container {
   flex: 1;
-  
+
 }
 
 .logo {
-  max-width: 350px; /* Adjust the size as needed */
+  max-width: 350px;
+  /* Adjust the size as needed */
   height: 60px;
 }
 
@@ -45,58 +51,65 @@
   text-decoration: none;
   margin: 0 10px;
 }
+
 /*homepage css*/
 .contents {
   /*background-image: url('../public/images/1704102229834.jpeg'); /* Replace with the path to your image */
-  background-size:cover;
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh; /* Set the desired height */
+  min-height: 100vh;
+  /* Set the desired height */
   opacity: 100%;
   flex-direction: column;
   align-items: left;
   justify-content: center;
-  color: rgb(213, 204, 204); /* Set the color of your text to be visible against the background */
+  color: rgb(213, 204, 204);
+  /* Set the color of your text to be visible against the background */
   position: static;
   display: block;
   background-color: #3b2406f3;
 }
-@media only screen and (max-width: 500px) {
-}
-.writings-left{
-  font-size:xx-large;
+
+@media only screen and (max-width: 500px) {}
+
+.writings-left {
+  font-size: xx-large;
   color: rgb(200, 230, 7);
   padding: 30px;
   font-family: cursive;
-  position:static;
+  position: static;
 }
-.writings-right{
+
+.writings-right {
   margin: 50px;
   padding: 20px;
   text-align: center;
   color: rgb(246, 85, 171);
-  position:relative;
-  
+  position: relative;
+
 }
 
 /*login signup css*/
-.outer{
+.outer {
   background-color: #000000;
   min-height: 100vh;
   padding: 50px;
   display: flex;
   justify-content: center;
 }
+
 .container {
   max-width: 450px;
   min-width: 200px;
+  max-height: fit-content;
   margin: 0px auto;
   padding: 20px;
   background-color: #c070e8;
   box-shadow: 100px 100px 100px rgba(122, 80, 128, 0.1);
   border-radius: 5px;
   font-family: cursive;
-  font-size:x-large;
+  font-size: x-large;
   color: #06037d;
   text-align: center;
   flex-direction: column;
@@ -106,7 +119,7 @@
 form {
   display: flex;
   flex-direction: column;
-  
+
 }
 
 label {
@@ -123,9 +136,11 @@ input {
   border-right: 0px;
   border-bottom: 3px solid #22ebe1;
   border-radius: 2px;
-  width: 95%; /* Take full width */
+  width: 95%;
+  /* Take full width */
   background-color: #c070e8;
 }
+
 .show-password {
   display: flex;
   flex-wrap: wrap;
@@ -138,10 +153,12 @@ input {
   align-content: left;
   font-size: 14px;
 }
-.fileselector{
+
+.fileselector {
   background-color: #22ebe1;
   color: #007bff;
 }
+
 button {
   padding: 10px;
   background-color: #007bff;
@@ -152,22 +169,26 @@ button {
   min-width: 80px;
   min-height: 50px;
   border-radius: 100px;
-   /* Take full width */
+  /* Take full width */
 }
-.button-container{
+
+.button-container {
   display: flex;
   justify-content: space-evenly;
 }
+
 button:hover {
   background-color: #12aaec;
   transform: scale(1.2);
 }
+
 /*footer css*/
-.footer{
+.footer {
   background-color: #555;
   color: antiquewhite;
   font-size: medium;
 }
+
 /* ShopListPage.css */
 
 .shop-list-page {
@@ -179,7 +200,7 @@ button:hover {
   min-width: 600px;
   max-width: 700px;
   list-style: none;
-  display:flex;
+  display: flex;
   flex-wrap: wrap;
   margin-bottom: 20px;
   background-color: #f8e8e8;
@@ -187,6 +208,7 @@ button:hover {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
+
   &:hover {
     transform: scale(1.05);
   }
@@ -203,7 +225,8 @@ button:hover {
   padding: 20px;
 }
 
-{/*button {
+  {
+  /*button {
   background-color: #1184f8;
   color: #fff;
   padding: 8px 12px;
@@ -216,7 +239,9 @@ button:hover {
     background-color: #0056b3;
   }
 }
-*/}
+*/
+}
+
 /* NavbarWithProfile.css */
 
 .ulinnavbar {
@@ -237,6 +262,7 @@ button:hover {
   text-align: right;
   z-index: 1;
 }
+
 .navbar-menu {
   display: flex;
   align-items: center;
@@ -266,18 +292,65 @@ ul li:last-child {
     top: 40px;
   }
 }
+
 /*navbarwithprofile*/
-.user-name{
+.user-name {
   cursor: pointer;
   margin-left: 20px;
   margin-right: 20px;
-  font-size:x-large;
+  font-size: x-large;
 }
-.user-name:hover{
+
+.user-name:hover {
   transform: scale(1.3);
 }
-.userimage{
+
+.userimage {
   width: 40px;
   height: 40px;
 }
-/*vendorsignup*/
+
+/*vendorhome*/
+.vendorhome {
+  display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #12aaec;
+  width: min-content;
+}
+
+.product-card h5 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.product-card p {
+  margin: 10px 0;
+  color: #777;
+}
+
+.product-card button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.product-card button:hover {
+  background-color: #45a049;
+}
