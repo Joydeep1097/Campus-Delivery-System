@@ -33,6 +33,7 @@ const ShopListPage = () => {
     console.log('User selected shop with ID:', selectedShopId);
     // You can add logic to navigate to the selected shop's page or perform other actions
     setshopid(selectedShopId);
+    
   };
 
   return (
