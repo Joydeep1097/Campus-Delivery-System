@@ -46,10 +46,11 @@ const LoginPage = (props) => {
       localStorage.setItem('token',result.token);
       localStorage.setItem('name',result.user.name);
       setflag(result.token);
-      setName(result.user.name)
-      alert("welcome:"+result.user.name);
+      setName(result.user.name);
     }
-    
+    if(result.success===false){
+      alert(result.message);
+    }
     } catch (error) {
       // Handle errors (show an error message to the user)
       console.error(error.response.data);
