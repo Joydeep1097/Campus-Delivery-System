@@ -1,12 +1,13 @@
 // ShopListPage.js
 
 import React, { useState, useEffect } from 'react';
-import UserView from './UserView';
+import UserShopPage from './UserShopPage';
 
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
   const [shopid,setshopid]= useState([0]);
   const [loading, setLoading] = useState(true);
+  console.log(shopid)
   useEffect(() => {
     const fetchShops = async () => {
       const utoken = localStorage.getItem("token");
@@ -38,7 +39,7 @@ const ShopListPage = () => {
 
   return (
    <>
-   {shopid>0 ? <UserView/>:
+   {shopid!="0" ? <UserShopPage id={shopid}/>:
     <div>
     <div className="outer">
       <ul className='ul1'>
