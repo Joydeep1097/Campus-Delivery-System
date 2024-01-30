@@ -62,6 +62,12 @@ const VendorHomePage = (props) => {
 
       const data = await response.json();
       console.log(data);
+      if(data.success=true){
+        alert("category added successfully");
+      }
+      if(data.success=false){
+        alert("category not added");
+      }
     } catch (error) {
       console.error('Error adding category:', error);
     }
@@ -73,7 +79,7 @@ const VendorHomePage = (props) => {
       const payload = {
         "cat_id":selectedCategory,
           [selectedCategory]:{
-          "price":newProductPrice,"returnable":newProductReturnable,"count":newProductCount
+          "name": newProductName,"price":newProductPrice,"returnable":newProductReturnable,"count":newProductCount
           }
       };
        console.log(payload)
@@ -86,6 +92,12 @@ const VendorHomePage = (props) => {
 
       const data = await response.json();
       console.log(data);
+      if(data.success=true){
+        alert("product added successfully");
+      }
+      if(data.success=false){
+        alert("product not added");
+      }
     } catch (error) {
       console.error('Error adding category:', error);
     }
