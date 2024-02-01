@@ -3,11 +3,13 @@
 import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import UserProfile from './UserProfile';
+
 const LoginPage = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [flag, setflag] = useState('');
   const [name,setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(()=>{
     if(localStorage.getItem('token')){
       setflag(localStorage.getItem('token'));
@@ -62,24 +64,36 @@ const LoginPage = (props) => {
     {flag!==''?<UserProfile name={name}/>:
     <div className="outer">
     <div className='container'>
+      <img src="images/user.png" alt="" className='userimage2' />
       <h1>Login</h1>
       <form>
         <label>
-          Email:
           <input
             type="email"
             value={email}
+            placeholder='📧Email'
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
+        <br />
         <label>
-          Password:
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={password}
+            placeholder='🔑Password'
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
+        <br />
+        <div className="show-password">
+            <input
+              type="checkbox"
+              id="showPassword"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            <label htmlFor="showPassword">Show Password</label>
+          </div>
         <br />
         <div className="button-container">
           <button type="button" className="login-button" onClick={handleLogin}>

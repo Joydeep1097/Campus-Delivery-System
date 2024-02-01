@@ -12,9 +12,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px;
-  background-color: #6e0e60;
+  background-color: #3b3838;
   /* Change the background color as needed */
   color: white;
+  border-color: #000000;
+  border-width: 10px;
+  border-color: #000000;
+  border: 10px;
 }
 
 .quicklinks {
@@ -24,7 +28,7 @@
 }
 
 .quicklinks a {
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   margin: 0 10px;
 }
@@ -44,79 +48,100 @@
   flex: 1;
   display: flex;
   justify-content: space-around;
+  
 }
 
 .auth-options a {
-  color: white;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   margin: 0 10px;
+  
 }
 
 /*homepage css*/
 .contents {
-  background-image: url('../public/images/imagefood.jpg'); /* Replace with the path to your image */
+  background-image: url('../public/images/background.jpg'); /* Replace with the path to your image */
   background-repeat: no-repeat;
   background-size: 100% 100%;/* Replace with the path to your image */
   background-position: center;
   background-repeat: no-repeat;
-  /* Set the desired height */
-  zoom: 100%;
-  opacity: 100%;
+ /* Set the desired height */
   min-height: 100vh;
   flex-direction: column;
   align-items: left;
   justify-content: center;
-  color: rgb(213, 204, 204);
+  color: rgb(240, 234, 234);
   /* Set the color of your text to be visible against the background */
   position: static;
   display: block;
-  background-color: #3b2406f3;
+  background-color: #edebe6f3;
+  display: flex;
 }
 
 @media only screen and (max-width: 500px) {}
 
-.writings-left {
+.writings-upper {
   font-size: xx-large;
-  color: rgb(76, 55, 232);
+  color: rgb(139, 13, 206);
   padding: 30px;
+  padding-bottom: 0px;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: static;
 }
 
-.writings-right {
-  margin: 50px;
+.writings-lower{
+  display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.pockets{
+  margin: 10px;
   padding: 20px;
   text-align: center;
   color: rgb(0, 0, 0);
-  position: relative;
-
+  position:relative;
+  background-color: #c2a8a8dd;
+  border-radius: 10px;
+  border-color: #000000;
+  box-shadow: #12aaec;
+  max-width: 450px;
+}
+.image2{
+  width: 400px;
+  height: 200px;
 }
 
 /*login signup css*/
 .outer {
+  background-image: url('../public/images/background2.jpg'); 
   background-color: #000000;
   min-height: 100vh;
   padding: 50px;
   display: flex;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;/* Replace with the path to your image */
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .container {
-  max-width: 450px;
-  min-width: 200px;
-  max-height: fit-content;
+  max-width: 400px;
+  min-width: 300px;
+  height: fit-content;
   margin: 0px auto;
   padding: 20px;
-  background-image: url('../public/images/wood.jpg');
-  background-color: #c070e8;
+  /*background-image: url('../public/images/wood.jpg');*/
+  background-color: #f1eef3;
   box-shadow: 100px 100px 100px rgba(122, 80, 128, 0.1);
   border-radius: 5px;
-  font-family: cursive;
   font-size: x-large;
   color: #06037d;
   text-align: center;
   flex-direction: column;
   align-items: center;
+  
 }
 
 form {
@@ -164,8 +189,8 @@ input {
 
 button {
   padding: 10px;
-  background-color: #000001;
-  color: #fff;
+  background-color: #1e1e95;
+  color: #ffffff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
@@ -312,6 +337,10 @@ ul li:last-child {
 .userimage {
   width: 40px;
   height: 40px;
+}
+.userimage2 {
+  width: 80px;
+  height: 80px;
 }
 
 /*vendorhome*/

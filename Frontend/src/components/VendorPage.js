@@ -59,21 +59,23 @@ const VendorPage = () => {
       {flag!==''?<VendorHomePage name={name}/>:
     <div className='outer'>
       <div className='container'>
+      <img src="images/user.png" alt="" className='userimage2' />
         <h3>Login</h3>
         {/* Add your login form with event handlers */}
         <form>
           <label>
-            Email:
             <input
               type="email"
+              placeholder='📧Email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </label>
+          <br />
           <label>
-            Password:
             <input
               type="password"
+              placeholder='🔑Password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
