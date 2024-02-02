@@ -226,10 +226,10 @@ button:hover {
 }
 
 .shop-card {
-  min-width: 600px;
-  max-width: 700px;
+  width: 300px;
+  height: 400px;
   list-style: none;
-  display: flex;
+  display: block;
   flex-wrap: wrap;
   margin-bottom: 20px;
   background-color: #f8e8e8;
@@ -252,6 +252,8 @@ button:hover {
 
 .shop-details {
   padding: 20px;
+  height: 120px;
+  overflow: hidden;
 }
 
   {
@@ -329,6 +331,31 @@ ul li:last-child {
   margin-right: 20px;
   font-size: x-large;
 }
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  padding: 8px;
+  border: none;
+  border-radius: 0px;
+  font-size: 14px;
+  min-width: 250px;
+}
+
+.search-bar button {
+  padding: 2px 2px;
+  background-color: #0f0f70; /* Choose your desired button color */
+  border: none;
+  border-radius: 0px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  width: 100px;
+  opacity: 100%;
+  min-height: 35px;
+}
 
 .user-name:hover {
   transform: scale(1.3);
@@ -360,8 +387,10 @@ ul li:last-child {
   border-radius: 8px;
   margin-bottom: 15px;
   padding: 15px;
-  background-color: #12aaec;
-  width: min-content;
+  background-color: #dad6d1;
+  width: 200px;
+  height: 200px;
+  margin: 5px;
 }
 
 .product-card h5 {
@@ -386,4 +415,19 @@ ul li:last-child {
 
 .product-card button:hover {
   background-color: #45a049;
+}
+/*usershoppage*/
+.page{
+  display: flex;
+  height: 100vh;
+  overflow: scroll;
+}
+.side-panel{
+  height:fit-content;
+  background-color: #aeb4b7;
+  display: flex;
+  justify-content: space-between;
+  border-color: #000000;
+  border-width: 10px;
+  padding: 3px;
 }

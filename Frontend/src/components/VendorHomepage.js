@@ -62,10 +62,10 @@ const VendorHomePage = (props) => {
 
       const data = await response.json();
       console.log(data);
-      if(data.success=true){
+      if(data.success===true){
         alert("category added successfully");
       }
-      if(data.success=false){
+      if(data.success===false){
         alert("category not added");
       }
     } catch (error) {
@@ -92,10 +92,10 @@ const VendorHomePage = (props) => {
 
       const data = await response.json();
       console.log(data);
-      if(data.success=true){
+      if(data.success===true){
         alert("product added successfully");
       }
-      if(data.success=false){
+      if(data.success===false){
         alert("product not added");
       }
     } catch (error) {
@@ -142,7 +142,7 @@ const VendorHomePage = (props) => {
               {vendor.shop.categories.find((c) => c.id === selectedCategory)?.products.map((product) => (
                 <div key={product.id} className="product-card">
                   <h5>{product.name}</h5>
-                  <p>${product.price}</p>
+                  <p>Rs.{product.price}</p>
                   <button type="button" onClick={() => handleUpdateProduct(product.id)}>
                     Update
                   </button>
