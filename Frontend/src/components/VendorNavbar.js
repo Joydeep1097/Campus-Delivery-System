@@ -21,7 +21,7 @@ const VendorNavbar = (props) => {
       <br />
       <span><h1>{props.shop}</h1></span>
       <br />
-        <span onMouseUp={toggleMenu} className="user-name"><img src="images\user.png" alt="user" className='userimage' /><br />{props.name}</span>
+        <span onMouseUp={toggleMenu} className="user-name"><img src="images\userwhite.png" alt="user" className='userimage' /><br />{props.name}</span>
         <ul className='ulinnavbar'>
           <li>Change Password</li>
           <li><span onClick={logout} className="user-name">LogOut</span></li>

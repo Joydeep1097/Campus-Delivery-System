@@ -1,12 +1,13 @@
 // ShopListPage.js
 
 import React, { useState, useEffect } from 'react';
-import UserView from './UserView';
+import UserShopPage from './UserShopPage';
 
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
   const [shopid,setshopid]= useState([0]);
   const [loading, setLoading] = useState(true);
+  console.log(shopid)
   useEffect(() => {
     const fetchShops = async () => {
       const utoken = localStorage.getItem("token");
@@ -38,10 +39,11 @@ const ShopListPage = () => {
 
   return (
    <>
-   {shopid>0 ? <UserView/>:
+   {shopid!="0" ? <UserShopPage id={shopid}/>:
     <div>
     <div className="outer">
-      <ul className='ul1'>
+      <div className="writings-lower">
+      <ul className='writings-lower'>
         {shops.map((shop) => (
           <li key={shop.id} className="shop-card">
             <div className="shop-image">
@@ -50,11 +52,13 @@ const ShopListPage = () => {
             <div className="shop-details">
               <h3>{shop.name}</h3>
               <p>{shop.shopDescription}</p>
-              <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
             </div>
+            <br />
+            <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
           </li>
         ))}
       </ul>
+      </div>
     </div>
     </div>
     }

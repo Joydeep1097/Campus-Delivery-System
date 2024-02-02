@@ -1,13 +1,17 @@
 // SignupPage.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import LoginPage from './LoginPage';
+
 const SignupPage = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [mobileNo, setMobileNo] = useState('');
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [gotologin, setGotologin] = useState(0);
+
   const handleSignup = async () => {
     if (!/^[A-Za-z\s]+$/.test(name)) {
       alert('Name must contain only alphabetical characters');
@@ -37,22 +41,24 @@ const SignupPage = () => {
 
       }
       const response = await fetch('http://localhost:27017/api/v1/signup', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const result = await response.json();
+      if (result.success === true) {
+        alert("Successful. You can now Log in to your account");
+        setGotologin(1);
       }
-    });
-    const result = await response.json();
-    if(result.success===true){
-      alert("Successful. You can now Log in to your account");
-    }
-    else if(result.message==="User already exists"){
-      alert("already registerd. Go for log in");
-    }
-    else{
-      alert("Sorry we are facing some problem. Please try again after some time");
-    }
+      else if (result.message === "User already exists") {
+        alert("already registerd. Go for log in")
+        setGotologin(1);
+      }
+      else {
+        alert("Sorry we are facing some problem. Please try again after some time");
+      }
     } catch (error) {
       // Handle errors (show an error message to the user)
       //console.error(error.response.data);
@@ -61,72 +67,78 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="outer">
-      <div className='container'>
-        <h1>Signup</h1>
-        <form>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              pattern="[A-Za-z]+"
-            />
-          </label>
-          <br />
-          <label>
-            Mobile Number:
-            <input
-              type="text"
-              value={mobileNo}
-              onChange={(e) => setMobileNo(e.target.value)}
-              minLength={10}
-              maxLength={10}
-            />
-          </label>
-          <br />
-          <label>
-            Email:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Password:
-            <input
-              type={showPassword ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <div className="show-password">
-            <input
-              type="checkbox"
-              id="showPassword"
-              checked={showPassword}
-              onChange={() => setShowPassword(!showPassword)}
-            />
-            <label htmlFor="showPassword">Show Password</label>
-          </div>
-          <br />
-          <div className="button-container">
-            <button type="button" onClick={handleSignup}>
-              Signup
-            </button>
-            <Link to="/">
-              <button type="button" className="back-button">
-                Back
-              </button>
-            </Link>
+    <>
+      {gotologin === 1 ? <LoginPage /> :
+        <div className="outer">
+          <div className='container'>
+            <img src="images/user.png" alt="" className='userimage2' />
+            <h1>Signup</h1>
+            <form>
+              <label>
+                <input
+                  type="text"
+                  value={name}
+                  placeholder='Name'
+                  onChange={(e) => setName(e.target.value)}
+                  pattern="[A-Za-z]+"
+                />
+              </label>
+              <br />
+              <label>
+                <input
+                  type="text"
+                  value={mobileNo}
+                  placeholder='📞Contact No'
+                  onChange={(e) => setMobileNo(e.target.value)}
+                  minLength={10}
+                  maxLength={10}
+                />
+              </label>
+              <br />
+              <label>
+                <input
+                  type="email"
+                  value={email}
+                  placeholder='📧Email'
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  placeholder='🔑Password'
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+              <div className="show-password">
+                <input
+                  type="checkbox"
+                  id="showPassword"
+                  checked={showPassword}
+                  onChange={() => setShowPassword(!showPassword)}
+                />
+                <label htmlFor="showPassword">Show Password</label>
+              </div>
+              <br />
+              <div className="button-container">
+                <button type="button" onClick={handleSignup}>
+                  Signup
+                </button>
+                <Link to="/">
+                  <button type="button" className="back-button">
+                    Back
+                  </button>
+                </Link>
+              </div>
+
+            </form>
           </div>
 
-        </form>
-      </div>
-    </div>
+        </div>
+      }
+    </>
   );
 };
 
