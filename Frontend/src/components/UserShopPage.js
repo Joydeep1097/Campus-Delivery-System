@@ -3,8 +3,7 @@ import React, { useState, useEffect } from 'react';
 const UserShopPage = (props) => {
   const [shop, setShop] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 0;
+ 
 
   useEffect(() => {
     const fetchShopData = async () => {
@@ -27,18 +26,6 @@ const UserShopPage = (props) => {
 
     fetchShopData();
   }, [props.id]);
-
-  // Calculate the index range for the current page
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = selectedCategory
-    ? shop.categories.find((c) => c.id === selectedCategory)?.products.slice(indexOfFirstItem, indexOfLastItem)
-    : [];
-
-  // Change page
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   return (
     <div>
@@ -65,21 +52,12 @@ const UserShopPage = (props) => {
               <div>
                 <h4>{shop.categories.find((c) => c.id === selectedCategory)?.name}</h4>
                 <div className="product-list">
-                  {currentItems.map((product) => (
+                {shop.categories.find((c) => c.id === selectedCategory)?.products.map((product) => (
                     <div key={product.id} className="product-card">
                       <h5>{product.name}</h5>
                       <p>Rs.{product.price}</p>
                     </div>
                   ))}
-                </div>
-                <div className="pagination">
-                  <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-                    Prev
-                  </button>
-                  <span>{currentPage}</span>
-                  <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= shop.categories.find((c) => c.id === selectedCategory)?.products.length}>
-                    Next
-                  </button>
                 </div>
               </div>
             </>
