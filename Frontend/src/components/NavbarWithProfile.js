@@ -19,14 +19,9 @@ const NavbarWithProfile = (props) => {
       <div className="navbar-logo">
         <img src="images\campus-bazar-high-resolution-logo-transparent.svg" alt="Campus Bazar Logo" className='logo' />
       </div>
-      <div className="search-bar">
-        <input type="text" placeholder="Search..." />
-        <button type="button">🔍Search</button>
-      </div>
       <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
-      <Cart/>
       <br />
-        <span onMouseUp={toggleMenu} className="user-name"><img src="images\userwhite.png" alt="user" className='userimage' /><br />{props.name}</span>
+        <span onMouseUp={toggleMenu} className="user-name">{props.name}</span>
         <ul className='ulinnavbar'>
           <li>Orders</li>
           <li>Address</li>
