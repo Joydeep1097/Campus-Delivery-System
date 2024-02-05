@@ -39,7 +39,7 @@ exports.vendorCategory = async (req, res) => {
             // console.log(vendorDetails);
             const shopDetails = await Shop.findById(vendorDetails.shop);
             // console.log(shopDetails);
-            addCategoryAndProducts(decoded.userId, shopDetails.name, req.body)
+            addCategoryAndProducts(decoded.userId, shopDetails.name, req.body)
                 .then(() => {
                 return res.status(200).json({
                     success: true,
@@ -215,7 +215,7 @@ exports.vendorAddProduct = async (req, res) => {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
         const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
+        // console.log(token);
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -240,7 +240,10 @@ exports.vendorAddProduct = async (req, res) => {
                 }
         
                 const categoryId = req.body.cat_id;
-                const productDetails = req.body[categoryId];
+                // console.log(categoryId);
+                // console.log(req.body);
+                const productDetails = (req.body[categoryId]);
+                //  'xyz';
         
                 if (!categoryId || !productDetails) {
                   return res.status(400).json({
@@ -248,8 +251,10 @@ exports.vendorAddProduct = async (req, res) => {
                     message: 'Invalid request format',
                   });
                 }
-        
-                await addProductToCategory(categoryId, productDetails);
+                //Upload image to cloudinary
+                const result = await cloudinary.uploader.upload(req.file.path);
+                // console.log(result);
+                await addProductToCategory(categoryId, productDetails,result.url);
         
                 return res.status(200).json({
                   success: true,
@@ -309,7 +314,7 @@ const updateCategoryName = async (categoryId, newCategoryName) => {
     }
   };
 
-const addProductToCategory = async (categoryId, productDetails) => {
+const addProductToCategory = async (categoryId, productDetails, imageUrl) => {
     try {
       // Find the category by ID
       const category = await Category.findById(categoryId);
@@ -325,6 +330,7 @@ const addProductToCategory = async (categoryId, productDetails) => {
         price: productDetails.price,
         returnable: productDetails.returnable,
         count: productDetails.count,
+        image: imageUrl,
         // ... other product fields
       });
   

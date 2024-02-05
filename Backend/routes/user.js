@@ -26,7 +26,7 @@ router.post("/getShopList", getShopList);
 router.post("/vendor/login",vendorLogin);
 router.post("/vendor/signup",upload.single("image"), vendorSignup);
 router.post("/vendor/addcategoryproduct",vendorCategory);
-router.post("/vendor/add-product",vendorAddProduct);  //given the category name
+router.post("/vendor/add-product",upload.single("image"),vendorAddProduct);  //given the category name
 router.delete("/vendor/delete-item",vendorDeleteItem);
 router.post("/vendor/update-category-name",vendorUpdateCategoryName);
 router.post("/vendor/update-product-details",upload.single("image"), vendorUpdateProductDetail);
