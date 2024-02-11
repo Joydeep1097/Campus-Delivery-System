@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import Cart from './Cart';
+import ShowProduct from './ShowProduct';
 const UserShopPage = (props) => {
   const [shop, setShop] = useState([]);
+  const [product,setProduct] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -21,7 +23,6 @@ const UserShopPage = (props) => {
         });
         const data = await response.json();
         setShop(data.shop.shop);
-        console.log("hiii")
 
       } catch (error) {
         console.error('Error fetching shops:', error);
@@ -42,6 +43,8 @@ const UserShopPage = (props) => {
   // Function to change the current page
   const paginatecategory = (pageNumbercategory) => setCurrentPagecategory(pageNumbercategory);
   return (
+    <>
+    {product?<ShowProduct id={product}/>:
     <div>
       <div className="side-panel">
         <header>
@@ -91,6 +94,8 @@ const UserShopPage = (props) => {
                     .slice(indexOfFirstItem, indexOfLastItem)
                     .map((product) => (
                       <div key={product.id} className="product-card" onClick={() => console.log(product.id)} >
+                        {product.image?<img src={product.image} alt={product.name} className='product-image'/>:
+                      <img src="images/defaultproduct.png" alt="not here" className='product-image'/>}
                         <h5>{product.name}</h5>
                         <p>Rs.{product.price}</p>
                       </div>
@@ -106,7 +111,9 @@ const UserShopPage = (props) => {
                 {category.products
                   .slice(indexOfFirstItem, indexOfLastItem)
                   .map((product) => (
-                    <div key={product.id} className="product-card" onClick={() => console.log(product.id)}>
+                    <div key={product.id} className="product-card" onClick={() => setProduct(product.id)}>
+                      {product.image?<img src={product.image} alt={product.name} className='product-image'/>:
+                      <img src="images/defaultproduct.png" alt="not here" className='product-image'/>}
                       <h3>{product.name}</h3>
                       <span className="price">Rs.{product.price}</span>
                     </div>
@@ -117,6 +124,8 @@ const UserShopPage = (props) => {
         </main>
       </div>
     </div>
+    }
+    </>
   );
 };
 

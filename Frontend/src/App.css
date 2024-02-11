@@ -470,3 +470,10 @@ button2:hover{
     align-items: center;
     justify-content: flex-start;
 }
+.product-image  {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px 0 0 8px;
+  overflow: hidden;
+}
