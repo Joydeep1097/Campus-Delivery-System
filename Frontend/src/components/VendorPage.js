@@ -12,7 +12,6 @@ const VendorPage = () => {
   useEffect(()=>{
     const validate = async () => {
       if (localStorage.getItem('token')) {
-        console.log("got");
         const utoken = localStorage.getItem("token");
         try {
           

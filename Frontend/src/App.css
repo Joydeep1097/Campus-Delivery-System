@@ -541,3 +541,15 @@ button3:hover {
 .back{
 padding: 0px;  
 }
+.popup-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  text-align: center;
+  padding: 16px;
+  border-radius: 5px;
+  z-index: 9999; /* Ensure it's on top of other elements */
+}
