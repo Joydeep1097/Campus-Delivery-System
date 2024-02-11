@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Cart from './Cart';
 import ShowProduct from './ShowProduct';
 const UserShopPage = (props) => {
+  const [searchString, setSearchString] = useState('')
   const [shop, setShop] = useState([]);
   const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -9,9 +10,7 @@ const UserShopPage = (props) => {
   const itemsPerPage = 4;
   const [currentPagecategory, setCurrentPagecategory] = useState(1);
   const itemsPerPagecategory = 5;
-  const productchoose = useCallback(() => {
-    setSelectedCategory(selectedCategory);
-  }, [setSelectedCategory]);
+  
   useEffect(() => {
     const fetchShopData = async () => {
       const utoken = localStorage.getItem("token");
@@ -39,7 +38,10 @@ const UserShopPage = (props) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // Function to change the current page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  console.log("hii", product)
+  const search = () => {
+    // Implement logic to add the product to the cart
+    console.log(searchString)
+  };
   const goBack = () => {
     // Implement logic to add the product to the cart
     setProduct([]);
@@ -56,8 +58,8 @@ const UserShopPage = (props) => {
             <h1>{shop.name}</h1>
           </header>
           <div className="search-bar">
-            <input type="text" placeholder="Search..." />
-            <button type="button">🔍Search</button>
+            <input value={searchString} onChange={(e) => {setSearchString(e.target.value)}} type="text" placeholder="Search..." />
+            <button type="button" onClick={search}>🔍Search</button>
           </div>
           <Cart count={ShowProduct.count} />
           <div>
@@ -73,7 +75,7 @@ const UserShopPage = (props) => {
           </div>
         </div>
         <div>
-          {product.id ? <div><br /><button3 onClick={goBack}>&lt;</button3> <ShowProduct product={product} do={productchoose} /></div> :
+          {product.id ? <div><br /><button3 onClick={goBack}>&lt;</button3> <ShowProduct product={product} shopId={props.id} /></div> :
             <div>
               <div className="pagination">
                 <p>Pages</p>
