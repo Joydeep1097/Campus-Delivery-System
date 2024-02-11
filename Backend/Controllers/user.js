@@ -4,6 +4,7 @@ const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const Category = require("../models/category");
 const Product = require("../models/Product");
+const razorpayInstance = require("../config/razorpay");
 
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 const { generateToken } = require("../utils/authUtils");
@@ -100,5 +101,59 @@ exports.userGetShopCProducts = async (req, res) => {
             success: false,
             message: 'Internal Server Error',
         });
+    }
+};
+
+exports.validateTokenUser = async (req, res) => {
+    try {
+        // Get data from the request body
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+      
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided for user',
+            });
+        }
+      
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token for user',
+                });
+            }
+            return res.status(200).json({
+                success: true,
+                message: 'Validated User token successfully',
+            });
+        }); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};
+
+exports.razorpayPayment = async (req, res) => {
+    // setting up options for razorpay order.
+    const options = {
+        amount: req.body.amount,
+        currency: req.body.currency,
+        receipt: "any unique id for every order",
+        payment_capture: 1
+    };
+    try {
+        const response = await razorpayInstance.orders.create(options)
+        return res.json({
+            order_id: response.id,
+            currency: response.currency,
+            amount: response.amount,
+        })
+    } catch (err) {
+       return res.status(400).send('Not able to create order. Please try again!');
     }
 };
