@@ -5,6 +5,8 @@ const router = express.Router();
 const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
 const { userGetShopCProducts} = require("../Controllers/user");
+const { cartAddProduct, updateProductCountInCart} = require("../Controllers/Cart");
+
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
 
 const upload = require("../middlewares/multer");
@@ -15,7 +17,9 @@ router.post("/shop", userGetShopCProducts);
 
 router.get("/allProductperCategoryShop",vendorGetCategory);
 //router.post("/ChangePassword", userchangePassword); 
-router.post("/getShopList", getShopList);   
+router.post("/getShopList", getShopList);  
+router.post("/addProductCart",cartAddProduct); 
+router.post("/updateProductCountInCart",updateProductCountInCart); 
 // router.post("/getProductList", userchangePassword); 
 // router.post("/searchProduct", userchangePassword); 
 // router.post("/addToCart", userchangePassword);
