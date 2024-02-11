@@ -4,6 +4,7 @@ const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const Category = require("../models/category");
 const Product = require("../models/Product");
+const razorpayInstance = require("../config/razorpay");
 
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 const { generateToken } = require("../utils/authUtils");
@@ -133,5 +134,25 @@ exports.validateTokenUser = async (req, res) => {
             success: false,
             message: 'Internal Server Error',
         });
+    }
+};
+
+exports.razorpayPayment = async (req, res) => {
+    // setting up options for razorpay order.
+    const options = {
+        amount: req.body.amount,
+        currency: req.body.currency,
+        receipt: "any unique id for every order",
+        payment_capture: 1
+    };
+    try {
+        const response = await razorpayInstance.orders.create(options)
+        return res.json({
+            order_id: response.id,
+            currency: response.currency,
+            amount: response.amount,
+        })
+    } catch (err) {
+       return res.status(400).send('Not able to create order. Please try again!');
     }
 };
