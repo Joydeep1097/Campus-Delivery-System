@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
-const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct} = require("../Controllers/user");
+const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory} = require("../Controllers/user");
 const { cartAddProduct, updateProductCountInCart} = require("../Controllers/Cart");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
 
@@ -25,7 +25,7 @@ router.post("/updateProductCountInCart",updateProductCountInCart);
 router.post("/searchProduct", searchProduct); 
 // router.post("/addToCart", userchangePassword);
 // router.post("/payment", userchangePassword);
-// router.post("/orderHistory", userchangePassword);
+router.post("/orderHistory", orderHistory);
 // router.post("/cancleOrder", userchangePassword);
 
 router.post("/vendor/login",vendorLogin);
