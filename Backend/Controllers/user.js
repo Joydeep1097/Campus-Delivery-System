@@ -237,7 +237,7 @@ exports.searchProduct = async (req, res) => {
     }))
     .filter(category => category.products.length > 0); // Filter out categories with empty products array
    
-        console.log(formattedCategories);
+        // console.log(formattedCategories);
         
         res.json({
             shop: {
