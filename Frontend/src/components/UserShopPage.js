@@ -93,7 +93,7 @@ const UserShopPage = (props) => {
                   {shop.categories.find((c) => c.id === selectedCategory)?.products
                     .slice(indexOfFirstItem, indexOfLastItem)
                     .map((product) => (
-                      <div key={product.id} className="product-card" onClick={() => console.log(product.id)} >
+                      <div key={product.id} className="product-card" onClick={() => console.log(product)} >
                         {product.image?<img src={product.image} alt={product.name} className='product-image'/>:
                       <img src="images/defaultproduct.png" alt="not here" className='product-image'/>}
                         <h5>{product.name}</h5>
@@ -111,7 +111,7 @@ const UserShopPage = (props) => {
                 {category.products
                   .slice(indexOfFirstItem, indexOfLastItem)
                   .map((product) => (
-                    <div key={product.id} className="product-card" onClick={() => setProduct(product.id)}>
+                    <div key={product.id} className="product-card"  onClick={() => console.log(product)} >
                       {product.image?<img src={product.image} alt={product.name} className='product-image'/>:
                       <img src="images/defaultproduct.png" alt="not here" className='product-image'/>}
                       <h3>{product.name}</h3>
