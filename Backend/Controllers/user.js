@@ -25,8 +25,7 @@ exports.userGetShopCProducts = async (req, res) => {
 
         // Verify token
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -155,5 +154,113 @@ exports.razorpayPayment = async (req, res) => {
         })
     } catch (err) {
        return res.status(400).send('Not able to create order. Please try again!');
+    }
+};
+
+exports.searchProduct = async (req, res) => {
+    try {
+    // Get data from the request body
+    const { shopId } = req.body;
+    const { searchString } = req.body;
+    if (!shopId) {
+        return res.status(400).json({
+            success: false,
+            message: 'Shop ID not provided',
+        });
+    }
+    
+    if (!searchString) {
+        return res.status(400).json({
+            success: false,
+            message: 'Search string is empty',
+        });
+    }
+
+    // Verify token
+    const authorizationHeader = req.headers['authorization'];
+    const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: 'Token not provided',
+        });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid token',
+            });
+        }
+    });
+
+    try {
+        // Find the shop and populate its categories and products
+        const shop = await Shop.findById(shopId)
+            .populate({
+                path: 'category',
+                populate: {
+                    path: 'productID',
+                    options: { strictPopulate: false },
+                },
+            });
+
+        if (!shop) {
+            return res.status(404).json({ message: 'Shop not found' });
+        }
+
+        const categories = shop.category;
+
+        // console.log(categories);
+     
+        if (!categories) {
+          return res.status(404).json({ message: 'Categories not found for the shop' });
+        }
+
+        const formattedCategories = categories
+        .map(category => ({
+        id: category._id,
+        name: category.categoryName,
+        products: category.productID ? category.productID
+            .filter(product => {
+                // Filter products based on the regex pattern for the name field
+                const regexPattern = new RegExp(searchString, 'i'); // Regex pattern to match "searchString" (case-insensitive)
+                return regexPattern.test(product.name);
+            })
+            .map(product => ({
+                id: product._id,
+                name: product.name,
+                price: product.price
+                // ... other product fields
+            })) : [],
+    }))
+    .filter(category => category.products.length > 0); // Filter out categories with empty products array
+   
+        // console.log(formattedCategories);
+        
+        res.json({
+            shop: {
+                id: shop._id,
+                name: shop.name,
+                shop: { id: shopId, name: shop.name, categories: formattedCategories }
+            },
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
     }
 };
