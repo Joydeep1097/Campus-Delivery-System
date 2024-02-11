@@ -102,3 +102,37 @@ exports.userGetShopCProducts = async (req, res) => {
         });
     }
 };
+
+exports.validateTokenUser = async (req, res) => {
+    try {
+        // Get data from the request body
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+      
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided for user',
+            });
+        }
+      
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token for user',
+                });
+            }
+            return res.status(200).json({
+                success: true,
+                message: 'Validated User token successfully',
+            });
+        }); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};

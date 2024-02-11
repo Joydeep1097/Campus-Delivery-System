@@ -370,7 +370,6 @@ exports.vendorGetCategory = async (req, res) => {
       
           try {
             const vendorId = decoded.userId;
-            console.log('testyyy',vendorId);
             const vendor = await Vendor.findById(vendorId)
             .populate({
                 path: 'shop',
@@ -663,3 +662,37 @@ const addCategoryAndProducts = async (vendorId, shopName, categoryData) => {
       // Handle the error, e.g., return an error response
     }
   };
+
+exports.validateTokenVendor = async (req, res) => {
+    try {
+        // Get data from the request body
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+      
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided for vendor',
+            });
+        }
+      
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token for vendor',
+                });
+            }
+            return res.status(200).json({
+                success: true,
+                message: 'Validated Vendor token successfully',
+            });
+        }); 
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};
