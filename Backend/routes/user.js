@@ -22,7 +22,7 @@ router.post("/getShopList", getShopList);
 router.post("/addProductCart",cartAddProduct); 
 router.post("/updateProductCountInCart",updateProductCountInCart); 
 // router.post("/getProductList", userchangePassword); 
-// router.post("/searchProduct", userchangePassword); 
+router.post("/searchProduct", searchProduct); 
 // router.post("/addToCart", userchangePassword);
 // router.post("/payment", userchangePassword);
 // router.post("/orderHistory", userchangePassword);
