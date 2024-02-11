@@ -4,8 +4,15 @@ const router = express.Router();
 
 const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
+<<<<<<< HEAD
+const { userGetShopCProducts} = require("../Controllers/user");
+const { cartAddProduct, updateProductCountInCart} = require("../Controllers/Cart");
+
+const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail} = require("../Controllers/vendor");
+=======
 const {userGetShopCProducts, validateTokenUser, razorpayPayment} = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
+>>>>>>> af9cb79f0a33eb3e390f45a600502b40637f208c
 
 const upload = require("../middlewares/multer");
 
@@ -17,7 +24,9 @@ router.post("/razorpayPayment", razorpayPayment);
 
 router.get("/allProductperCategoryShop",vendorGetCategory);
 //router.post("/ChangePassword", userchangePassword); 
-router.post("/getShopList", getShopList);   
+router.post("/getShopList", getShopList);  
+router.post("/addProductCart",cartAddProduct); 
+router.post("/updateProductCountInCart",updateProductCountInCart); 
 // router.post("/getProductList", userchangePassword); 
 // router.post("/searchProduct", userchangePassword); 
 // router.post("/addToCart", userchangePassword);

@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
     Timestamp: {
         type: Date,
-        required: true,
         default: Date.now,
     },
     shopID:{
@@ -21,7 +20,6 @@ const orderSchema = new mongoose.Schema({
             Rating: {
                 type : mongoose.Schema.Types.ObjectId,
                 ref : "Rating",
-                required : true,
             },
             count: {
                 type: Number,
@@ -33,7 +31,6 @@ const orderSchema = new mongoose.Schema({
     ],
     total :{
         type: Number,
-        required: true,
         min: 1,
     }
 });
