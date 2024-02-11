@@ -7,6 +7,7 @@ const Cart = () => {
 
   // Function to add an item to the cart
   const addToCart = (item) => {
+    console.log(item)
     setCartItems([...cartItems, item]);
   };
 
