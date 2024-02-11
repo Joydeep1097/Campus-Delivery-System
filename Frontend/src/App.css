@@ -19,9 +19,9 @@
   border-width: 10px;
   border-color: #000000;
   border: 10px;
-  
-  
-  
+
+
+
 }
 
 .quicklinks {
@@ -51,24 +51,26 @@
   flex: 1;
   display: flex;
   justify-content: space-around;
-  
+
 }
 
 .auth-options a {
   color: rgb(255, 255, 255);
   text-decoration: none;
   margin: 0 10px;
-  
+
 }
 
 /*homepage css*/
 .contents {
-  background-image: url('../public/images/background.jpg'); /* Replace with the path to your image */
+  background-image: url('../public/images/background.jpg');
+  /* Replace with the path to your image */
   background-repeat: no-repeat;
-  background-size: 100% 100%;/* Replace with the path to your image */
+  background-size: 100% 100%;
+  /* Replace with the path to your image */
   background-position: center;
   background-repeat: no-repeat;
- /* Set the desired height */
+  /* Set the desired height */
   min-height: 100vh;
   flex-direction: column;
   align-items: left;
@@ -88,43 +90,45 @@
   color: rgb(139, 13, 206);
   padding: 30px;
   padding-bottom: 0px;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   position: static;
 }
 
-.writings-lower{
+.writings-lower {
   display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.pockets{
+.pockets {
   margin: 10px;
   padding: 20px;
   text-align: center;
   color: rgb(0, 0, 0);
-  position:relative;
+  position: relative;
   background-color: #c2a8a8dd;
   border-radius: 10px;
   border-color: #000000;
   box-shadow: #12aaec;
   max-width: 400px;
 }
-.image2{
+
+.image2 {
   width: 370px;
   height: 200px;
 }
 
 /*login signup css*/
 .outer {
-  background-image: url('../public/images/background2.jpg'); 
+  background-image: url('../public/images/background2.jpg');
   background-color: #000000;
   min-height: 100vh;
   padding: 50px;
   display: flex;
   justify-content: center;
   background-repeat: no-repeat;
-  background-size: 100% 100%;/* Replace with the path to your image */
+  background-size: 100% 100%;
+  /* Replace with the path to your image */
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -144,7 +148,7 @@
   text-align: center;
   flex-direction: column;
   align-items: center;
-  
+
 }
 
 form {
@@ -335,6 +339,7 @@ ul li:last-child {
   margin-right: 40px;
   font-size: x-large;
 }
+
 .search-bar {
   display: flex;
   align-items: center;
@@ -351,7 +356,8 @@ ul li:last-child {
 
 .search-bar button {
   padding: 2px 2px;
-  background-color: #0f0f70; /* Choose your desired button color */
+  background-color: #0f0f70;
+  /* Choose your desired button color */
   border: none;
   border-radius: 0px;
   color: #ffffff;
@@ -370,6 +376,7 @@ ul li:last-child {
   width: 40px;
   height: 40px;
 }
+
 .userimage2 {
   width: 80px;
   height: 80px;
@@ -378,8 +385,8 @@ ul li:last-child {
 /*vendorhome*/
 .vendorhome {
   display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
+  flex-wrap: wrap;
+  align-items: stretch;
 }
 
 .product-list {
@@ -397,7 +404,8 @@ ul li:last-child {
   height: 200px;
   margin: 5px;
 }
-.product-card:hover{
+
+.product-card:hover {
   transform: scale(1.05);
 }
 
@@ -425,27 +433,33 @@ ul li:last-child {
   background-color: #45a049;
 }
 
-.userview{
+.userview {
   display: flex;
 }
+
 /*usershoppage*/
-.page{
+.page {
   display: flex;
   height: 100vh;
   overflow: scroll;
-  padding: 20px;
+  padding: 30px;
+  padding-top: 0px;
 }
+
 .page::-webkit-scrollbar {
   display: none;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
-.page{
--ms-overflow-style: none;  /* IE and Edge */
-scrollbar-width: none;  /* Firefox */
+.page {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
-.side-panel{
-  height:fit-content;
+
+.side-panel {
+  height: fit-content;
   background-color: #d4edf9;
   display: flex;
   justify-content: space-between;
@@ -455,18 +469,75 @@ scrollbar-width: none;  /* Firefox */
   justify-content: space-around;
   flex-wrap: wrap;
 }
-button2{
+
+button2 {
   margin: 1px;
   border-style: ridge;
   border-color: #000000;
   cursor: pointer;
   border-radius: 10%;
 }
-button2:hover{
+
+button2:hover {
   background-color: #12aaec;
 }
-.pagination{
+
+.pagination {
   display: flex;
-    align-items: center;
-    justify-content: flex-start;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/*show product*/
+.product-image {
+  width: 190px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0px 0 0 0px;
+  overflow: hidden;
+}
+
+.page1 {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  padding: 20px;
+  justify-content: space-around;
+}
+
+.showingproduct {
+  width: fit-content;
+  height: fit-content;
+  background-color: #f5f4c0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.product-image1 {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0px 0 0 0px;
+  overflow: hidden;
+}
+button3 {
+  background-color: transparent;
+  border: none;
+  color: #2e16df; /* Adjust the color as needed */
+  font-size: 36px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: #d4edf9;
+}
+
+button3:hover {
+  background-color: #f0f0f0; /* Change background color on hover */
+}
+.back{
+padding: 0px;  
 }

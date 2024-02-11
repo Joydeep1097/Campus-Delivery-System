@@ -29,9 +29,12 @@ const ShopListPage = () => {
 
     fetchShops();
   }, []); 
-
+  const goBack = () => {
+    setshopid(0);
+    
+  };
   const handleShopSelection = (selectedShopId) => {
-    console.log('User selected shop with ID:', selectedShopId);
+    //console.log('User selected shop with ID:', selectedShopId);
     // You can add logic to navigate to the selected shop's page or perform other actions
     setshopid(selectedShopId);
     
@@ -39,7 +42,7 @@ const ShopListPage = () => {
 
   return (
    <>
-   {shopid!="0" ? <UserShopPage id={shopid}/>:
+   {shopid!="0" ?<div className='back'><button3 onClick={goBack}>&lt;</button3> <UserShopPage id={shopid}/></div>:
     <div>
     <div className="outer">
       <div className="writings-lower">
