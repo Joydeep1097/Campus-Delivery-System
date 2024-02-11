@@ -1,9 +1,7 @@
-// NavbarWithProfile.js
 
 import React, { useState } from 'react';
-import Cart from './Cart';
 
-const NavbarWithProfile = (props) => {
+const VendorNavbar = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -21,10 +19,10 @@ const NavbarWithProfile = (props) => {
       </div>
       <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
       <br />
-        <span onMouseUp={toggleMenu} className="user-name">{props.name}</span>
+      <span><h1>{props.shop}</h1></span>
+      <br />
+        <span onMouseUp={toggleMenu} className="user-name"><img src="images\userwhite.png" alt="user" className='userimage' /><br />{props.name}</span>
         <ul className='ulinnavbar'>
-          <li>Orders</li>
-          <li>Address</li>
           <li>Change Password</li>
           <li><span onClick={logout} className="user-name">LogOut</span></li>
         </ul>
@@ -33,4 +31,4 @@ const NavbarWithProfile = (props) => {
   );
 };
 
-export default NavbarWithProfile;
+export default VendorNavbar;

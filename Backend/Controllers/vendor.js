@@ -56,7 +56,8 @@ exports.vendorCategory = async (req, res) => {
                               success: false,
                               message: 'Vendor not found',
                           });
-                      }
+      
+                        }
       
                       // Replace 'joyshop' with the actual field in your vendor model that holds the shopName
                       const shopName = await Shop.findById(vendor.shop).shopName; // Replace with the actual field name
