@@ -6,6 +6,7 @@ const Shop = require("../models/shop");
 const Order = require("../models/order");
 const Cart = require('../models/cart');
 const jwt = require('jsonwebtoken');
+const ObjectId = require('mongodb').ObjectId;
 
 
 exports.addToCart = async (req, res) => {
@@ -431,7 +432,8 @@ exports.getUserCartProducts = async (req, res) => {
             const objectIdArray = productIDs.map(id => new ObjectId(id));
             console.log("OBJECT",objectIdArray);
             // Fetch documents based on the array of productID values
-            const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
+            // const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
+            const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
             console.log("PRODUCTS",products);
 
             // Format the fetched data
