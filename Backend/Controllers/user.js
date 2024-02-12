@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
+const User = require("../models/user");
 const Category = require("../models/category");
 const Product = require("../models/Product");
 const razorpayInstance = require("../config/razorpay");
@@ -25,8 +26,7 @@ exports.userGetShopCProducts = async (req, res) => {
 
         // Verify token
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -155,5 +155,201 @@ exports.razorpayPayment = async (req, res) => {
         })
     } catch (err) {
        return res.status(400).send('Not able to create order. Please try again!');
+    }
+};
+
+exports.searchProduct = async (req, res) => {
+    try {
+    // Get data from the request body
+    const { shopId } = req.body;
+    const { searchString } = req.body;
+    if (!shopId) {
+        return res.status(400).json({
+            success: false,
+            message: 'Shop ID not provided',
+        });
+    }
+    
+    if (!searchString) {
+        return res.status(400).json({
+            success: false,
+            message: 'Search string is empty',
+        });
+    }
+
+    // Verify token
+    const authorizationHeader = req.headers['authorization'];
+    const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+
+    if (!token) {
+        return res.status(401).json({
+            success: false,
+            message: 'Token not provided',
+        });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+        if (err) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid token',
+            });
+        }
+    });
+
+    try {
+        // Find the shop and populate its categories and products
+        const shop = await Shop.findById(shopId)
+            .populate({
+                path: 'category',
+                populate: {
+                    path: 'productID',
+                    options: { strictPopulate: false },
+                },
+            });
+
+        if (!shop) {
+            return res.status(404).json({ message: 'Shop not found' });
+        }
+
+        const categories = shop.category;
+
+        // console.log(categories);
+     
+        if (!categories) {
+          return res.status(404).json({ message: 'Categories not found for the shop' });
+        }
+
+        const formattedCategories = categories
+        .map(category => ({
+        id: category._id,
+        name: category.categoryName,
+        products: category.productID ? category.productID
+            .filter(product => {
+                // Filter products based on the regex pattern for the name field
+                const regexPattern = new RegExp(searchString, 'i'); // Regex pattern to match "searchString" (case-insensitive)
+                return regexPattern.test(product.name);
+            })
+            .map(product => ({
+                id: product._id,
+                name: product.name,
+                price: product.price
+                // ... other product fields
+            })) : [],
+    }))
+    .filter(category => category.products.length > 0); // Filter out categories with empty products array
+   
+        // console.log(formattedCategories);
+        
+        res.json({
+            shop: {
+                id: shop._id,
+                name: shop.name,
+                shop: { id: shopId, name: shop.name, categories: formattedCategories }
+            },
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+    }
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};
+
+exports.orderHistory = async (req, res) => {
+    try {
+        // Get data from the request body
+        const { userId } = req.body;
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'User ID not provided',
+            });
+        }
+
+        // Verify token
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided',
+            });
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token',
+                });
+            }
+
+            // Async function to fetch orders by user ID
+            const fetchOrdersByUserId = async (userId) => {
+                try {
+                    // Use findOne method to find the user based on userId and populate the orders field
+                    const user = await User.findOne({ _id: userId }).populate('orders');
+
+                    if (!user) {
+                        console.log("User not found.");
+                        return null;
+                    }
+
+                    // If user is found, return the orders
+                    return user.orders;
+                } catch (error) {
+                    // Handle any errors
+                    console.error("Error fetching orders by user ID:", error);
+                    throw error;
+                }
+            };
+
+            try {
+                // Fetch orders by user ID
+                const orders = await fetchOrdersByUserId(userId);
+                if(orders===null){
+                    return res.status(404).json({
+                        success: false,
+                        message: 'User not found',
+                    });
+                }
+                else if (!orders) {
+                    return res.status(404).json({
+                        success: false,
+                        message: 'Orders not found for the user',
+                    });
+                }
+
+                // Return orders
+                return res.status(200).json({
+                    success: true,
+                    orders: orders,
+                });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Internal Server Error',
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
     }
 };

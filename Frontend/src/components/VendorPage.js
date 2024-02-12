@@ -10,10 +10,31 @@ const VendorPage = () => {
   const [flag, setflag] = useState('');
   const [name,setName] = useState('');
   useEffect(()=>{
-    if(localStorage.getItem('token')){
-      setflag(localStorage.getItem('token'));
-      setName(localStorage.getItem('name'));
+    const validate = async () => {
+      if (localStorage.getItem('token')) {
+        const utoken = localStorage.getItem("token");
+        try {
+          
+          const response = await fetch('http://localhost:27017/api/v1/vendor/validateTokenVendor', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${utoken}` }
+          });
+          const data = await response.json();
+          console.log(data)
+          if(data.success==true){
+            setflag(localStorage.getItem('token'));
+          setName(localStorage.getItem('name'));
+          }
+        }
+        catch (error) {
+          console.error('Error fetching shops:', error);
+        } finally {
+          //setLoading(false);
+        }
+      };
+      
     }
+    validate();
   },[]);
   const handleLogin = async () => {
     // Add your login logic here using shopId and password
