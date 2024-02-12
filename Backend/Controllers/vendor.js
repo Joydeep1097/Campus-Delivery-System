@@ -148,8 +148,7 @@ exports.vendorUpdateProductDetail = async (req, res) => {
     try {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -172,9 +171,9 @@ exports.vendorUpdateProductDetail = async (req, res) => {
                 if (!vendor) {
                   return res.status(404).json({ message: 'Vendor not found' });
                 }
-        
+                console.log(req.body);
                 const productId = req.body.product_id;
-                const updatedProductDetails = req.body.updated_product_details;
+                const updatedProductDetails = req.body[productId];
         
                 if (!productId || !updatedProductDetails) {
                   return res.status(400).json({
@@ -183,10 +182,15 @@ exports.vendorUpdateProductDetail = async (req, res) => {
                   });
                 }
                 //Upload image to cloudinary
-                const result = await cloudinary.uploader.upload(req.file.path);
-
-                await updateProductDetails(productId, updatedProductDetails, result.url);
-        
+                // console.log(req.file);
+                if(req.file===undefined){
+                  // console.log("if");
+                  await updateProductDetails(productId, updatedProductDetails, "https://qph.cf2.quoracdn.net/main-qimg-1a4bafe2085452fdc55f646e3e31279c-lq");
+                }
+                else{
+                  const result = await cloudinary.uploader.upload(req.file.path);
+                  await updateProductDetails(productId, updatedProductDetails, result.url);
+                }
                 return res.status(200).json({
                   success: true,
                   message: 'Product details updated successfully',
@@ -238,8 +242,7 @@ exports.vendorAddProduct = async (req, res) => {
     try {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -262,18 +265,23 @@ exports.vendorAddProduct = async (req, res) => {
                 if (!vendor) {
                   return res.status(404).json({ message: 'Vendor not found' });
                 }
-        
                 const categoryId = req.body.cat_id;
                 const productDetails = req.body[categoryId];
-        
                 if (!categoryId || !productDetails) {
                   return res.status(400).json({
                     success: false,
                     message: 'Invalid request format',
                   });
                 }
-        
-                await addProductToCategory(categoryId, productDetails);
+
+                if(req.file===undefined){
+                  await addProductToCategory(categoryId, productDetails, "https://qph.cf2.quoracdn.net/main-qimg-1a4bafe2085452fdc55f646e3e31279c-lq");
+                }
+                else{
+                  const result = await cloudinary.uploader.upload(req.file.path);
+                  console.log(result);
+                  await addProductToCategory(categoryId, productDetails, result.url);
+                }
         
                 return res.status(200).json({
                   success: true,
@@ -333,7 +341,7 @@ const updateCategoryName = async (categoryId, newCategoryName) => {
     }
   };
 
-const addProductToCategory = async (categoryId, productDetails) => {
+const addProductToCategory = async (categoryId, productDetails, imagePath) => {
     try {
       // Find the category by ID
       const category = await Category.findById(categoryId);
@@ -349,6 +357,7 @@ const addProductToCategory = async (categoryId, productDetails) => {
         price: productDetails.price,
         returnable: productDetails.returnable,
         count: productDetails.count,
+        image : imagePath,
         // ... other product fields
       });
   
