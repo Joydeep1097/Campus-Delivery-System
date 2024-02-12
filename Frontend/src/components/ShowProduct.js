@@ -1,13 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Popup from './Popup';
+import Cart from './Cart';
 const ShowProduct = (props) => {
   const product = props.product;
   const [count, setCount] = useState(1);
+  const [cart, setCart] = useState([]);
   const [flag, setFlag] = useState(0);
   const handleIncrement = () => {
     setCount(prevCount => prevCount + 1);
   };
-
+  useEffect(() => {
+    const cartdata = async () => {
+      // Implement logic to fetch from cart
+      const utoken = localStorage.getItem("token");
+      try {
+        const response = await fetch('http://localhost:27017/api/v1/getUserCartProducts', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+          
+        });
+        const data = await response.json();
+        setCart(data.shop.products);
+        console.log(data.shop.products.length);
+      } catch (error) {
+        console.error('Error fetching shops:', error);
+      }
+    };
+    cartdata();
+    props.onSubmit(cart)
+  }, [flag]);
   const handleDecrement = () => {
     if (count > 1) {
       setCount(prevCount => prevCount - 1);
@@ -25,7 +46,7 @@ const ShowProduct = (props) => {
     console.log(payload);
     const utoken = localStorage.getItem("token");
     try {
-      const response = await fetch('http://localhost:27017/api/v1/addProductCart', {
+      const response = await fetch('http://localhost:27017/api/v1/addToCart', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -33,6 +54,7 @@ const ShowProduct = (props) => {
       const data = await response.json();
       console.log(data);
       if (data.success === true) {
+        setFlag(1);
         alert("product added to cart")
       }
       else if (data.message === "Invalid token") {
