@@ -4,373 +4,343 @@ const Product = require("../models/Product");
 const { generateToken } = require("../utils/authUtils");
 const Shop = require("../models/shop");
 const Order = require("../models/order");
+const Cart = require('../models/cart');
 const jwt = require('jsonwebtoken');
 
- 
-exports.cartAddProduct = async (req, res) => {
-    try {
+
+exports.addToCart = async (req, res) => {
+  try {
+    const authorizationHeader = req.headers['authorization'];
+    const token = authorizationHeader.substring('Bearer '.length);
+
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token not provided',
+      });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid token',
+        });
+      }
+
+      const userId = decoded.userId;
+      try {
         // Get data from the request body
-        const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
-        if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: 'Token not provided',
-            });
+        const { productID, productQuantity, shopID } = req.body;
+
+        // Check if all required fields are provided
+        if (!productID || !productQuantity || !shopID) {
+          return res.status(400).json({
+            success: false,
+            message: 'Product ID, product quantity, and shop ID are required.',
+          });
         }
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-           
-            if (err) {
-                return res.status(401).json({
-                    success: false,
-                    message: 'Invalid token',
-                });
-            }
 
-            const userId = decoded.userId;
-            try {
+        // Find the user and populate the cart
+        const user = await User.findById(userId).populate('cart');
+        console.log(user);
 
-                const productID = req.body.productID;
-                const productQuantity = req.body.productQuantity;
-        
-                if (!productID || !productQuantity) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'ProductID and Quantity are necessary',
-                    });
-                }
+        // Get the cart from the populated user object
+        let cart = user.cart;
+        console.log("Cart", cart)
 
-                const newOrder = new Order({
-                    Timestamp: new Date(),
-                    shopID: req.body.shopID, 
-                    products: [{
-                        productID: req.body.productID, 
-                        count: req.body.productQuantity
-                    }]
-                });
 
-                await newOrder.save();
+        // If the user has a cart and its shopID matches the input shopID
+        if (cart && cart.shopID.equals(shopID)) {
+          // Check if the product already exists in the cart
+          const existingProduct = cart.products.find(product => product.productID.equals(productID));
+          console.log("existingProduct", existingProduct)
+          if (existingProduct) {
+            // Update the quantity of the existing product
+            existingProduct.count += productQuantity;
+          } else {
+            // Add the product to the cart
+            cart.products.push({ productID, count: productQuantity });
+          }
+        } else {
+          if(cart){
+          await Cart.findByIdAndDelete(cart._id);}
+          // If the user does not have a cart or the shopID is different, create a new cart
+          cart = new Cart({ shopID, user: userId });
+          // Add the product to the new cart
+          cart.products.push({ productID, count: productQuantity });
+        }
 
-                const user = await User.findByIdAndUpdate(userId, { $push: { orders: newOrder._id } }, { new: true });
+        // Save the cart
+        await cart.save();
 
-                if (!user) {
-                    return res.status(404).json({ message: 'User not found' });
-                }
-        
-                return res.status(200).json({
-                    success: true,
-                    message: 'Product added to the cart successfully',
-                });
-    } catch (error) {
+        // Update user model with the new cart ID
+        const updatedUser = await User.findByIdAndUpdate(userId, { cart: cart._id }, { new: true });
+
+        return res.status(200).json({
+          success: true,
+          message: 'Product added to the cart successfully',
+        });
+      } catch (error) {
         console.error(error);
         return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error',
+          success: false,
+          message: 'Internal Server Error',
         });
-    }
+      }
     });
-     } catch (error) {
-        console.error(error);
-    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
 };
-
 
 
 exports.updateProductCountInCart = async (req, res) => {
-    try {
-        const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
-        if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: 'Token not provided',
-            });
-        }
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-           
-            if (err) {
-                return res.status(401).json({
-                    success: false,
-                    message: 'Invalid token',
-                });
-            }
+  try {
+    const authorizationHeader = req.headers['authorization'];
+    const token = authorizationHeader.substring('Bearer '.length);
 
-            const userId = decoded.userId;
-            try {
-                const productID = req.body.productID;
-                const productQuantity = req.body.productQuantity;
-        
-                if (!productID || !productQuantity) {
-                    return res.status(400).json({
-                        success: false,
-                        message: 'ProductID and Quantity are necessary',
-                    });
-                }
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token not provided',
+      });
+    }
 
-                const user = await User.findById(userId);
-
-                if (!user) {
-                    return res.status(404).json({ message: 'User not found' });
-                }
-
-                // Find the product in the user's cart
-                const orderIndex = user.orders.findIndex(order => Order.products.some(product => product.productID === productID));
-
-                if (orderIndex === -1) {
-                    return res.status(404).json({ message: 'Product not found in the cart' });
-                }
-
-                // Find the index of the product in the order's products array
-                const productIndex = user.orders[orderIndex].products.findIndex(product => product.productID === productID);
-
-                if (productIndex === -1) {
-                    return res.status(404).json({ message: 'Product not found in the cart' });
-                }
-
-                // Update the count value for the product
-                user.orders[orderIndex].products[productIndex].count = productQuantity;
-
-
-                // Save changes to the database
-                await user.save();
-
-                return res.status(200).json({
-                    success: true,
-                    message: 'Product count updated in the cart successfully',
-                });
-            } catch (error) {
-                console.error(error);
-                return res.status(500).json({
-                    success: false,
-                    message: 'Internal Server Error',
-                });
-            }
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid token',
         });
-    } catch (error) {
+      }
+
+      const userId = decoded.userId;
+      try {
+        // Get data from the request body
+        const { productID, productQuantity } = req.body;
+
+        // Check if all required fields are provided
+        if (!productID || !productQuantity) {
+          return res.status(400).json({
+            success: false,
+            message: 'Product ID and product quantity are required.',
+          });
+        }
+
+        // Find the user and populate the cart
+        const user = await User.findById(userId).populate('cart');
+
+        // Get the cart from the populated user object
+        const cart = user.cart;
+
+        // Check if the user has a cart
+        if (!cart) {
+          return res.status(404).json({ message: 'Cart not found for the user' });
+        }
+
+        // Find the index of the product in the cart
+        const productIndex = cart.products.findIndex(product => product.productID.equals(productID));
+
+        // Check if the product exists in the cart
+        if (productIndex === -1) {
+          return res.status(404).json({ message: 'Product not found in the cart' });
+        }
+
+        // Update the quantity of the product
+        cart.products[productIndex].count = productQuantity;
+
+        // Save the updated cart
+        await cart.save();
+
+        return res.status(200).json({
+          success: true,
+          message: 'Cart updated successfully',
+        });
+      } catch (error) {
         console.error(error);
         return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error',
+          success: false,
+          message: 'Internal Server Error',
         });
-    }
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
 };
 
+/*
+exports.getUserCartProducts = async (req, res) => {
+  try {
+      const authorizationHeader = req.headers['authorization'];
+      const token = authorizationHeader.substring('Bearer '.length);
 
-exports.vendorUpdateProductDetail = async (req, res) => {
-    try {
-        // Get data from the request body
-        const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
-        if (!token) {
-            return res.status(401).json({
-                success: false,
-                message: 'Token not provided',
-            });
-        }
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-           
-            if (err) {
-                return res.status(401).json({
-                success: false,
-                message: 'Invalid token',
-                });
-            }
-            const vendorId = decoded.userId;
+      if (!token) {
+          return res.status(401).json({
+              success: false,
+              message: 'Token not provided',
+          });
+      }
 
-            try {
-                const vendor = await Vendor.findById(vendorId);
-        
-                if (!vendor) {
-                  return res.status(404).json({ message: 'Vendor not found' });
+      jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+          if (err) {
+              return res.status(401).json({
+                  success: false,
+                  message: 'Invalid token',
+              });
+          }
+
+          try {
+              const userId = decoded.userId;
+
+              console.log(userId.cart);
+              console.log("----------------------")
+
+              const user = await User.findById(userId).populate({
+                  path: 'cart',
+                  populate: {
+                      path: 'products',
+                      // populate: {
+                      //   path: 'productID',
+                        options: { strictPopulate: false },
+                      //populate: { path: 'shopID' } // Populate shop details for each product
+                  },
+                // },
+              });
+
+
+              if (!user) {
+                  return res.status(404).json({ message: 'User not found' });
+              }
+
+              const cart = user.cart;
+              console.log(cart);
+              if (!cart) {
+                  return res.status(404).json({ message: 'Cart not found for the user' });
+              }
+
+              // const shop = {
+              //     id: cart.shopID._id.toString(),
+              //     name: cart.shopID.name,
+              //     products: cart.products.map(item => ({
+              //         id: item.productID._id.toString(),
+              //         name: item.productID.name.toString(),
+              //         price: item.productID.price.toString(),
+              //         ProductQuantity: item.count
+              //     }))
+              // };
+              const shop = {
+                id: cart.shopID._id.toString(),
+                name: "", // Placeholder for the shop name
+                products: []
+            };
+
+            // Fetch shop name
+            const shopData = await Shop.findById(cart.shopID);
+            shop.name = shopData ? shopData.name : "Shop not found";
+
+
+              for (const item of cart.products) {
+                const productData = await Product.findById(item.productID);
+                if (productData) {
+                    shop.products.push({
+                        id: item.productID._id.toString(),
+                        name: productData.name.toString(),
+                        price: productData.price.toString(),
+                        ProductQuantity: item.count
+                    });
+                  };
                 }
-        
-                const productId = req.body.product_id;
-                const updatedProductDetails = req.body.updated_product_details;
-        
-                if (!productId || !updatedProductDetails) {
-                  return res.status(400).json({
-                    success: false,
-                    message: 'Invalid request format',
-                  });
-                }
-                //Upload image to cloudinary
-                const result = await cloudinary.uploader.upload(req.file.path);
 
-                await updateProductDetails(productId, updatedProductDetails, result.url);
-        
-                return res.status(200).json({
-                  success: true,
-                  message: 'Product details updated successfully',
-                });
-              } catch (error) {
-                console.error(error);
-                return res.status(500).json({
+              res.json({ shop });
+
+          } catch (error) {
+              console.error(error);
+              return res.status(500).json({
                   success: false,
                   message: 'Internal Server Error',
-                });
-              }
-
-         
-        });
-     } catch (error) {
-        console.error(error);
-    }
+              });
+          }
+      });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+          success: false,
+          message: 'Internal Server Error',
+      });
+  }
 };
+*/
+exports.deleteProductFromCart = async (req, res) => {
+  try {
+    const authorizationHeader = req.headers['authorization'];
+    const token = authorizationHeader.substring('Bearer '.length);
 
-const updateProductDetails = async (productId, updatedProductDetails) => {
-    try {
-      // Find the product by ID
-      const product = await Product.findById(productId);
-  
-      if (!product) {
-        console.log('Product not found');
-        throw new Error('Product not found');
-      }
-  
-      // Update the product details
-      Object.assign(product, updatedProductDetails);
-      
-      if (imagePath) {
-        product.image = imagePath;
-      }
-
-      // Save changes to the database
-      await product.save();
-  
-      console.log('Product details updated successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
+    if (!token) {
+      return res.status(401).json({
+        success: false,
+        message: 'Token not provided',
+      });
     }
-  };
 
-exports.vendorGetCategory = async (req, res) => {
-    try {
-        // Get data from the request body
-        const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-      
-        if (!token) {
-          return res.status(401).json({
+    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid token',
+        });
+      }
+
+      const userId = decoded.userId;
+      try {
+        // Get the product ID from the request body
+        const { productID } = req.body;
+
+        // Check if the product ID is provided
+        if (!productID) {
+          return res.status(400).json({
             success: false,
-            message: 'Token not provided',
+            message: 'Product ID is required.',
           });
         }
-      
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-          if (err) {
-            return res.status(401).json({
-              success: false,
-              message: 'Invalid token',
-            });
-          }
-      
-          try {
-            const vendorId = decoded.userId;
-            console.log('testyyy',vendorId);
-            const vendor = await Vendor.findById(vendorId)
-            .populate({
-                path: 'shop',
-                populate: {
-                path: 'category',
-                populate: {
-                    path: 'productID',
-                    options: { strictPopulate: false },
-                },
-                },
-            });
 
+        // Find the user and populate the cart
+        const user = await User.findById(userId).populate('cart');
 
+        // Get the cart from the populated user object
+        const cart = user.cart;
 
-              if (!vendor) {
-                return res.status(404).json({ message: 'Vendor not found' });
-              }
+        // Check if the user has a cart
+        if (!cart) {
+          return res.status(404).json({ message: 'Cart not found for the user' });
+        }
 
-           //   console.log('test',vendor.shop);
-              const shop = vendor.shop;
+        // Find the index of the product in the cart
+        const productIndex = cart.products.findIndex(product => product.productID.equals(productID));
 
-              if (!shop) {
-                return res.status(404).json({ message: 'Shop not found for the vendor' });
-              }
+        // Check if the product exists in the cart
+        if (productIndex === -1) {
+          return res.status(404).json({ message: 'Product not found in the cart' });
+        }
 
-              const categories = shop.category;
+        // Remove the product from the cart
+        cart.products.splice(productIndex, 1);
 
-             
-              if (!categories) {
-                return res.status(404).json({ message: 'Categories not found for the shop' });
-              }
+        // Save the updated cart
+        await cart.save();
 
-              const formattedCategories = categories.map(category => ({
-                id: category._id,
-                name: category.categoryName,
-                products: category.productID ? category.productID.map(product => ({
-                    
-                  id: product._id,
-                  name: product.name,
-                  price: product.price
-                  // ... other product fields
-                })) : [],
-              }));
-
-            //   const formattedCategories = categories.map(category => ({
-            //     id: category._id,
-            //     name: category.name,
-            //     products: category.product ? category.product.map(product => ({
-            //       id: product._id,
-            //       name: product.name,
-            //       price: product.price,
-            //       // ... other product fields
-            //     })) : [],
-            //   }));
-
-
-
-              res.json({
-                vendor: {
-                  id: vendor._id,
-                  name: vendor.name,
-                  shop: { id: shop._id, name: shop.name, categories: formattedCategories }
-                },
-              });
-
-            //   const categories = shop.category.map(category => ({
-            //     id: category._id,
-            //     name: category.name,
-            //     product: category.product.map(product => ({
-            //       id: product._id,
-            //       name: product.name,
-            //       price: product.price,
-            //       // ... other product fields
-            //     })),
-            //   }));
-
-            //   const formattedCategories = category.map(category => ({
-            //     id: category._id,
-            //     name: category.name,
-            //     products: category.product ? category.product.map(product => ({
-            //       id: product._id,
-            //       name: product.name,
-            //       price: product.price,
-            //       // ... other product fields
-            //     })) : [],
-            //   }));
-
-
-           //   res.json({ vendor: { id: vendor._id, name: vendor.name, shop: { id: shop._id, name: shop.name }, category } });
-
-      
-            // Do something with the 'vendor' object
-      
-          } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-              success: false,
-              message: 'Internal Server Error',
-            });
-          }
+        return res.status(200).json({
+          success: true,
+          message: 'Product removed from the cart successfully',
         });
       } catch (error) {
         console.error(error);
@@ -379,187 +349,134 @@ exports.vendorGetCategory = async (req, res) => {
           message: 'Internal Server Error',
         });
       }
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
 };
 
-exports.vendorDeleteItem = async (req, res) => {
-    try {
-        const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
-    
-        if (!token) {
+exports.getUserCartProducts = async (req, res) => {
+  try {
+      const authorizationHeader = req.headers['authorization'];
+      const token = authorizationHeader.substring('Bearer '.length);
+
+      if (!token) {
           return res.status(401).json({
-            success: false,
-            message: 'Token not provided',
+              success: false,
+              message: 'Token not provided',
           });
-        }
-    
-        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+      }
+
+      jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
           if (err) {
-            return res.status(401).json({
-              success: false,
-              message: 'Invalid token',
-            });
-          }
-    
-          const vendorId = decoded.userId;
-    
-          try {
-            const vendor = await Vendor.findById(vendorId);
-    
-            if (!vendor) {
-              return res.status(404).json({ message: 'Vendor not found' });
-            }
-    
-            const itemId = req.body.cat_id || req.body.product_id;
-    
-            if (!itemId) {
-              return res.status(400).json({
-                success: false,
-                message: 'Invalid request format',
+              return res.status(401).json({
+                  success: false,
+                  message: 'Invalid token',
               });
-            }
-    
-            if (req.body.cat_id) {
-              await deleteCategoryAndProducts(itemId);
-            } else if (req.body.product_id) {
-              await deleteProduct(itemId);
-            }
-    
-            return res.status(200).json({
-              success: true,
-              message: 'Item deleted successfully',
-            });
-          } catch (error) {
-            console.error(error);
-            return res.status(500).json({
-              success: false,
-              message: 'Internal Server Error',
-            });
           }
-        });
-      } catch (error) {
-        console.error(error);
-        return res.status(500).json({
+
+          try {
+              const userId = decoded.userId;
+
+              console.log("USER CARTID",userId.cart);
+              console.log("----------------------")
+
+              const user = await User.findById(userId).populate({
+                  path: 'cart',
+                  populate: {
+                      path: 'products',
+                      // populate: {
+                      //   path: 'productID',
+                        options: { strictPopulate: false },
+                      //populate: { path: 'shopID' } // Populate shop details for each product
+                  },
+                // },
+              });
+
+              console.log("USER PORDCUTS",user.products);
+
+
+              if (!user) {
+                  return res.status(404).json({ message: 'User not found' });
+              }
+
+              const cart = user.cart;
+              console.log("CART",cart);
+              if (!cart) {
+                  return res.status(404).json({ message: 'Cart not found for the user' });
+              }
+
+              // const shop = {
+              //     id: cart.shopID._id.toString(),
+              //     name: cart.shopID.name,
+              //     products: cart.products.map(item => ({
+              //         id: item.productID._id.toString(),
+              //         name: item.productID.name.toString(),
+              //         price: item.productID.price.toString(),
+              //         ProductQuantity: item.count
+              //     }))
+              // };
+              const shop = {
+                id: cart.shopID._id.toString(),
+                name: "", // Placeholder for the shop name
+                products: []
+            };
+
+            const productIDs = cart.products.map(product => product.productID);
+            console.log("PRODUCTS",productIDs);
+            const objectIdArray = productIDs.map(id => new ObjectId(id));
+            console.log("OBJECT",objectIdArray);
+            // Fetch documents based on the array of productID values
+            const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
+            console.log("PRODUCTS",products);
+
+            // Format the fetched data
+            const formattedData = products.map(product => ({
+              id: product._id.toString(), // Convert ObjectId to string
+              name: product.name,
+              price: product.price
+              // Add other fields as needed
+            }));
+            console.log("FORMatted",formattedData); 
+
+
+            // Fetch shop name
+            const shopData = await Shop.findById(cart.shopID);
+            shop.name = shopData ? shopData.name : "Shop not found";
+
+
+              for (const item of cart.products) {
+                const productData = await Product.findById(item.productID);
+                if (productData) {
+                    shop.products.push({
+                        id: item.productID._id.toString(),
+                        name: productData.name.toString(),
+                        price: productData.price.toString(),
+                        ProductQuantity: item.count
+                    });
+                  };
+                }
+                             
+
+              res.json({ shop });
+
+          } catch (error) {
+              console.error(error);
+              return res.status(500).json({
+                  success: false,
+                  message: 'Internal Server Error',
+              });
+          }
+      });
+  } catch (error) {
+      console.error(error);
+      return res.status(500).json({
           success: false,
           message: 'Internal Server Error',
-        });
-      }
+      });
+  }
 };
-
-
-const deleteCategoryAndProducts = async (categoryId) => {
-    try {
-      // Find the category by ID
-      const category = await Category.findById(categoryId);
-  
-      if (!category) {
-        console.log('Category not found');
-        throw new Error('Category not found');
-      }
-  
-      // Remove all products associated with the category
-      await Product.deleteMany({ _id: { $in: category.productID } });
-      
-      // Remove the category itself
-    //   await category.remove();
-      const result = await Category.findOneAndDelete({ _id: categoryId });
-      console.log('Category---------',result);
-      
-      if (!result) {
-        console.log('Category not found');
-        throw new Error('Category not found');
-      }
-  
-      // Remove the product
-      console.log('Category deleted successfully');
-
-      console.log('Category and products deleted successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
-  
-  const deleteProduct = async (productId) => {
-    try {
-      // Find the product by ID
-    //   const result  = await Product.findByIdAndRemove(productId);
-      const result = await Product.findOneAndDelete({ _id: productId });
-  
-      if (!result) {
-        console.log('Product not found');
-        throw new Error('Product not found');
-      }
-  
-      // Remove the product
-      console.log('Product deleted successfully');
-  
-      console.log('Product deleted successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
-
-const addCategoryAndProducts = async (vendorId, shopName, categoryData) => {
-    try {
-      // Find the vendor by ID
-      const vendor = await Vendor.findById(vendorId);
-  
-      if (!vendor) {
-        console.log('Vendor not found');
-        return;
-      }
-  
-      // Find or create the shop based on the name
-      let shop = await Shop.findOne({ name: shopName });
-      console.log('shop found',shop);
-      if (!shop) {
-        shop = await Shop.create({ name: shopName });
-      }
-  
-      // Iterate through the category data and insert into the database
-     
-      console.log('category data',categoryData);
-
-      for (const categoryName in categoryData) {
-        const productData = categoryData[categoryName];
-  
-        // Create the category
-        const category = await Category.create({ categoryName: categoryName });
-  
-        // Iterate through product data and insert into the database
-        for (const productName in productData) {
-          const productDetails = productData[productName];
-  
-          // Create the product
-          const product = await Product.create({
-            name: productName,
-            price: productDetails.price,
-            count: productDetails.count,
-            returnable: productDetails.returnable,
-            // ... other product fields
-          });
-  
-          // Add the product to the category
-          category.productID.push(product._id);
-        }
-        await category.save();
-        // Add the category to the shop
-        shop.category.push(category._id);
-      }
-  
-      // Save changes to the database
-      await shop.save();
-     
-  
-      // Associate the shop with the vendor
-      vendor.shop = shop._id;
-      await vendor.save();
-  
-      console.log('Category and product data added successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      // Handle the error, e.g., return an error response
-    }
-  };

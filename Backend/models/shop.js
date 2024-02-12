@@ -14,7 +14,7 @@ const shopSchema = new mongoose.Schema({
     },
     addressId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Address',
+        ref: 'Address', 
     },
     category: [ 
         { 
