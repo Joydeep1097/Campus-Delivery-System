@@ -50,7 +50,8 @@ const ShopListPage = () => {
         {shops.map((shop) => (
           <li key={shop.id} className="shop-card">
             <div className="shop-image">
-              <img src={shop.image} alt={shop.name} />
+            {shop.image ? <img src={shop.image} alt={shop.name} /> :
+                                  <img src="images/defaultproduct.png" alt="not here" />}
             </div>
             <div className="shop-details">
               <h3>{shop.name}</h3>
