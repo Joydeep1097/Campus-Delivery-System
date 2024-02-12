@@ -149,7 +149,6 @@ exports.vendorUpdateProductDetail = async (req, res) => {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
         const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -172,7 +171,6 @@ exports.vendorUpdateProductDetail = async (req, res) => {
                 if (!vendor) {
                   return res.status(404).json({ message: 'Vendor not found' });
                 }
-        
                 const productId = req.body.product_id;
                 const updatedProductDetails = req.body.updated_product_details;
         
@@ -238,8 +236,7 @@ exports.vendorAddProduct = async (req, res) => {
     try {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
-        const token = authorizationHeader.substring('Bearer '.length);
-        console.log(token);
+        authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
         if (!token) {
             return res.status(401).json({
                 success: false,
@@ -262,10 +259,8 @@ exports.vendorAddProduct = async (req, res) => {
                 if (!vendor) {
                   return res.status(404).json({ message: 'Vendor not found' });
                 }
-        
                 const categoryId = req.body.cat_id;
                 const productDetails = req.body[categoryId];
-        
                 if (!categoryId || !productDetails) {
                   return res.status(400).json({
                     success: false,
