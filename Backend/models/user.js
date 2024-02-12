@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
             ref:"Order", 
         } 
     ], 
+    cart: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Cart', 
+    },
     // image: {
     //     type: String,
     //     required: true
