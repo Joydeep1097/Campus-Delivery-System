@@ -140,12 +140,11 @@ const VendorHomePage = (props) => {
             <h4>{vendor.shop.categories.find((c) => c.id === selectedCategory)?.name}</h4>
             <div className="product-list">
               {vendor.shop.categories.find((c) => c.id === selectedCategory)?.products.map((product) => (
-                <div key={product.id} className="product-card">
+                <div key={product.id} className="product-card" onClick={() => handleUpdateProduct(product.id)}>
+                  {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
+                                <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
                   <h5>{product.name}</h5>
                   <p>Rs.{product.price}</p>
-                  <button type="button" onClick={() => handleUpdateProduct(product.id)}>
-                    Update
-                  </button>
                 </div>
               ))}
             </div>

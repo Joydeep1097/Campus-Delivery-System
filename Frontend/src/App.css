@@ -541,6 +541,20 @@ button3:hover {
 .back{
 padding: 0px;  
 }
+.popup{
+  position: relative;
+}
+.popup-content{
+  position: absolute; /* Position popup absolutely */
+  top: 100%; /* Position at the vertical center of the viewport */
+  left: 50%; /* Position at the horizontal center of the viewport */
+  transform: translate(-50%, -50%); /* Center the popup */
+  background-color: #e3dcdc; /* Popup background color */
+  border: 1px solid #ccc; /* Popup border */
+  padding: 20px; /* Popup padding */
+  box-shadow: 10 10 10 10px rgba(232, 46, 46, 0.1); /* Popup shadow */
+  z-index: 9999; /* Ensure popup is on top of other content */
+}
 .popup-message {
   position: fixed;
   top: 20px;
