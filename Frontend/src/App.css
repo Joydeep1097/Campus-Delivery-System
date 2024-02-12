@@ -120,7 +120,7 @@
 
 /*login signup css*/
 .outer {
-  background-image: url('../public/images/background2.jpg');
+  background-image: url('../public/images/background.jpg');
   background-color: #000000;
   min-height: 100vh;
   padding: 50px;
@@ -140,7 +140,7 @@
   margin: 0px auto;
   padding: 20px;
   /*background-image: url('../public/images/wood.jpg');*/
-  background-color: #f1eef3;
+  background-color: #e8cff8;
   box-shadow: 100px 100px 100px rgba(122, 80, 128, 0.1);
   border-radius: 5px;
   font-size: x-large;
@@ -242,7 +242,7 @@ button:hover {
   background-color: #f8e8e8;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 10 10 10 10px rgba(207, 11, 11, 0.1);
   transition: transform 0.2s ease-in-out;
 
   &:hover {

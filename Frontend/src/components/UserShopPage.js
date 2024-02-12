@@ -5,6 +5,8 @@ const UserShopPage = (props) => {
   const [searchString, setSearchString] = useState('')
   const [searchResult, setSearchResult] = useState('')
   const [shop, setShop] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [cartback, setCartback] = useState([]);
   const [input1, setInput1] = useState('');
   const [product, setProduct] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -12,9 +14,32 @@ const UserShopPage = (props) => {
   const itemsPerPage = 4;
   const [currentPagecategory, setCurrentPagecategory] = useState(1);
   const itemsPerPagecategory = 5;
+  const getCartback =(cartback)=>{
+    setCartback(cartback);
+    console.log(cartback)
+  };
   useEffect(() => {
     setSearchString(input1)
   }, [input1]);
+  useEffect(() => {
+    const cartdata = async () => {
+      // Implement logic to fetch from cart
+      const utoken = localStorage.getItem("token");
+      try {
+        const response = await fetch('http://localhost:27017/api/v1/getUserCartProducts', {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+          
+        });
+        const data = await response.json();
+        setCart(data.shop.products);
+        console.log(data.shop.products.length);
+      } catch (error) {
+        console.error('Error fetching shops:', error);
+      }
+    };
+    cartdata();
+  }, [cartback]);
   useEffect(() => {
     const fetchShopData = async () => {
       const utoken = localStorage.getItem("token");
@@ -34,7 +59,6 @@ const UserShopPage = (props) => {
         console.error('Error fetching shops:', error);
       }
     };
-
     fetchShopData();
   }, [props.id]);
   // Calculate the index range for the current page
@@ -42,6 +66,9 @@ const UserShopPage = (props) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // Function to change the current page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  
+  
+
   const search =()=>{
     setSelectedCategory(null);
     console.log(input1)
@@ -89,7 +116,7 @@ const UserShopPage = (props) => {
             <input onChange={(e) => {e.preventDefault(); setInput1(e.target.value) }} type="text" placeholder="Search..." />
             <button type="button" onClick={search} >🔍Search</button>
           </div>
-          <Cart count={ShowProduct.count} />
+          <Cart cart={cart} />
           <div>
             <h3>Categories</h3>
             <select value={selectedCategory} onChange={(e) => { if (e.target.value !== "All") { setSelectedCategory(e.target.value); paginate(1); setProduct([]); setSearchString([])} else { setSelectedCategory(null); paginate(1); setProduct([]);setSearchString([]) } }}>
@@ -103,7 +130,7 @@ const UserShopPage = (props) => {
           </div>
         </div>
         <div>
-          {product.id ? <div><br /><button3 onClick={goBack}>&lt;</button3> <ShowProduct product={product} shopId={props.id} /></div> :
+          {product.id ? <div><br /><button3 onClick={goBack}>&lt;</button3> <ShowProduct product={product} shopId={props.id} onSubmit={getCartback} /></div> :
             <div>
               <div className="pagination">
                 <p>Pages</p>
