@@ -115,10 +115,10 @@ exports.vendorOrderHistory = async (req, res) => {
                 shopID: order.shopID,
                 timestamp: order.Timestamp,
                 products: order.products? order.products.map(product => ({
-                    productDetails: product.productID,//._id, // Assuming products is an object with a productID property
-                    // productName: product.productID,//.name, // Assuming products is an object with a name property
-                    // productPrice: product.productID,//.price, // Assuming products is an object with a price property
-                    count: product.count
+                    productId: product.productID._id, // Assuming products is an object with a productID property
+                    productName: product.productID.name, // Assuming products is an object with a name property
+                    productPrice: product.productID.price, // Assuming products is an object with a price property
+                    count: product.count,
                 })):[],
             }));
 

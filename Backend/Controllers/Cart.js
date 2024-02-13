@@ -48,7 +48,7 @@ exports.addToCart = async (req, res) => {
 
         // Get the cart from the populated user object
         let cart = user.cart;
-        console.log("Cart", cart)
+        console.log("Cart", cart);
 
 
         // If the user has a cart and its shopID matches the input shopID

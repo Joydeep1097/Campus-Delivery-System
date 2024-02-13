@@ -453,8 +453,8 @@ exports.vendorGetCategory = async (req, res) => {
             //     })) : [],
             //   }));
 
-
-
+            
+            
               res.json({
                 vendor: {
                   id: vendor._id,
