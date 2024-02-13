@@ -68,7 +68,9 @@ const VendorPage = () => {
       setflag(result.token);
       setName(result.vendor.name)
     }
-    
+    else if(result.message==="Invalid credentials, ID and password does not match"){
+      alert("Incorrect email or password");
+    }
     } catch (error) {
       // Handle errors (show an error message to the user)
       console.error(error.response.data);

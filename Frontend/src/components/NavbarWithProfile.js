@@ -1,7 +1,7 @@
 // NavbarWithProfile.js
 
 import React, { useState } from 'react';
-import Cart from './Cart';
+import { Link } from 'react-router-dom';
 
 const NavbarWithProfile = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,7 +17,9 @@ const NavbarWithProfile = (props) => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src="images\campus-bazar-high-resolution-logo-transparent.svg" alt="Campus Bazar Logo" className='logo' />
+      <Link to="/">
+          <img src="/images/campus-bazar-high-resolution-logo-transparent.svg" alt="logo" className="logo"/>
+        </Link>
       </div>
       <div className={`navbar-menu ${isMenuOpen ? 'open' : ''}`}>
       <br />

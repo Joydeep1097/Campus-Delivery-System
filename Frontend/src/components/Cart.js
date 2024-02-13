@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-const Cart = () => {
+const Cart = (props) => {
   const [cartItems, setCartItems] = useState([]);
 
   // Function to add an item to the cart
@@ -20,10 +20,11 @@ const Cart = () => {
 
   return (
     <div className="user-name">
-      <div className="cart-icon" onClick={() => alert('Open cart or show dropdown')}>
+      <div className="cart-icon" onClick={() => alert(props.cart[0].name)}>
         🛒
       </div>
-      <div className="cart-count">{cartItems.length}</div>
+      {console.log(props.cart)}
+      <div className="cart-count">{props.cart.length}</div>
     </div>
   );
 };
