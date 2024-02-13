@@ -26,7 +26,7 @@ exports.vendorOrderHistory = async (req, res) => {
             });
         }
         jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-           
+
             if (err) {
                 return res.status(401).json({
                 success: false,
@@ -60,7 +60,7 @@ exports.vendorOrderHistory = async (req, res) => {
                 path: 'products.productID',
                 select: 'name price image', // Select only the fields you need
             });
-    
+
             // console.log("orders",orders);
             // Map orders to desired format
             // const formattedOrders = orders.map(order => ({
@@ -86,7 +86,7 @@ exports.vendorOrderHistory = async (req, res) => {
 
 
             // const formattedOrders = orders.map(order => ({
-                
+
             //     orderId: order._id,
             //     shopID: order.shopID,
             //     timestamp: order.Timestamp,
@@ -121,9 +121,9 @@ exports.vendorOrderHistory = async (req, res) => {
                     count: product.count,
                 })):[],
             }));
-            
+
             // console.log(formattedOrders1);
-                
+
             //
             // const formattedOrders = orders.map(order => ({
             //     orderId: order._id,

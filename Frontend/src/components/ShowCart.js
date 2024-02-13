@@ -42,6 +42,9 @@ const ShowCart = (props) => {
         }
     };
 
+    // Calculate total amount to be paid
+    const totalAmount = cart.reduce((total, item) => total + (item.price * item.ProductQuantity), 0);
+
     return (
         <div className="cart-container1">
             <div>
@@ -61,9 +64,11 @@ const ShowCart = (props) => {
                                     <p>Price: Rs.{item.price}</p>
                                     <p>Quantity: {item.ProductQuantity}</p>
                                 </div>
-                                <button3 onClick={() => handledrop(item.id)}>Remove</button3>
+                                <button3 onClick={() => handledrop(item.id)}>Drop</button3>
                             </div>
                         ))}
+                        <div className="total-amount">Total Amount: Rs.{totalAmount.toFixed(2)}</div>
+                        <br />
                         <button4>Place Order</button4>
                     </div>
                 )}
