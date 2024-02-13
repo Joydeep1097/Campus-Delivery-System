@@ -6,7 +6,6 @@ const Shop = require("../models/shop");
 const Order = require("../models/order");
 const Cart = require('../models/cart');
 const jwt = require('jsonwebtoken');
-const { image } = require("../config/cloudinary");
 const ObjectId = require('mongodb').ObjectId;
 
 
@@ -429,13 +428,6 @@ exports.getUserCartProducts = async (req, res) => {
             };
 
             const productIDs = cart.products.map(product => product.productID);
-<<<<<<< HEAD
-            const objectIdArray = productIDs.map(id => new ObjectId(id));
-            // Fetch documents based on the array of productID values
-            // const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
-            const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
-            
-=======
             // console.log("PRODUCTS",productIDs);
             const objectIdArray = productIDs.map(id => new ObjectId(id));
             // console.log("OBJECT",objectIdArray);
@@ -443,7 +435,6 @@ exports.getUserCartProducts = async (req, res) => {
             // const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
             const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
             // console.log("PRODUCTS",products);
->>>>>>> 7f14e645a320680cf22dddaf8fb8ae2d11010c1f
 
             // Format the fetched data
             const formattedData = products.map(product => ({

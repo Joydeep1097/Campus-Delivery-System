@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1,
-        max: 9999999999, 
+        max: 9999999999, // Assuming 10 digits for the price
     },
     count: {
         type: Number,
