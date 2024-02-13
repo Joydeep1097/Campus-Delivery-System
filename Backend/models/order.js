@@ -17,10 +17,10 @@ const orderSchema = new mongoose.Schema({
                 ref: "Product",
                 required: true,
             },
-            Rating: {
-                type : mongoose.Schema.Types.ObjectId,
-                ref : "Rating",
-            },
+            // Rating: {
+            //     type : mongoose.Schema.Types.ObjectId,
+            //     ref : "Rating",
+            // },
             count: {
                 type: Number,
                 required: true,
@@ -35,9 +35,9 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Accepted', 'Rejected','InTransit','Pending', 'Delivered'],
+        // enum: ['Accepted', 'Rejected','InTransit','Pending', 'Delivered'],
         required: true,
-        default:'Pending',
+        default:'Accepted',
     }
 });
 
