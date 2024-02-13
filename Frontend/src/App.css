@@ -204,7 +204,7 @@ button {
   min-width: 80px;
   min-height: 50px;
   border-radius: 100px;
-  opacity: 50%;
+  
   /* Take full width */
 }
 
@@ -546,14 +546,14 @@ padding: 0px;
 }
 .popup-content{
   position: absolute; /* Position popup absolutely */
-  top: 100%; /* Position at the vertical center of the viewport */
+  top: 50%; /* Position at the vertical center of the viewport */
   left: 50%; /* Position at the horizontal center of the viewport */
   transform: translate(-50%, -50%); /* Center the popup */
   background-color: #e3dcdc; /* Popup background color */
   border: 1px solid #ccc; /* Popup border */
   padding: 20px; /* Popup padding */
   box-shadow: 10 10 10 10px rgba(232, 46, 46, 0.1); /* Popup shadow */
-  z-index: 9999; /* Ensure popup is on top of other content */
+  z-index: 9990; /* Ensure popup is on top of other content */
 }
 .popup-message {
   position: fixed;
@@ -566,4 +566,76 @@ padding: 0px;
   padding: 16px;
   border-radius: 5px;
   z-index: 9999; /* Ensure it's on top of other elements */
+}
+
+/*Cart*/
+.popup-content1{
+  position: fixed; /* Position popup absolutely */
+  background-color: #cde6e4;
+  padding: 10px;
+  display: flex;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  bottom: 0.2;
+  right: 0;
+  width: 50%;
+  max-height: 80vh;
+  border-radius: 10px;
+  border-color: #1500ff;
+}
+.cart-item {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.cart-item img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+.item-details p {
+  margin: 0;
+  color: #777;
+}
+
+.item-details p:last-child {
+  margin-top: 5px;
+  font-weight: bold;
+}
+button3{
+  height: fit-content;
+  width: fit-content;
+  background-color: #9d3e3edf;
+}
+button4{
+  height: 300px;
+  width: fit-content;
+  background-color: #f5db6f;
+  border: none;
+  color: #06031d; /* Adjust the color as needed */
+  font-size: 36px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  
+}
+
+button4:hover {
+  background-color: #d5f786;
 }
