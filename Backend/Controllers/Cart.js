@@ -428,13 +428,13 @@ exports.getUserCartProducts = async (req, res) => {
             };
 
             const productIDs = cart.products.map(product => product.productID);
-            console.log("PRODUCTS",productIDs);
+            // console.log("PRODUCTS",productIDs);
             const objectIdArray = productIDs.map(id => new ObjectId(id));
-            console.log("OBJECT",objectIdArray);
+            // console.log("OBJECT",objectIdArray);
             // Fetch documents based on the array of productID values
             // const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
             const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
-            console.log("PRODUCTS",products);
+            // console.log("PRODUCTS",products);
 
             // Format the fetched data
             const formattedData = products.map(product => ({

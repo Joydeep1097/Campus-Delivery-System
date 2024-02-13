@@ -233,7 +233,8 @@ exports.searchProduct = async (req, res) => {
             .map(product => ({
                 id: product._id,
                 name: product.name,
-                price: product.price
+                price: product.price,
+                image: product.image
                 // ... other product fields
             })) : [],
     }))

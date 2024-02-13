@@ -436,7 +436,8 @@ exports.vendorGetCategory = async (req, res) => {
                     
                   id: product._id,
                   name: product.name,
-                  price: product.price
+                  price: product.price,
+                  image: product.image
                   // ... other product fields
                 })) : [],
               }));
