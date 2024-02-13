@@ -373,7 +373,7 @@ const addProductToCategory = async (categoryId, productDetails, imagePath) => {
       throw error;
     }
   };
-  
+
 exports.vendorGetCategory = async (req, res) => {
     try {
         // Get data from the request body
@@ -453,6 +453,8 @@ exports.vendorGetCategory = async (req, res) => {
             //     })) : [],
             //   }));
 
+
+            
               res.json({
                 vendor: {
                   id: vendor._id,

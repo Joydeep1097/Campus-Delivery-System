@@ -119,7 +119,6 @@ exports.vendorOrderHistory = async (req, res) => {
                     productName: product.productID.name, // Assuming products is an object with a name property
                     productPrice: product.productID.price, // Assuming products is an object with a price property
                     count: product.count,
-                    productImage: product.productID.image,
                 })):[],
             }));
             
