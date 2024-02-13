@@ -440,7 +440,8 @@ exports.getUserCartProducts = async (req, res) => {
             const formattedData = products.map(product => ({
               id: product._id.toString(), // Convert ObjectId to string
               name: product.name,
-              price: product.price
+              price: product.price,
+              image: product.image
               // Add other fields as needed
             }));
             console.log("FORMatted",formattedData); 
@@ -458,6 +459,7 @@ exports.getUserCartProducts = async (req, res) => {
                         id: item.productID._id.toString(),
                         name: productData.name.toString(),
                         price: productData.price.toString(),
+                        image: productData.image,
                         ProductQuantity: item.count
                     });
                   };
