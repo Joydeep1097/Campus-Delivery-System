@@ -318,6 +318,29 @@ exports.vendorAddProduct = async (req, res) => {
     }
 };
 
+const updateCategoryName = async (categoryId, newCategoryName) => {
+    try {
+      // Find the category by ID
+      const category = await Category.findById(categoryId);
+  
+      if (!category) {
+        console.log('Category not found');
+        throw new Error('Category not found');
+      }
+  
+      // Update the category name
+      category.categoryName = newCategoryName;
+  
+      // Save changes to the database
+      await category.save();
+  
+      console.log('Category name updated successfully');
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  };
+
 const addProductToCategory = async (categoryId, productDetails, imagePath) => {
     try {
       // Find the category by ID
@@ -351,29 +374,6 @@ const addProductToCategory = async (categoryId, productDetails, imagePath) => {
     }
   };
 
-  const updateCategoryName = async (categoryId, newCategoryName) => {
-    try {
-      // Find the category by ID
-      const category = await Category.findById(categoryId);
-  
-      if (!category) {
-        console.log('Category not found');
-        throw new Error('Category not found');
-      }
-  
-      // Update the category name
-      category.categoryName = newCategoryName;
-  
-      // Save changes to the database
-      await category.save();
-  
-      console.log('Category name updated successfully');
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
-  
 exports.vendorGetCategory = async (req, res) => {
     try {
         // Get data from the request body
@@ -452,6 +452,8 @@ exports.vendorGetCategory = async (req, res) => {
             //       // ... other product fields
             //     })) : [],
             //   }));
+
+
 
               res.json({
                 vendor: {
