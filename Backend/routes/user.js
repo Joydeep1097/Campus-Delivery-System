@@ -9,6 +9,7 @@ const { placeOrder } = require("../Controllers/order");
 const { updateOrderStatus} = require("../Controllers/VendorOrderConfiguration");
 const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory} = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
+const {vendorOrderHistory} = require("../Controllers/vendorOrder");
 
 const upload = require("../middlewares/multer");
 
@@ -45,6 +46,7 @@ router.post("/vendor/update-product-details",upload.single("image"), vendorUpdat
 router.get("/vendor/validateTokenVendor",validateTokenVendor);
 // router.post("/vendor/acceptOrder",vendorLogin);
 // router.post("/vendor/updateOrderStatus",vendorLogin);
+router.post("/vendor/vendorOrderHistory",vendorOrderHistory);
 
 
 

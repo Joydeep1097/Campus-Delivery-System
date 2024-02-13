@@ -1,30 +1,42 @@
-// Cart.js
-
 import React, { useState } from 'react';
+import ShowCart from './ShowCart';
 
 const Cart = (props) => {
-  const [cartItems, setCartItems] = useState([]);
-
-  // Function to add an item to the cart
-  const addToCart = (item) => {
-    console.log(item)
-    setCartItems([...cartItems, item]);
+  const [showcartItems, setshowCartItems] = useState(0);
+  const [showcategoryPopup, setShowcategoryPopup] = useState(false);
+  const [cartback, setCartback] = useState([]);
+  //setCartback(props.cart);
+  //const getCartback =(cartback)=>{
+   // setCartback(cartback);
+   // console.log(cartback)
+  //};
+  const handlePopupClose = () => {
+    setShowcategoryPopup(false);
+    setshowCartItems(0);
   };
-
-  // Function to remove an item from the cart
-  const removeFromCart = (index) => {
-    const updatedCart = [...cartItems];
-    updatedCart.splice(index, 1);
-    setCartItems(updatedCart);
+  const handlecartclick = () => {
+    setShowcategoryPopup(true);
+    setshowCartItems(1);
   };
-
   return (
-    <div className="user-name">
-      <div className="cart-icon" onClick={() => alert(props.cart[0].name)}>
-        🛒
-      </div>
-      {console.log(props.cart)}
-      <div className="cart-count">{props.cart.length}</div>
+    <div>
+      {showcartItems ? 
+      showcategoryPopup &&  (
+        <div className="popup">
+          <div className="popup-content1">
+            <span className="close" onClick={handlePopupClose}>&times;</span>
+            <ShowCart cartItems={props.cart} /*onSubmit={getCartback}*/ />
+          </div>
+        </div>
+      ) : (
+        <div className="user-name">
+          <div className="cart-icon" onClick={() => handlecartclick() }>
+            🛒
+            <div className="cart-count">{props.cart.length}</div>
+          </div>
+          
+        </div>
+      )}
     </div>
   );
 };
