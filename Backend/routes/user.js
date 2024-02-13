@@ -5,7 +5,7 @@ const router = express.Router();
 const {userSignup, userLogin ,getShopList } = require("../Controllers/Auth");
 const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
 const { addToCart, updateProductCountInCart, deleteProductFromCart, getUserCartProducts} = require("../Controllers/Cart");
-
+const { updateOrderStatus} = require("../Controllers/VendorOrderConfiguration");
 const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory} = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
 const {vendorOrderHistory} = require("../Controllers/vendorOrder");
@@ -39,6 +39,7 @@ router.post("/vendor/addcategoryproduct",vendorCategory);
 router.post("/vendor/add-product", upload.single("image"), vendorAddProduct);  //given the category name
 router.delete("/vendor/delete-item",vendorDeleteItem);
 router.post("/vendor/update-category-name",vendorUpdateCategoryName);
+router.post("/vendor/updateOrderStatus",updateOrderStatus);
 router.post("/vendor/update-product-details",upload.single("image"), vendorUpdateProductDetail);
 router.get("/vendor/validateTokenVendor",validateTokenVendor);
 // router.post("/vendor/acceptOrder",vendorLogin);
