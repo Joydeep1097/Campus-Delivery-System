@@ -36,9 +36,8 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['Accepted', 'Rejected','InTransit','Pending', 'Delivered'],
-        required: true,
-        default:'Pending',
-    }
+        default:'Accepted',
+    },
 });
 
 module.exports = mongoose.model("Order", orderSchema);
