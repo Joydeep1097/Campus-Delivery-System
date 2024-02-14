@@ -11,14 +11,15 @@ const UserOrderPopup = (props) => {
                 <div>
                     {props.orders.map((order, index) => (
                         <div key={index}>
-                            <p><strong>Timestamp:</strong> {order.Timestamp}</p>
-                            <p><strong>Status:</strong> {order.status}</p>
+                            <p><strong>Order Id::</strong> {order._id}</p>
+                            <p><strong>Shop Name::</strong> {order.shopID.name}</p>
+                            <p>Timestamp: {order.Timestamp}</p>
+                            <p>Status: {order.status}</p>
                             <h3>Products:</h3>
                             {order.products.map((product, idx) => (
                                 <div key={idx}>
                                     {product.productID ?
                                         (<div>
-
                                             <p>Name: {product.productID.name}</p>
                                             <p>Price: {product.productID.price}</p>
                                             <p>Count: {product.count}</p>

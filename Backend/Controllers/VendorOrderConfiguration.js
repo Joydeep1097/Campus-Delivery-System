@@ -7,7 +7,7 @@ const Product = require("../models/Product");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
 const cloudinary = require("../config/cloudinary");
 const upload = require("../middlewares/multer");
-const { generateToken } = require("../utils/authUtils");
+const { generateToken } = require("../Utils/authUtils");
 const jwt = require('jsonwebtoken');
 const Order = require('../models/order');
 

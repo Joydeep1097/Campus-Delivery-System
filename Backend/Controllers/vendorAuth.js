@@ -3,7 +3,7 @@ const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
-const { generateToken } = require("../utils/authUtils");
+const { generateToken } = require("../Utils/authUtils");
 
 exports.vendorSignup = async (req, res) => {
     try {
