@@ -9,6 +9,7 @@ const { updateOrderStatus} = require("../Controllers/VendorOrderConfiguration");
 const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory} = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
 const {vendorOrderHistory} = require("../Controllers/vendorOrder");
+const { placeOrder } = require("../Controllers/order");
 
 const upload = require("../middlewares/multer");
 
@@ -24,7 +25,8 @@ router.post("/addToCart",addToCart);
 router.post("/updateProductCountInCart",updateProductCountInCart); 
 router.post("/searchProduct", searchProduct); 
 router.get("/getUserCartProducts",getUserCartProducts); 
-router.post("/deleteProductFromCart",deleteProductFromCart); 
+router.post("/deleteProductFromCart",deleteProductFromCart);
+router.post("/placeOrder",placeOrder); 
 
 // router.post("/getProductList", userchangePassword); 
 // router.post("/searchProduct", userchangePassword); 
