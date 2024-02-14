@@ -51,6 +51,7 @@ exports.placeOrder = async (req, res) => {
             });
 
             await newOrder.save();
+            await User.findByIdAndUpdate(userId, { $push: { orders: newOrder._id } });
             await Cart.findByIdAndDelete(cartId);
 
             return res.status(201).json({ success: true, message: 'Order placed successfully', order: newOrder });

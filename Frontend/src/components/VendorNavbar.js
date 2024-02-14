@@ -14,7 +14,7 @@ const VendorNavbar = (props) => {
   const viewOrders = async () => {
     const utoken = localStorage.getItem("token");
     try {
-      const response = await fetch('http://localhost:27017/api/v1/vendor/vendorOrderHistory', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/vendorOrderHistory', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
       });

@@ -65,23 +65,21 @@ const ShopRegistration = (props) => {
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
       // Make a POST request to the backend API
-      const response = await fetch('http://localhost:27017/api/v1/vendor/signup', {
-        method: 'POST',
-        body: formData
-      });
-      const result = await response.json();
-      console.log(result);
-      if (result.success === true) {
-        alert("Successful. You can now Log in to your account");
-        setGotologin(1);
-      }
-      else if (result.message === "User already exists") {
-        alert("already registerd. Go for log in");
-        setGotologin(1);
-      }
-      else {
-        alert("Sorry we are facing some problem. Please try again after some time");
-      }
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/signup', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await response.json();
+    console.log(result);
+    if(result.success===true){
+      alert("Successful. You can now Log in to your account");
+    }
+    else if(result.message==="User already exists"){
+      alert("already registerd. Go for log in");
+    }
+    else{
+      alert("Sorry we are facing some problem. Please try again after some time");
+    }
     } catch (error) {
       // Handle errors (show an error message to the user)
       console.log(error.response.data);

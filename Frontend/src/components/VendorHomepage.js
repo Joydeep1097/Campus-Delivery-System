@@ -20,7 +20,7 @@ const VendorHomePage = (props) => {
     const fetchShopData = async () => {
       const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/allProductperCategoryShop', {
+        const response = await fetch('http://43.204.192.134:27017/api/v1/allProductperCategoryShop', {
           method: 'GET',
           headers: { Authorization: `Bearer ${utoken}` }
         });
@@ -51,7 +51,7 @@ const VendorHomePage = (props) => {
         }
       };
 
-      const response = await fetch('http://localhost:27017/api/v1/vendor/addcategoryproduct', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/addcategoryproduct', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -87,7 +87,7 @@ const VendorHomePage = (props) => {
       for (const entry of formData.entries()) {
         console.log(entry);
       }
-      const response = await fetch('http://localhost:27017/api/v1/vendor/add-product', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/add-product', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}` },
         body: formData
@@ -137,7 +137,7 @@ const VendorHomePage = (props) => {
         "product_id": productId
       };
       const utoken = localStorage.getItem("token");
-      const response = await fetch('http://localhost:27017/api/v1/vendor/delete-item', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/delete-item', {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

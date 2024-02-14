@@ -16,7 +16,7 @@ const VendorPage = () => {
         const utoken = localStorage.getItem("token");
         try {
           
-          const response = await fetch('http://localhost:27017/api/v1/vendor/validateTokenVendor', {
+          const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/validateTokenVendor', {
             method: 'GET',
             headers: { Authorization: `Bearer ${utoken}` }
           });
@@ -54,7 +54,7 @@ const VendorPage = () => {
 
       }
       //console.log(JSON.stringify(data));
-      const response = await fetch('http://localhost:27017/api/v1/vendor/login', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/login', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {
