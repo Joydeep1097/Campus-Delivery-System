@@ -4,7 +4,7 @@ const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const User = require("../models/user");
 const Category = require("../models/category");
-const Product = require("../models/Product");
+const Product = require("../models/product");
 const razorpayInstance = require("../config/razorpay");
 
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
