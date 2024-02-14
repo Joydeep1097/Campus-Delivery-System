@@ -14,7 +14,14 @@ const UserShopPage = (props) => {
   const itemsPerPage = 4;
   const [currentPagecategory, setCurrentPagecategory] = useState(1);
   const itemsPerPagecategory = 5;
-  const getCartback =(cartback)=>{
+  const resetall =  () => {
+    setSelectedCategory(null);
+    paginate(1);
+    setProduct([]);
+    setSearchString('');
+    setSearchResult('');
+  };
+  const getCartback = (cartback) => {
     setCartback(cartback);
     console.log(cartback)
   };
@@ -29,7 +36,7 @@ const UserShopPage = (props) => {
         const response = await fetch('http://localhost:27017/api/v1/getUserCartProducts', {
           method: 'GET',
           headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
-          
+
         });
         const data = await response.json();
         setCart(data.shop.products);
@@ -66,12 +73,10 @@ const UserShopPage = (props) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // Function to change the current page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  
-  
 
-  const search =()=>{
+  const search = () => {
     setSelectedCategory(null);
-    console.log(input1)
+    console.log(selectedCategory)
     setSearchString(input1)
     console.log(searchString)
     search1();
@@ -83,24 +88,26 @@ const UserShopPage = (props) => {
       "shopId": shop.id,
       "searchString": searchString
     };
-    if(searchString!=''){
-    try {
-      const response = await fetch('http://localhost:27017/api/v1/searchProduct', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      const data = await response.json();
-      setSearchResult(data.shop.shop)
-      console.log(searchResult.categories)
-    } catch (error) {
-      console.error('Error fetching shops:', error);
-    }}
+    if (searchString != '') {
+      try {
+        const response = await fetch('http://localhost:27017/api/v1/searchProduct', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        setSearchResult(data.shop.shop)
+        setSearchString(null)
+        console.log(searchResult.categories)
+      } catch (error) {
+        console.error('Error fetching shops:', error);
+      }
+    }
   };
   const goBack = () => {
-    // Implement logic to add the product to the cart
     setProduct([]);
   };
+  
   const indexOfLastItemcategory = currentPagecategory * itemsPerPagecategory;
   const indexOfFirstItemcategory = indexOfLastItemcategory - itemsPerPagecategory;
   // Function to change the current page
@@ -110,16 +117,16 @@ const UserShopPage = (props) => {
       <div>
         <div className="side-panel">
           <header>
-            <h1>{shop.name}</h1>
+            <h1 onClick={resetall} style={{cursor: "pointer",color: "blueviolet"}}>{shop.name}</h1>
           </header>
           <div className="search-bar">
-            <input onChange={(e) => {e.preventDefault(); setInput1(e.target.value) }} type="text" placeholder="Search..." />
+            <input onChange={(e) => { e.preventDefault(); setInput1(e.target.value) }} type="text" placeholder="Search..." />
             <button type="button" onClick={search} >🔍Search</button>
           </div>
           <Cart cart={cart} />
           <div>
             <h3>Categories</h3>
-            <select value={selectedCategory} onChange={(e) => { if (e.target.value !== "All") { setSelectedCategory(e.target.value); paginate(1); setProduct([]); setSearchString([])} else { setSelectedCategory(null); paginate(1); setProduct([]);setSearchString([]) } }}>
+            <select value={selectedCategory} onChange={(e) => { if (e.target.value !== "All") { setSelectedCategory(e.target.value); paginate(1); setProduct([]); setSearchString(''); setSearchResult('') } else { setSelectedCategory(null); paginate(1); setProduct([]); setSearchString(''); setSearchResult('') } }}>
               <option value={null}>All</option>
               {shop.categories?.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -143,75 +150,76 @@ const UserShopPage = (props) => {
 
               <div className='page'>
                 <main>
-                {searchResult.categories?searchResult.categories.slice(indexOfFirstItemcategory, indexOfLastItemcategory).map((category) => (
-                    <div key={category.id}>
-                      <h2>{category.name}</h2>
-                      <div className='product-list'>
-                        {category.products
-                          .slice(indexOfFirstItem, indexOfLastItem)
-                          .map((product) => (
-                            <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
-                              {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
-                                <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
-                              <h3>{product.name}</h3>
-                              <span className="price">Rs.{product.price}</span>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  )):searchString?<p>not found</p>:<></>}
-
-                  {selectedCategory && (
-
-                    <>
-                      <div>
-                        <h4>{shop.categories.find((c) => c.id === selectedCategory)?.name}</h4>
-                        <div className="pagination">
-                          <p>Pages</p>
-                          {Array.from({ length: Math.ceil(shop.categories.find((c) => c.id === selectedCategory)?.products.length / itemsPerPage) }, (_, index) => index + 1).map((pageNumber) => (
-                            <button2 key={pageNumber} onClick={() => paginate(pageNumber)}>
-                              {pageNumber}
-                            </button2>
-                          ))}
-                        </div>
-                        <div className="product-list">
-                          {shop.categories.find((c) => c.id === selectedCategory)?.products
+                  {searchResult && searchResult.categories ? (
+                    searchResult.categories.slice(indexOfFirstItemcategory, indexOfLastItemcategory).map((category) => (
+                      <div key={category.id}>
+                        <h2>{category.name}</h2>
+                        <div className='product-list'>
+                          {category.products
                             .slice(indexOfFirstItem, indexOfLastItem)
                             .map((product) => (
                               <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
                                 {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
                                   <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
-                                <h5>{product.name}</h5>
-                                <p>Rs.{product.price}</p>
+                                <h3>{product.name}</h3>
+                                <span className="price">Rs.{product.price}</span>
                               </div>
                             ))}
                         </div>
                       </div>
+                    ))
+                  ) : (
+                    <>
+                      {selectedCategory && (
+                        <>
+                          <div>
+                            <h4>{shop.categories.find((c) => c.id === selectedCategory)?.name}</h4>
+                            <div className="pagination">
+                              <p>Pages</p>
+                              {Array.from({ length: Math.ceil(shop.categories.find((c) => c.id === selectedCategory)?.products.length / itemsPerPage) }, (_, index) => index + 1).map((pageNumber) => (
+                                <button2 key={pageNumber} onClick={() => paginate(pageNumber)}>
+                                  {pageNumber}
+                                </button2>
+                              ))}
+                            </div>
+                            <div className="product-list">
+                              {shop.categories.find((c) => c.id === selectedCategory)?.products
+                                .slice(indexOfFirstItem, indexOfLastItem)
+                                .map((product) => (
+                                  <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
+                                    {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
+                                      <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
+                                    <h5>{product.name}</h5>
+                                    <p>Rs.{product.price}</p>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {!selectedCategory && shop.categories?.slice(indexOfFirstItemcategory, indexOfLastItemcategory).map((category) => (
+                        <div key={category.id}>
+                          <h2>{category.name}</h2>
+                          <div className='product-list'>
+                            {category.products
+                              .slice(indexOfFirstItem, indexOfLastItem)
+                              .map((product) => (
+                                <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
+                                  {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
+                                    <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
+                                  <h3>{product.name}</h3>
+                                  <span className="price">Rs.{product.price}</span>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      ))}
                     </>
                   )}
-
-          
-
-                  {!selectedCategory && shop.categories?.slice(indexOfFirstItemcategory, indexOfLastItemcategory).map((category) => (
-                    <div key={category.id}>
-                      <h2>{category.name}</h2>
-                      <div className='product-list'>
-                        {category.products
-                          .slice(indexOfFirstItem, indexOfLastItem)
-                          .map((product) => (
-                            <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
-                              {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
-                                <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
-                              <h3>{product.name}</h3>
-                              <span className="price">Rs.{product.price}</span>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-
                 </main>
               </div>
+
             </div>
           }
         </div>
