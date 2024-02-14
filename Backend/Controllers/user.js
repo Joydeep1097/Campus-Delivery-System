@@ -270,13 +270,7 @@ exports.searchProduct = async (req, res) => {
 exports.orderHistory = async (req, res) => {
     try {
         // Get data from the request body
-        const { userId } = req.body;
-        if (!userId) {
-            return res.status(400).json({
-                success: false,
-                message: 'User ID not provided',
-            });
-        }
+        
 
         // Verify token
         const authorizationHeader = req.headers['authorization'];
@@ -296,7 +290,15 @@ exports.orderHistory = async (req, res) => {
                     message: 'Invalid token',
                 });
             }
-
+            const  userId  = decoded.userId;
+            console.log(userId);
+            console.log(decoded.userId);
+            if (!userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User ID not provided',
+                });
+            }
             // Async function to fetch orders by user ID
             const fetchOrdersByUserId = async (userId) => {
                 try {

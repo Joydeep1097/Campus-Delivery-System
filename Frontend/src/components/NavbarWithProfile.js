@@ -14,6 +14,22 @@ const NavbarWithProfile = (props) => {
     localStorage.removeItem('name');
     window.location.reload();
   };
+  const showorders = async () => {
+    const utoken = localStorage.getItem("token");
+    try {
+        const response = await fetch('http://localhost:27017/api/v1/orderHistory', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+        });
+        const data = await response.json();
+        console.log(data);
+        if (data.success === true) {
+            alert("Product deleted");
+        }
+    } catch (error) {
+        console.error('Error deleting product:', error);
+    }
+};
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -25,9 +41,7 @@ const NavbarWithProfile = (props) => {
       <br />
         <span onMouseUp={toggleMenu} className="user-name">{props.name}</span>
         <ul className='ulinnavbar'>
-          <li>Orders</li>
-          <li>Address</li>
-          <li>Change Password</li>
+          <li><span onClick={showorders} className="user-name">Order History</span></li>
           <li><span onClick={logout} className="user-name">LogOut</span></li>
         </ul>
       </div>

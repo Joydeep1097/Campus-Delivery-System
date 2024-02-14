@@ -42,6 +42,28 @@ const ShowCart = (props) => {
         }
     };
 
+    // Calculate total amount to be paid
+    const totalAmount = cart.reduce((total, item) => total + (item.price * item.ProductQuantity), 0);
+    const handleorderplace = async (_cart) => {
+        const utoken = localStorage.getItem("token");
+        const payload = { "cartID": _cart };
+        try {
+            const response = await fetch('http://localhost:27017/api/v1/deleteProductFromCart', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            console.log(data);
+            if (data.success === true) {
+                alert("Product deleted");
+                // Fetch cart data again after successful deletion
+                fetchCart();
+            }
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
     return (
         <div className="cart-container1">
             <div>
@@ -61,10 +83,12 @@ const ShowCart = (props) => {
                                     <p>Price: Rs.{item.price}</p>
                                     <p>Quantity: {item.ProductQuantity}</p>
                                 </div>
-                                <button3 onClick={() => handledrop(item.id)}>Remove</button3>
+                                <button3 onClick={() => handledrop(item.id)}>Drop</button3>
                             </div>
                         ))}
-                        <button4>Place Order</button4>
+                        <div className="total-amount">Total Amount: Rs.{totalAmount.toFixed(2)}</div>
+                        <br />
+                        <button4 onClick={handleorderplace(cart)}>Place Order</button4>
                     </div>
                 )}
             </div>

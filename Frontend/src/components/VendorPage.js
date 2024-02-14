@@ -9,6 +9,7 @@ const VendorPage = () => {
   const [password, setPassword] = useState('');
   const [flag, setflag] = useState('');
   const [name,setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(()=>{
     const validate = async () => {
       if (localStorage.getItem('token')) {
@@ -97,12 +98,21 @@ const VendorPage = () => {
           <br />
           <label>
             <input
-              type="password"
-              placeholder='🔑Password'
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder='🔑Password'
             />
           </label>
+          <div className="show-password">
+            <input
+              type="checkbox"
+              id="showPassword"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+            />
+            <label htmlFor="showPassword">Show Password</label>
+          </div>
           <br />
           <div className="button-container">
           <button type="button" className="login-button" onClick={handleLogin}>
