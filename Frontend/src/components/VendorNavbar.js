@@ -13,7 +13,6 @@ const VendorNavbar = (props) => {
 
   const viewOrders = async () => {
     const utoken = localStorage.getItem("token");
-    console.log("hiii")
     try {
       const response = await fetch('http://localhost:27017/api/v1/vendor/vendorOrderHistory', {
         method: 'POST',
