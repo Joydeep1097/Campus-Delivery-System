@@ -8,7 +8,7 @@ const { addToCart, updateProductCountInCart, deleteProductFromCart, getUserCartP
 const { updateOrderStatus} = require("../Controllers/VendorOrderConfiguration");
 const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory,orderHistoryy } = require("../Controllers/user");
 const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
-const {vendorOrderHistory} = require("../Controllers/vendorOrder");
+const {vendorOrderHistory,vendorOrderHistoryy} = require("../Controllers/vendorOrder");
 const { placeOrder } = require("../Controllers/order");
 
 const upload = require("../middlewares/multer");
@@ -46,7 +46,7 @@ router.post("/vendor/update-product-details",upload.single("image"), vendorUpdat
 router.get("/vendor/validateTokenVendor",validateTokenVendor);
 // router.post("/vendor/acceptOrder",vendorLogin);
 // router.post("/vendor/updateOrderStatus",vendorLogin);
-router.post("/vendor/vendorOrderHistory",vendorOrderHistory);
+router.post("/vendor/vendorOrderHistory",vendorOrderHistoryy);
 
 
 

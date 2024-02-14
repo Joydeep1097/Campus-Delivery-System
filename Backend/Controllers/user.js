@@ -124,6 +124,23 @@ exports.validateTokenUser = async (req, res) => {
                     message: 'Invalid token for user',
                 });
             }
+            const  userId  = decoded.userId;
+            // console.log(userId);
+            // console.log(decoded.userId);
+            if (!userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User ID decode failed',
+                });
+            }
+            const user = await User.findOne({ _id: userId }).exec();
+            // console.log(user);
+            if (!user) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User not found in DB',
+                });
+            }
             return res.status(200).json({
                 success: true,
                 message: 'Validated User token successfully',

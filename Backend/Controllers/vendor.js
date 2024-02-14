@@ -691,7 +691,7 @@ const addCategoryAndProducts = async (vendorId, shopName, categoryData) => {
     }
   };
 
-exports.validateTokenVendor = async (req, res) => {
+  exports.validateTokenVendor = async (req, res) => {
     try {
         // Get data from the request body
         const authorizationHeader = req.headers['authorization'];
@@ -711,6 +711,23 @@ exports.validateTokenVendor = async (req, res) => {
                     message: 'Invalid token for vendor',
                 });
             }
+            const  userId  = decoded.userId;
+            // console.log(userId);
+            // console.log(decoded.userId);
+            if (!userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Vendor ID decode failed',
+                });
+            }
+            const user = await Vendor.findOne({ _id: userId }).exec();
+            // console.log(user);
+            if (!user) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Vendor not found in DB',
+                });
+            }
             return res.status(200).json({
                 success: true,
                 message: 'Validated Vendor token successfully',
@@ -723,4 +740,4 @@ exports.validateTokenVendor = async (req, res) => {
             message: 'Internal Server Error',
         });
     }
-};
+  };

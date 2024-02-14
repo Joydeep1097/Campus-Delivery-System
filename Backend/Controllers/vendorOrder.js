@@ -151,3 +151,76 @@ exports.vendorOrderHistory = async (req, res) => {
                       });
     }
 };
+exports.vendorOrderHistoryy = async (req, res) => {
+    try {
+        // Get data from the request body
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided',
+            });
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token',
+                });
+            }
+
+            const vendorId = decoded.userId;
+            if (!vendorId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Vendor ID not found',
+                });
+            }
+
+            const vendorDetails = await Vendor.findById(vendorId)
+                .populate('shop') // Populate the 'shop' field
+                .exec();
+
+            if (!vendorDetails || !vendorDetails.shop) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Vendor or shop details not found',
+                });
+            }
+
+            const shopId = vendorDetails.shop._id;
+
+            const orders = await Order.find({ shopID: shopId }).populate({
+                path: 'products.productID',
+                select: 'name price image', // Select only the fields you need
+            });
+
+            const formattedOrders = orders.map(order => ({
+                orderId: order._id,
+                shopID: order.shopID,
+                timestamp: order.Timestamp,
+                products: order.products ? order.products.map(product => ({
+                    productId: product.productID?._id, // Use optional chaining to safely access _id
+                    productName: product.productID?.name, // Use optional chaining to safely access name
+                    productPrice: product.productID?.price, // Use optional chaining to safely access price
+                    count: product.count,
+                })) : [],
+            }));
+
+            return res.status(200).json({
+                success: true,
+                message: 'Vendor Order fetched successfully',
+                orderList: formattedOrders,
+            });
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+};
