@@ -159,11 +159,14 @@ const UserShopPage = (props) => {
                             .slice(indexOfFirstItem, indexOfLastItem)
                             .map((product) => (
                               <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
-                                {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
-                                  <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
-                                <h3>{product.name}</h3>
-                                <span className="price">Rs.{product.price}</span>
-                              </div>
+                                  <div>
+                                  {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
+                                    <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
+                                  <h3>{product.name}</h3>
+                                  <span className="price">Rs.{product.price}</span>
+                                  </div>
+                                  <button >🛒 Add to Cart</button>
+                                </div>
                             ))}
                         </div>
                       </div>
@@ -187,11 +190,14 @@ const UserShopPage = (props) => {
                                 .slice(indexOfFirstItem, indexOfLastItem)
                                 .map((product) => (
                                   <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
-                                    {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
-                                      <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
-                                    <h5>{product.name}</h5>
-                                    <p>Rs.{product.price}</p>
+                                  <div>
+                                  {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
+                                    <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
+                                  <h3>{product.name}</h3>
+                                  <span className="price">Rs.{product.price}</span>
                                   </div>
+                                  <button >🛒 Add to Cart</button>
+                                </div>
                                 ))}
                             </div>
                           </div>
@@ -205,11 +211,15 @@ const UserShopPage = (props) => {
                             {category.products
                               .slice(indexOfFirstItem, indexOfLastItem)
                               .map((product) => (
+                                
                                 <div key={product.id} className="product-card" onClick={() => setProduct(product)} >
+                                  <div>
                                   {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
                                     <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
                                   <h3>{product.name}</h3>
                                   <span className="price">Rs.{product.price}</span>
+                                  </div>
+                                  <button >🛒 Add to Cart</button>
                                 </div>
                               ))}
                           </div>

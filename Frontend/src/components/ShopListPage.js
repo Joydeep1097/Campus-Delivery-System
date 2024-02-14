@@ -5,14 +5,14 @@ import UserShopPage from './UserShopPage';
 
 const ShopListPage = () => {
   const [shops, setShops] = useState([]);
-  const [shopid,setshopid]= useState([0]);
+  const [shopid, setshopid] = useState([0]);
   const [loading, setLoading] = useState(true);
   console.log(shopid)
   useEffect(() => {
     const fetchShops = async () => {
       const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/getShopList',{
+        const response = await fetch('http://localhost:27017/api/v1/getShopList', {
           method: 'POST',
           headers: { Authorization: `Bearer ${utoken}` }
         }); // Replace with your actual API endpoint
@@ -28,44 +28,44 @@ const ShopListPage = () => {
     };
 
     fetchShops();
-  }, []); 
+  }, []);
   const goBack = () => {
     setshopid(0);
-    
+
   };
   const handleShopSelection = (selectedShopId) => {
     //console.log('User selected shop with ID:', selectedShopId);
     // You can add logic to navigate to the selected shop's page or perform other actions
     setshopid(selectedShopId);
-    
+
   };
 
   return (
-   <>
-   {shopid!="0" ?<div className='back'><button3 onClick={goBack}>&lt;</button3> <UserShopPage id={shopid}/></div>:
-    <div>
-    <div className="outer">
-      <div className="writings-lower">
-      <ul className='writings-lower'>
-        {shops.map((shop) => (
-          <li key={shop.id} className="shop-card">
-            <div className="shop-image">
-            {shop.image ? <img src={shop.image} alt={shop.name} /> :
-                                  <img src="images/defaultproduct.png" alt="not here" />}
+    <>
+      {shopid != "0" ? <div className='back'><button3 onClick={goBack}>&lt;</button3> <UserShopPage id={shopid} /></div> :
+        <div>
+          <div className="outer">
+            <div className="writings-lower">
+              <ul className='writings-lower'>
+                {shops.map((shop) => (
+                  <li key={shop.id} className="shop-card">
+                    <div className="shop-image">
+                      {shop.image ? <img src={shop.image} alt={shop.name} /> :
+                        <img src="images/defaultproduct.png" alt="not here" />}
+                    </div>
+                    <div className="shop-details">
+                      <h3>{shop.name}</h3>
+                      <p>{shop.shopDescription}</p>
+                    </div>
+                    <br />
+                    <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="shop-details">
-              <h3>{shop.name}</h3>
-              <p>{shop.shopDescription}</p>
-            </div>
-            <br />
-            <button onClick={() => handleShopSelection(shop._id)}>Enter</button>
-          </li>
-        ))}
-      </ul>
-      </div>
-    </div>
-    </div>
-    }
+          </div>
+        </div>
+      }
     </>
   );
 };

@@ -8,6 +8,7 @@ const NavbarWithProfile = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [showOrderPopup, setShowOrderPopup] = useState(false);
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -15,7 +16,7 @@ const NavbarWithProfile = (props) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
-    window.location.reload();
+    window.location.href = '/';
   };
   const showorders = async () => {
     const utoken = localStorage.getItem("token");
