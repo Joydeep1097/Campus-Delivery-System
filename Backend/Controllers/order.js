@@ -18,34 +18,42 @@ const router = express.Router();
 
 exports.placeOrder = async (req, res) => {
     try {
-        // Get data from the request body
-        const { userId, cartId } = req.body;
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
 
-        // Find the cart in the database using the provided cart ID
-        const cart = await Cart.findById(cartId).populate('products.productID');
-
-        if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided',
+            });
         }
 
-        // Create a new order object based on the cart data
-        const newOrder = new Order({
-            shopID: cart.shopID,
-            products: cart.products.map(item => ({
-                productID: item.productID._id,
-                count: item.count,
-            })),
-            total: cart.total,
-            // Set other order fields as needed
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token',
+                });
+            }
+
+            const userId = decoded.userId;
+            const { cartId } = req.body;
+
+            const cart = await Cart.findById(cartId).populate('products.productID');
+
+            const newOrder = new Order({
+                shopID: cart.shopID,
+                products: cart.products.map(item => ({
+                    productID: item.productID._id,
+                    count: item.count,
+                })),
+                total: cart.total,
+            });
+
+            await newOrder.save();
+
+            return res.status(201).json({ success: true, message: 'Order placed successfully', order: newOrder });
         });
-
-        // Save the new order to the database
-        await newOrder.save();
-
-        // Optionally, remove the cart from the user's cart list
-        // const updatedUser = await User.findByIdAndUpdate(userId, { $pull: { cart: cartId } }, { new: true });
-
-        return res.status(201).json({ success: true, message: 'Order placed successfully', order: newOrder });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ success: false, message: 'Internal Server Error' });

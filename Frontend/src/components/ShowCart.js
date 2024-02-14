@@ -47,6 +47,7 @@ const ShowCart = (props) => {
     const handleorderplace = async (_cart) => {
         const utoken = localStorage.getItem("token");
         const payload = { "cartID": _cart };
+        console.log(payload)
         try {
             const response = await fetch('http://localhost:27017/api/v1/deleteProductFromCart', {
                 method: 'POST',
@@ -88,7 +89,7 @@ const ShowCart = (props) => {
                         ))}
                         <div className="total-amount">Total Amount: Rs.{totalAmount.toFixed(2)}</div>
                         <br />
-                        <button4 onClick={handleorderplace(cart)}>Place Order</button4>
+                        <button4 onClick={ () =>handleorderplace(cart)}>Place Order</button4>
                     </div>
                 )}
             </div>

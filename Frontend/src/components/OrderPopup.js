@@ -8,14 +8,15 @@ const OrderPopup = (props) => {
         <h2>Orders</h2>
         <div>
         {props.orders.map((order, index) => (
-          <div key={index}>
+          <div key={index} className='orders'>
             <h3>Order ID: {order.orderId}</h3>
             <p>Order Date: {new Date(order.timestamp).toLocaleString()}</p>
             <h3>Products:</h3>
             {order.products.map((product, idx) => (
-              <div key={idx}>
-                <p>Product Name: {product.productDetails && product.productDetails.name}</p>
-                <p>Price: {product.productDetails && product.productDetails.price}</p>
+              <div key={idx} className='products'>
+                <p>Product ID: {product.productId}</p>
+                <p>Product Name: {product.productName}</p>
+                <p>Price: {product.productPrice}</p>
                 <p>Count: {product.count}</p>
               </div>
             ))}
