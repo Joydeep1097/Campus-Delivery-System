@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const Product = require("../models/Product");
+const Product = require("../models/product");
 const { generateToken } = require("../Utils/authUtils");
 const Shop = require("../models/shop");
 const Order = require("../models/order");
