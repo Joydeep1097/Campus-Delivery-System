@@ -40,7 +40,7 @@ exports.placeOrder = async (req, res) => {
             const { cartId } = req.body;
 
             const cart = await Cart.findById(cartId).populate('products.productID');
-
+            console.log(cart)
             const newOrder = new Order({
                 shopID: cart.shopID,
                 products: cart.products.map(item => ({
@@ -51,6 +51,7 @@ exports.placeOrder = async (req, res) => {
             });
 
             await newOrder.save();
+            await Cart.findByIdAndDelete(cartId);
 
             return res.status(201).json({ success: true, message: 'Order placed successfully', order: newOrder });
         });

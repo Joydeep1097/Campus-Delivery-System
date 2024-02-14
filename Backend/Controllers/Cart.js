@@ -383,88 +383,57 @@ exports.getUserCartProducts = async (req, res) => {
           try {
               const userId = decoded.userId;
 
-              console.log("USER CARTID",userId.cart);
-              console.log("----------------------")
-
               const user = await User.findById(userId).populate({
                   path: 'cart',
                   populate: {
                       path: 'products',
-                      // populate: {
-                      //   path: 'productID',
-                        options: { strictPopulate: false },
-                      //populate: { path: 'shopID' } // Populate shop details for each product
+                      options: { strictPopulate: false },
                   },
-                // },
               });
-
-              console.log("USER PORDCUTS",user.products);
-
 
               if (!user) {
                   return res.status(404).json({ message: 'User not found' });
               }
 
               const cart = user.cart;
-              console.log("CART",cart);
+
               if (!cart) {
                   return res.status(404).json({ message: 'Cart not found for the user' });
               }
 
-              // const shop = {
-              //     id: cart.shopID._id.toString(),
-              //     name: cart.shopID.name,
-              //     products: cart.products.map(item => ({
-              //         id: item.productID._id.toString(),
-              //         name: item.productID.name.toString(),
-              //         price: item.productID.price.toString(),
-              //         ProductQuantity: item.count
-              //     }))
-              // };
               const shop = {
-                id: cart.shopID._id.toString(),
-                name: "", // Placeholder for the shop name
-                products: []
-            };
+                  id: cart.shopID._id.toString(),
+                  name: "", // Placeholder for the shop name
+                  products: [],
+                  cartId: cart._id.toString(), // Include cart ID in the response
+              };
 
-            const productIDs = cart.products.map(product => product.productID);
-            // console.log("PRODUCTS",productIDs);
-            const objectIdArray = productIDs.map(id => new ObjectId(id));
-            // console.log("OBJECT",objectIdArray);
-            // Fetch documents based on the array of productID values
-            // const products = await Product.find({ productID: { $in: objectIdArray } }).toArray();
-            const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
-            // console.log("PRODUCTS",products);
+              const productIDs = cart.products.map(product => product.productID);
+              const objectIdArray = productIDs.map(id => new ObjectId(id));
+              const products = await Product.find({ _id: { $in: objectIdArray } }).exec();
 
-            // Format the fetched data
-            const formattedData = products.map(product => ({
-              id: product._id.toString(), // Convert ObjectId to string
-              name: product.name,
-              price: product.price,
-              image: product.image
-              // Add other fields as needed
-            }));
-            console.log("FORMatted",formattedData); 
+              const formattedData = products.map(product => ({
+                  id: product._id.toString(),
+                  name: product.name,
+                  price: product.price,
+                  image: product.image
+              }));
 
-
-            // Fetch shop name
-            const shopData = await Shop.findById(cart.shopID);
-            shop.name = shopData ? shopData.name : "Shop not found";
-
+              const shopData = await Shop.findById(cart.shopID);
+              shop.name = shopData ? shopData.name : "Shop not found";
 
               for (const item of cart.products) {
-                const productData = await Product.findById(item.productID);
-                if (productData) {
-                    shop.products.push({
-                        id: item.productID._id.toString(),
-                        name: productData.name.toString(),
-                        price: productData.price.toString(),
-                        image: productData.image,
-                        ProductQuantity: item.count
-                    });
+                  const productData = await Product.findById(item.productID);
+                  if (productData) {
+                      shop.products.push({
+                          id: item.productID._id.toString(),
+                          name: productData.name.toString(),
+                          price: productData.price.toString(),
+                          image: productData.image,
+                          ProductQuantity: item.count
+                      });
                   };
-                }
-                             
+              }
 
               res.json({ shop });
 
