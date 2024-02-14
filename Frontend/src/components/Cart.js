@@ -24,7 +24,7 @@ const Cart = (props) => {
       showcategoryPopup &&  (
         <div className="popup">
           <div className="popup-content1">
-            <span className="close" onClick={handlePopupClose}>&times;</span>
+            <span className="close" onClick={handlePopupClose}><strong/>&times;</span>
             <ShowCart cartItems={props.cart} /*onSubmit={getCartback}*/ />
           </div>
         </div>

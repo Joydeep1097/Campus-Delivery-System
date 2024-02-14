@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const ShowCart = (props) => {
     const [cart, setCart] = useState([]);
-
+    const [cartId, setCartId] = useState('');
     useEffect(() => {
         fetchCart();
     }, [props.cartItems]); // Fetch cart data whenever props.cartItems change
@@ -15,7 +15,16 @@ const ShowCart = (props) => {
                 headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
             });
             const data = await response.json();
-            setCart(data.shop.products);
+            console.log(data);
+            if(data.message==="Cart not found for the user"){
+                setCart([]);
+            }
+            else{
+                setCart(data.shop.products);
+                setCartId(data.shop.cartId);
+            }
+            
+            
         } catch (error) {
             console.error('Error fetching cart:', error);
         }
@@ -44,12 +53,12 @@ const ShowCart = (props) => {
 
     // Calculate total amount to be paid
     const totalAmount = cart.reduce((total, item) => total + (item.price * item.ProductQuantity), 0);
-    const handleorderplace = async (_cart) => {
+    const handleorderplace = async (_cartid) => {
         const utoken = localStorage.getItem("token");
-        const payload = { "cartID": _cart };
+        const payload = { "cartId": _cartid };
         console.log(payload)
         try {
-            const response = await fetch('http://localhost:27017/api/v1/deleteProductFromCart', {
+            const response = await fetch('http://localhost:27017/api/v1/placeOrder', {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -57,12 +66,13 @@ const ShowCart = (props) => {
             const data = await response.json();
             console.log(data);
             if (data.success === true) {
-                alert("Product deleted");
-                // Fetch cart data again after successful deletion
                 fetchCart();
+                alert("Order Placed");
+                // Fetch cart data again after successful deletion
+                
             }
         } catch (error) {
-            console.error('Error deleting product:', error);
+            console.error('Error processing Order', error);
         }
     };
     return (
@@ -84,12 +94,12 @@ const ShowCart = (props) => {
                                     <p>Price: Rs.{item.price}</p>
                                     <p>Quantity: {item.ProductQuantity}</p>
                                 </div>
-                                <button3 onClick={() => handledrop(item.id)}>Drop</button3>
+                                <button6 onClick={() => handledrop(item.id)} style={{cursor:"pointer"}}>❌</button6>
                             </div>
                         ))}
                         <div className="total-amount">Total Amount: Rs.{totalAmount.toFixed(2)}</div>
                         <br />
-                        <button4 onClick={ () =>handleorderplace(cart)}>Place Order</button4>
+                        <button4 onClick={ () =>handleorderplace(cartId)}>Place Order</button4>
                     </div>
                 )}
             </div>
