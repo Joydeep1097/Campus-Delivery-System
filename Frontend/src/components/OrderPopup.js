@@ -17,7 +17,6 @@ const OrderPopup = (props) => {
                 <p>Product Name: {product.productDetails && product.productDetails.name}</p>
                 <p>Price: {product.productDetails && product.productDetails.price}</p>
                 <p>Count: {product.count}</p>
-                {/* Include more details about the product as needed */}
               </div>
             ))}
           </div>
