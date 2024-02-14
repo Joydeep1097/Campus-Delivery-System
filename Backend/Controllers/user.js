@@ -303,7 +303,14 @@ exports.orderHistory = async (req, res) => {
             const fetchOrdersByUserId = async (userId) => {
                 try {
                     // Use findOne method to find the user based on userId and populate the orders field
-                    const user = await User.findOne({ _id: userId }).populate('orders');
+                    // Fetch orders by user ID
+                const user = await User.findOne({ _id: userId }).populate({
+                    path: 'orders',
+                    populate: {
+                        path: 'products.productID',
+                        model: 'Product',
+                    },
+                });
 
                     if (!user) {
                         console.log("User not found.");
@@ -342,6 +349,81 @@ exports.orderHistory = async (req, res) => {
                 });
             } catch (error) {
                 console.error(error);
+                return res.status(500).json({
+                    success: false,
+                    message: 'Internal Server Error',
+                });
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Internal Server Error',
+        });
+    }
+
+};
+exports.orderHistoryy = async (req, res) => {
+    try {
+        // Verify token
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader ? authorizationHeader.substring('Bearer '.length) : null;
+
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided',
+            });
+        }
+
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Invalid token',
+                });
+            }
+            const userId = decoded.userId;
+            if (!userId) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'User ID not provided',
+                });
+            }
+
+            try {
+                // Fetch orders by user ID
+                const user = await User.findOne({ _id: userId }).populate({
+                    path: 'orders',
+                    populate: {
+                        path: 'products.productID',
+                        model: 'Product',
+                    },
+                }).populate({
+                    path: 'orders',
+                    populate: {
+                        path: 'shopID',
+                        model: 'Shop',
+                    },
+                });
+
+                if (!user) {
+                    console.log("User not found.");
+                    return res.status(404).json({
+                        success: false,
+                        message: 'User not found',
+                    });
+                }
+
+                // If user is found, return the orders
+                return res.status(200).json({
+                    success: true,
+                    orders: user.orders,
+                });
+            } catch (error) {
+                // Handle any errors
+                console.error("Error fetching orders by user ID:", error);
                 return res.status(500).json({
                     success: false,
                     message: 'Internal Server Error',
