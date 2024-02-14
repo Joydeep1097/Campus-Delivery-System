@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const Address = require("../models/address");
-const { generateToken } = require("../utils/authUtils");
+const { generateToken } = require("../Utils/authUtils");
 const Shop = require("../models/shop");
 
 // User Signup route handler

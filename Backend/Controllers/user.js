@@ -8,7 +8,7 @@ const Product = require("../models/Product");
 const razorpayInstance = require("../config/razorpay");
 
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
-const { generateToken } = require("../utils/authUtils");
+const { generateToken } = require("../Utils/authUtils");
 
 const jwt = require('jsonwebtoken'); // Make sure to import the 'jsonwebtoken' library
 

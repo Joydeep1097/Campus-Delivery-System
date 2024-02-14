@@ -9,7 +9,7 @@ const Order = require('../models/order');
 const Cart = require('../models/cart');
 const razorpayInstance = require("../config/razorpay");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
-const { generateToken } = require("../utils/authUtils");
+const { generateToken } = require("../Utils/authUtils");
 const jwt = require('jsonwebtoken');
 
 const express = require('express');
