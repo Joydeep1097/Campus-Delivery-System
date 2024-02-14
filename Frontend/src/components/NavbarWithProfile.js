@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import UserOrderPopup from './UserOrderPopup';
 
 const NavbarWithProfile = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [showOrderPopup, setShowOrderPopup] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -18,16 +21,15 @@ const NavbarWithProfile = (props) => {
     const utoken = localStorage.getItem("token");
     try {
         const response = await fetch('http://localhost:27017/api/v1/orderHistory', {
-            method: 'GET',
+            method: 'POST',
             headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         });
         const data = await response.json();
-        console.log(data);
-        if (data.success === true) {
-            alert("Product deleted");
-        }
+        console.log(data.orders);
+        setOrders(data.orders); // Set the order list in state
+        setShowOrderPopup(true); 
     } catch (error) {
-        console.error('Error deleting product:', error);
+      console.error('Error fetching orders:', error);
     }
 };
   return (
@@ -45,6 +47,7 @@ const NavbarWithProfile = (props) => {
           <li><span onClick={logout} className="user-name">LogOut</span></li>
         </ul>
       </div>
+      {showOrderPopup && <UserOrderPopup orders={orders} onClose={() => setShowOrderPopup(false)} />} {/* Render OrderPopup if showOrderPopup is true */}
     </nav>
   );
 };
