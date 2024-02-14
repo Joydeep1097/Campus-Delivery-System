@@ -14,7 +14,7 @@ const ShowProduct = (props) => {
       // Implement logic to fetch from cart
       const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/getUserCartProducts', {
+        const response = await fetch('http://43.204.192.134:27017/api/v1/getUserCartProducts', {
           method: 'GET',
           headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
           
@@ -46,7 +46,7 @@ const ShowProduct = (props) => {
     console.log(payload);
     const utoken = localStorage.getItem("token");
     try {
-      const response = await fetch('http://localhost:27017/api/v1/addToCart', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/addToCart', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

@@ -62,7 +62,7 @@ const ShopRegistration = (props) => {
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
       // Make a POST request to the backend API
-      const response = await fetch('http://localhost:27017/api/v1/vendor/signup', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/signup', {
       method: 'POST',
       body: formData
     });

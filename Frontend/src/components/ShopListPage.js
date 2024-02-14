@@ -12,7 +12,7 @@ const ShopListPage = () => {
     const fetchShops = async () => {
       const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/getShopList',{
+        const response = await fetch('http://43.204.192.134:27017/api/v1/getShopList',{
           method: 'POST',
           headers: { Authorization: `Bearer ${utoken}` }
         }); // Replace with your actual API endpoint

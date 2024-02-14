@@ -33,7 +33,7 @@ const UserShopPage = (props) => {
       // Implement logic to fetch from cart
       const utoken = localStorage.getItem("token");
       try {
-        const response = await fetch('http://localhost:27017/api/v1/getUserCartProducts', {
+        const response = await fetch('http://43.204.192.134:27017/api/v1/getUserCartProducts', {
           method: 'GET',
           headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
 
@@ -54,7 +54,7 @@ const UserShopPage = (props) => {
         "shopId": props.id
       };
       try {
-        const response = await fetch('http://localhost:27017/api/v1/shop', {
+        const response = await fetch('http://43.204.192.134:27017/api/v1/shop', {
           method: 'POST',
           headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -90,7 +90,7 @@ const UserShopPage = (props) => {
     };
     if (searchString != '') {
       try {
-        const response = await fetch('http://localhost:27017/api/v1/searchProduct', {
+        const response = await fetch('http://43.204.192.134:27017/api/v1/searchProduct', {
           method: 'POST',
           headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)

@@ -17,7 +17,7 @@ const LoginPage = (props) => {
         const utoken = localStorage.getItem("token");
         try {
           
-          const response = await fetch('http://localhost:27017/api/v1/validateTokenUser', {
+          const response = await fetch('http://43.204.192.134:27017/api/v1/validateTokenUser', {
             method: 'GET',
             headers: { Authorization: `Bearer ${utoken}` }
           });
@@ -58,7 +58,7 @@ const LoginPage = (props) => {
 
       }
       //console.log(JSON.stringify(data));
-      const response = await fetch('http://localhost:27017/api/v1/login', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/login', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

@@ -40,7 +40,7 @@ const SignupPage = () => {
         "password": password
 
       }
-      const response = await fetch('http://localhost:27017/api/v1/signup', {
+      const response = await fetch('http://43.204.192.134:27017/api/v1/signup', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
