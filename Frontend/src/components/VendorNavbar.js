@@ -30,7 +30,7 @@ const VendorNavbar = (props) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('name');
-    window.location.reload();
+    window.location.href = '/';
   };
 
   return (
