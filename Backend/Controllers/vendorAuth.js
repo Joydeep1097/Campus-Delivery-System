@@ -3,23 +3,28 @@ const Address = require("../models/address");
 const Vendor = require("../models/vendor");
 const Shop = require("../models/shop");
 const {uploadImageToCloudinary} = require("../Utils/imageUploader");
+const cloudinary = require("../config/cloudinary");
+const upload = require("../middlewares/multer");
 const { generateToken } = require("../Utils/authUtils");
 
 exports.vendorSignup = async (req, res) => {
     try {
         // Get data from the request body
-        const { name, contactNo, contactMail, password, shopData } = req.body;
+        const { name, contactNo, contactMail, password, shopData,addressData } = req.body;
 
-        console.log(req.file);
-        console.log(req.body);
-        console.log(name);
-        console.log(contactNo);
-        console.log(contactMail);
-        console.log(password);
-        console.log(shopData);
+        // console.log(req.file);
+        // console.log(req.body);
+        // console.log(name);
+        // console.log(contactNo);
+        // console.log(contactMail);
+        // console.log(password);
+        // console.log(shopData);
+        // // console.log(addressData);
+        
+        // console.log(result.url);
         // console.log(addressData);
-        console.log(shopData.addressData);
-        addressData = shopData.addressData;
+        // console.log(req.file.path);
+        // const addressData = shopData.addressData;
 
         // const upload = cloudinary.uploader.upload('C:\\Users\\jaick\\Downloads\\world.jpeg', function(error, result) {
         //     if (error) {
@@ -59,15 +64,18 @@ exports.vendorSignup = async (req, res) => {
                 message: 'Error in hashing password',
             });
         }
-
+        // console.log(req.file.path);
+        // console.log(eroro);
+        
         // Create entry for Address
         const address = await Address.create(addressData);
-
+        //upload image
+        const result = await cloudinary.uploader.upload(req.file.path);
         // Create entry for Shop with reference to the Address
         const shop = await Shop.create({
             name: shopData.name,
             shopDescription: shopData.shopDescription,
-            image:shopData.image,
+            image:result.url,
             addressId: address._id, // Reference to the created Address
         });
 
