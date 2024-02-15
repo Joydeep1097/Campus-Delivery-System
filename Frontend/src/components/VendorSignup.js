@@ -32,41 +32,45 @@ const VendorSignup = (props) => {
         <h1>Signup</h1>
         <form>
           <label>
-            Name:
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               pattern="[A-Za-z]+"
+              maxLength={30}
+              placeholder='Name*'
             />
           </label>
           <br />
           <label>
-            Mobile Number:
+            
             <input
               type="text"
               value={mobileNo}
               onChange={(e) => setMobileNo(e.target.value)}
               minLength={10}
               maxLength={10}
+              placeholder='Mobile Number*'
             />
           </label>
           <br />
           <label>
-            Email:
+            
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder='Email*'
             />
           </label>
           <br />
           <label>
-            Password:
+
             <input
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder='Password*'
             />
           </label>
           <div className="show-password">

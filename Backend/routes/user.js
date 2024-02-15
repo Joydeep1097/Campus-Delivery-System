@@ -7,7 +7,7 @@ const {vendorSignup, vendorLogin} = require("../Controllers/vendorAuth");
 const { addToCart, updateProductCountInCart, deleteProductFromCart, getUserCartProducts} = require("../Controllers/Cart");
 const { updateOrderStatus} = require("../Controllers/VendorOrderConfiguration");
 const {userGetShopCProducts, validateTokenUser, razorpayPayment, searchProduct, orderHistory,orderHistoryy } = require("../Controllers/user");
-const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor} = require("../Controllers/vendor");
+const {vendorCategory, vendorGetCategory, vendorAddProduct, vendorDeleteItem, vendorUpdateCategoryName,vendorUpdateProductDetail,validateTokenVendor,vendorCreateCategory} = require("../Controllers/vendor");
 const {vendorOrderHistory,vendorOrderHistoryy} = require("../Controllers/vendorOrder");
 const { placeOrder } = require("../Controllers/order");
 
@@ -47,6 +47,7 @@ router.get("/vendor/validateTokenVendor",validateTokenVendor);
 // router.post("/vendor/acceptOrder",vendorLogin);
 // router.post("/vendor/updateOrderStatus",vendorLogin);
 router.post("/vendor/vendorOrderHistory",vendorOrderHistoryy);
+router.post("/vendor/addCategory",vendorCreateCategory);
 
 
 

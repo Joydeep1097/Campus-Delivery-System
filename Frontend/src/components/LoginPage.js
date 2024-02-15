@@ -90,12 +90,13 @@ const LoginPage = (props) => {
             <img src="images/user.png" alt="" className='userimage2' />
             <h1>Login</h1>
             <form>
-              <label>
+              <label >
                 <input
                   type="email"
                   value={email}
-                  placeholder='📧Email'
+                  placeholder='📧Email*'
                   onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
               </label>
               <br />
@@ -103,7 +104,7 @@ const LoginPage = (props) => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  placeholder='🔑Password'
+                  placeholder='🔑Password*'
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </label>

@@ -90,7 +90,7 @@ const VendorPage = () => {
           <label>
             <input
               type="email"
-              placeholder='📧Email'
+              placeholder='📧Email*'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -101,7 +101,7 @@ const VendorPage = () => {
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder='🔑Password'
+              placeholder='🔑Password*'
             />
           </label>
           <div className="show-password">

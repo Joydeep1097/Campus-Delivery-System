@@ -140,11 +140,11 @@
   margin: 0px auto;
   padding: 20px;
   /*background-image: url('../public/images/wood.jpg');*/
-  background-color: #e8cff8;
+  background-color: #a7a5dc;
   box-shadow: 100px 100px 100px rgba(122, 80, 128, 0.1);
   border-radius: 5px;
   font-size: x-large;
-  color: #06037d;
+  color: #6a0571;
   text-align: center;
   flex-direction: column;
   align-items: center;
@@ -204,7 +204,7 @@ button {
   min-width: 80px;
   min-height: 50px;
   border-radius: 100px;
-  
+
   /* Take full width */
 }
 
@@ -215,7 +215,7 @@ button {
 
 button:hover {
   background-color: #12aaec;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 
 /*footer css*/
@@ -236,17 +236,21 @@ button:hover {
   width: 300px;
   height: 400px;
   list-style: none;
-  display: block;
+  display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
+  flex-direction: column;
+  align-content: center;
   margin-bottom: 20px;
-  background-color: #f8e8e8;
+  background-color: #ece797;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 10 10 10 10px rgba(207, 11, 11, 0.1);
+  box-shadow: 2px 2px 2px 2px rgba(241, 118, 30, 0.993);
   transition: transform 0.2s ease-in-out;
 
   &:hover {
     transform: scale(1.05);
+    background-color: #ece8a6;
   }
 }
 
@@ -401,18 +405,23 @@ ul li:last-child {
   padding: 15px;
   background-color: #dad6d1;
   width: 200px;
-  height: 200px;
+  height: 350px;
   margin: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-content: center;
+  align-items: stretch;
+  gap: 10px;
 }
 
 .product-card:hover {
   transform: scale(1.05);
 }
 
-.product-card h5 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
+.product-card h3 {
+
+  color: #041889;
 }
 
 .product-card p {
@@ -421,16 +430,23 @@ ul li:last-child {
 }
 
 .product-card button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #fcf57b;
+  color: rgb(11, 1, 1);
   padding: 8px 12px;
   border: none;
   cursor: pointer;
   font-size: 14px;
+
 }
 
 .product-card button:hover {
   background-color: #45a049;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  
 }
 
 .userview {
@@ -491,7 +507,7 @@ button2:hover {
 /*show product*/
 .product-image {
   width: 190px;
-  height: 100px;
+  height: 150px;
   object-fit: cover;
   border-radius: 0px 0 0 0px;
   overflow: hidden;
@@ -524,10 +540,12 @@ button2:hover {
   border-radius: 0px 0 0 0px;
   overflow: hidden;
 }
+
 button3 {
   background-color: transparent;
   border: none;
-  color: #2e16df; /* Adjust the color as needed */
+  color: #2e16df;
+  /* Adjust the color as needed */
   font-size: 36px;
   cursor: pointer;
   padding: 5px 10px;
@@ -536,41 +554,58 @@ button3 {
 }
 
 button3:hover {
-  background-color: #f0f0f0; /* Change background color on hover */
+  background-color: #f0f0f0;
+  /* Change background color on hover */
 }
-.back{
-padding: 0px;  
+
+.back {
+  padding: 0px;
 }
-.popup{
+
+.popup {
   position: relative;
 }
-.popup-content{
-  position: absolute; /* Position popup absolutely */
-  top: 50%; /* Position at the vertical center of the viewport */
-  left: 50%; /* Position at the horizontal center of the viewport */
-  transform: translate(-50%, -50%); /* Center the popup */
-  background-color: #e3dcdc; /* Popup background color */
-  border: 1px solid #ccc; /* Popup border */
-  padding: 20px; /* Popup padding */
-  box-shadow: 10 10 10 10px rgba(232, 46, 46, 0.1); /* Popup shadow */
-  z-index: 9990; /* Ensure popup is on top of other content */
+
+.popup-content {
+  position: absolute;
+  /* Position popup absolutely */
+  top: 50%;
+  /* Position at the vertical center of the viewport */
+  left: 50%;
+  /* Position at the horizontal center of the viewport */
+  transform: translate(-50%, -50%);
+  /* Center the popup */
+  background-color: #e3dcdc;
+  /* Popup background color */
+  border: 1px solid #ccc;
+  /* Popup border */
+  padding: 20px;
+  /* Popup padding */
+  box-shadow: 10 10 10 10px rgba(232, 46, 46, 0.1);
+  /* Popup shadow */
+  z-index: 9990;
+  /* Ensure popup is on top of other content */
 }
+
 .popup-message {
   position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #4CAF50; /* Green background */
+  background-color: #4CAF50;
+  /* Green background */
   color: white;
   text-align: center;
   padding: 16px;
   border-radius: 5px;
-  z-index: 9999; /* Ensure it's on top of other elements */
+  z-index: 9999;
+  /* Ensure it's on top of other elements */
 }
 
 /*Cart*/
-.popup-content1{
-  position: fixed; /* Position popup absolutely */
+.popup-content1 {
+  position: fixed;
+  /* Position popup absolutely */
   background-color: #cde6e4;
   padding: 10px;
   display: flex;
@@ -584,6 +619,7 @@ padding: 0px;
   border-radius: 10px;
   border-color: #1500ff;
 }
+
 .cart-item {
   display: flex;
   margin-bottom: 20px;
@@ -618,38 +654,45 @@ padding: 0px;
   margin-top: 5px;
   font-weight: bold;
 }
-button3{
+
+button3 {
   height: fit-content;
   width: fit-content;
-  background-color: #9d3e3edf;
+  background-color: #e02a2adf;
 }
-button4{
+
+button4 {
   height: 300px;
   width: fit-content;
   background-color: #f5db6f;
   border: none;
-  color: #06031d; /* Adjust the color as needed */
+  color: #06031d;
+  /* Adjust the color as needed */
   font-size: 36px;
   cursor: pointer;
   padding: 5px 10px;
   border-radius: 4px;
-  
+
 }
 
 button4:hover {
   background-color: #d5f786;
 }
-button5{
- width: fit-content;
- background-color: rgb(234, 21, 21);
- border-radius: 20px;
- cursor: pointer;
+
+button5 {
+  text-align: center;
+  background-color: rgb(234, 21, 21);
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
 }
-.popup-content2{
-  position: fixed; /* Position popup absolutely */
+
+.popup-content2 {
+  position: fixed;
+  /* Position popup absolutely */
   background-color: #cde6e4;
   padding: 10px;
-  
+
   flex-wrap: wrap;
   overflow: auto;
   top: 0.1;
@@ -662,12 +705,14 @@ button5{
   border-color: #1500ff;
   color: #000000;
 }
+
 /*campus map*/
 .map-container {
   position: relative;
   width: 100%;
   height: 0;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%;
+  /* 16:9 aspect ratio */
 }
 
 .map-container iframe {
@@ -678,13 +723,20 @@ button5{
   height: 100%;
   border: 0;
 }
-.orders{
+
+.orders {
   background-color: #ffffff;
   padding: 10px;
   margin: 10px;
 }
-.products{
+
+.products {
   background-color: #f0efc0;
   padding: 10px;
   margin: 10px;
+}
+.required::after {
+  content: '*';
+  color: red; /* Or any other color */
+  margin-left: 4px; /* Adjust spacing as needed */
 }

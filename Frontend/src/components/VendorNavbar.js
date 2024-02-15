@@ -47,7 +47,9 @@ const VendorNavbar = (props) => {
         <span onMouseUp={toggleMenu} className="user-name"><img src="images\userwhite.png" alt="user" className='userimage' /><br />{props.name}</span>
         <ul className='ulinnavbar'>
           <li><span onClick={viewOrders} className="user-name">Orders</span></li>
+          <Link to="/">
           <li><span onClick={logout} className="user-name">LogOut</span></li>
+          </Link>
         </ul>
       </div>
       {showOrderPopup && <OrderPopup orders={orders} onClose={() => setShowOrderPopup(false)} />} {/* Render OrderPopup if showOrderPopup is true */}

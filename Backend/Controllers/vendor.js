@@ -741,3 +741,77 @@ const addCategoryAndProducts = async (vendorId, shopName, categoryData) => {
         });
     }
   };
+
+  exports.vendorCreateCategory = async (req, res) => {
+    try {
+        // Get data from the request body
+        const authorizationHeader = req.headers['authorization'];
+        const token = authorizationHeader.substring('Bearer '.length);
+        console.log(token);
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                message: 'Token not provided',
+            });
+        }
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+           
+            if (err) {
+                return res.status(401).json({
+                success: false,
+                message: 'Invalid token',
+                });
+            }
+            const vendorId = decoded.userId;
+  
+            try {
+                const vendor = await Vendor.findById(vendorId);
+        
+                if (!vendor) {
+                  return res.status(404).json({ message: 'Vendor not found' });
+                }
+        
+                const shopId = req.body.shop_id;
+                const categoryName = req.body.category_name;
+        
+                if (!shopId || !categoryName) {
+                  return res.status(400).json({
+                    success: false,
+                    message: 'Invalid request format',
+                  });
+                }
+                
+                // Create a new category
+                const category = new Category({
+                    categoryName: categoryName,
+                    shopID: shopId,
+                });
+  
+                await category.save();
+  
+                // Update the shop document to include the new category
+                await Shop.findByIdAndUpdate(
+                    shopId,
+                    { $push: { category: category._id } },
+                    { new: true }
+                );
+        
+                return res.status(201).json({
+                  success: true,
+                  message: 'Category created and attached to shop successfully',
+                  category: category,
+                });
+              } catch (error) {
+                console.error(error);
+                return res.status(500).json({
+                  success: false,
+                  message: 'Internal Server Error',
+                });
+              }
+  
+         
+        });
+     } catch (error) {
+        console.error(error);
+    }
+  };

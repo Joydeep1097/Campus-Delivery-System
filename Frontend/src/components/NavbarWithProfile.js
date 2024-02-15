@@ -8,6 +8,7 @@ const NavbarWithProfile = (props) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [orders, setOrders] = useState([]);
   const [showOrderPopup, setShowOrderPopup] = useState(false);
+  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
