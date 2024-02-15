@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import VendorPage from './VendorPage';
 const ShopRegistration = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -11,6 +12,7 @@ const ShopRegistration = (props) => {
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [pincode, setPincode] = useState('');
+  const [gotologin, setGotologin] = useState(0);
   
   const handleSubmit = async () => {
     if (!/^[A-Za-z0-9\s]+$/.test(name)) {
@@ -50,11 +52,11 @@ const ShopRegistration = (props) => {
       formData.append('password', props.password);
       formData.append('shopData[name]', name);
       formData.append('shopData[shopDescription]', description);
-      formData.append('shopData[addressData][streetAddress]', locality);
-      formData.append('shopData[addressData][houseNo]', shopno);
-      formData.append('shopData[addressData][state]', state);
-      formData.append('shopData[addressData][city]', city);
-      formData.append('shopData[addressData][pincode]', pincode);
+      formData.append('addressData[streetAddress]', locality);
+      formData.append('addressData[houseNo]', shopno);
+      formData.append('addressData[state]', state);
+      formData.append('addressData[city]', city);
+      formData.append('addressData[pincode]', pincode);
   
       // Append image file to FormData
       formData.append('image', photo);
@@ -70,6 +72,7 @@ const ShopRegistration = (props) => {
     console.log(result);
     if(result.success===true){
       alert("Successful. You can now Log in to your account");
+      setGotologin(1);
     }
     else if(result.message==="User already exists"){
       alert("already registerd. Go for log in");
@@ -85,6 +88,8 @@ const ShopRegistration = (props) => {
   };
 
   return (
+    <>
+    {gotologin ===1 ? <VendorPage/> :
     <div className="outer">
       <div className='container'>
         <h1>Shop</h1>
@@ -183,7 +188,7 @@ const ShopRegistration = (props) => {
             </button>
             <Link to="/">
               <button type="button" className="back-button">
-                Discard
+                Home
               </button>
             </Link>
           </div>
@@ -191,6 +196,8 @@ const ShopRegistration = (props) => {
         </form>
       </div>
     </div>
+    }
+    </>
   );
 };
 
