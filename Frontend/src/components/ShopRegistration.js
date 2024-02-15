@@ -2,8 +2,7 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import VendorPage from './VendorPage.js'
-
+import VendorPage from './VendorPage';
 const ShopRegistration = (props) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -14,7 +13,7 @@ const ShopRegistration = (props) => {
   const [state, setState] = useState('');
   const [pincode, setPincode] = useState('');
   const [gotologin, setGotologin] = useState(0);
-
+  
   const handleSubmit = async () => {
     if (!/^[A-Za-z0-9,.\s]+$/.test(name)) {
       alert('Name must contain only alphabetical characters');
@@ -46,21 +45,21 @@ const ShopRegistration = (props) => {
     }
     const formData = new FormData();
 
-    // Append text fields to FormData
-    formData.append('name', props.name);
-    formData.append('contactNo', props.contactNo);
-    formData.append('contactMail', props.contactMail);
-    formData.append('password', props.password);
-    formData.append('shopData[name]', name);
-    formData.append('shopData[shopDescription]', description);
-    formData.append('addressData[streetAddress]', locality);
-    formData.append('addressData[houseNo]', shopno);
-    formData.append('addressData[state]', state);
-    formData.append('addressData[city]', city);
-    formData.append('addressData[pincode]', pincode);
-
-    // Append image file to FormData
-    formData.append('image', photo);
+      // Append text fields to FormData
+      formData.append('name', props.name);
+      formData.append('contactNo', props.contactNo);
+      formData.append('contactMail', props.contactMail);
+      formData.append('password', props.password);
+      formData.append('shopData[name]', name);
+      formData.append('shopData[shopDescription]', description);
+      formData.append('addressData[streetAddress]', locality);
+      formData.append('addressData[houseNo]', shopno);
+      formData.append('addressData[state]', state);
+      formData.append('addressData[city]', city);
+      formData.append('addressData[pincode]', pincode);
+  
+      // Append image file to FormData
+      formData.append('image', photo);
 
     // Implement signup logic here (e.g., send data to server, handle form validation)
     try {
