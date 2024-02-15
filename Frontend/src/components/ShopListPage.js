@@ -51,7 +51,7 @@ const ShopListPage = () => {
                   <li key={shop.id} className="shop-card">
                     <div className="shop-image">
                       {shop.image ? <img src={shop.image} alt={shop.name} /> :
-                        <img src="images/defaultproduct.png" alt="not here" />}
+                        <img src="images/defaultproduct.png" alt="image" />}
                     </div>
                     <div className="shop-details">
                       <h3>{shop.name}</h3>

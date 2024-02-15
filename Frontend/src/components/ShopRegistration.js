@@ -16,27 +16,27 @@ const ShopRegistration = (props) => {
   const [gotologin, setGotologin] = useState(0);
 
   const handleSubmit = async () => {
-    if (!/^[A-Za-z0-9\s]+$/.test(name)) {
+    if (!/^[A-Za-z0-9,.\s]+$/.test(name)) {
       alert('Name must contain only alphabetical characters');
       return;
     }
-    if (!/^[A-Za-z0-9\s]+$/.test(description)) {
+    if (!/^[A-Za-z0-9,.\s]+$/.test(description)) {
       alert('description must contain only alphabetical characters');
       return;
     }
-    if (!/^[A-Za-z0-9\s]+$/.test(shopno)) {
+    if (!/^[A-Za-z0-9,.\s]+$/.test(shopno)) {
       alert('shopno must contain only alphabetical characters');
       return;
     }
-    if (!/^[A-Za-z0-9\s]+$/.test(locality)) {
+    if (!/^[A-Za-z0-9,.\s]+$/.test(locality)) {
       alert('locality must contain only alphabetical characters');
       return;
     }
-    if (!/^[A-Za-z0-9\s]+$/.test(city)) {
+    if (!/^[A-Za-z0-9,.\s]+$/.test(city)) {
       alert('city must contain only alphabetical characters');
       return;
     }
-    if (!/^[A-Za-z0-9\s]+$/.test(state)) {
+    if (!/^[A-Za-z\s]+$/.test(state)) {
       alert('state must contain only alphabetical characters');
       return;
     }
@@ -53,11 +53,11 @@ const ShopRegistration = (props) => {
     formData.append('password', props.password);
     formData.append('shopData[name]', name);
     formData.append('shopData[shopDescription]', description);
-    formData.append('shopData[addressData][streetAddress]', locality);
-    formData.append('shopData[addressData][houseNo]', shopno);
-    formData.append('shopData[addressData][state]', state);
-    formData.append('shopData[addressData][city]', city);
-    formData.append('shopData[addressData][pincode]', pincode);
+    formData.append('addressData[streetAddress]', locality);
+    formData.append('addressData[houseNo]', shopno);
+    formData.append('addressData[state]', state);
+    formData.append('addressData[city]', city);
+    formData.append('addressData[pincode]', pincode);
 
     // Append image file to FormData
     formData.append('image', photo);
@@ -73,6 +73,7 @@ const ShopRegistration = (props) => {
     console.log(result);
     if(result.success===true){
       alert("Successful. You can now Log in to your account");
+      setGotologin(1);
     }
     else if(result.message==="User already exists"){
       alert("already registerd. Go for log in");
@@ -96,80 +97,87 @@ const ShopRegistration = (props) => {
             <h1>Shop</h1>
             <form>
               <label>
-                Shop Name:
+                
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  placeholder='Shop Name*'
                 />
               </label>
               <br />
               <label>
-                About Shop:
+                
                 <input
                   type="text"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   maxLength={100}
+                  placeholder='About Shop*'
                 />
               </label>
               <br />
               <div className="address">
                 <div className='right'>
                   <label>
-                    Shop No:
+                    Address
                     <input
                       type="text"
                       value={shopno}
                       onChange={(e) => setShopno(e.target.value)}
                       maxLength={10}
+                      placeholder=' Shop No*'
                     />
                   </label>
                   <br />
                   <label>
-                    Locality:
+                    
                     <input
                       type="text"
                       value={locality}
                       onChange={(e) => setLocality(e.target.value)}
                       maxLength={50}
+                      placeholder='Locality*'
                     />
                   </label>
-                  <br />
+                  
                   <label>
-                    City:
+                    
                     <input
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
                       maxLength={20}
+                      placeholder='City*'
                     />
                   </label>
                 </div>
-                <br />
+                
                 <div className='left'>
                   <label>
-                    State:
+                    
                     <input
                       type="text"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
                       maxLength={20}
+                      placeholder='State*'
                     />
                   </label>
-                  <br />
+                  
                   <label>
-                    Pin Code:
+                    
                     <input
                       type="text"
                       value={pincode}
                       onChange={(e) => setPincode(e.target.value)}
                       maxLength={6}
+                      placeholder='Pin Code*'
                     />
                   </label>
                   <br />
                   <label>
-                    Logo Or Photo:
+                    Logo Or Photo*
                     <input
                       className='fileselector'
                       type="file"

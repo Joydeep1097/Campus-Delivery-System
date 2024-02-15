@@ -6,10 +6,10 @@ const Cart = (props) => {
   const [showcategoryPopup, setShowcategoryPopup] = useState(false);
   const [cartback, setCartback] = useState([]);
   //setCartback(props.cart);
-  //const getCartback =(cartback)=>{
-   // setCartback(cartback);
-   // console.log(cartback)
-  //};
+  const getCartback =(cartback)=>{
+   setCartback(cartback);
+   console.log(cartback)
+  };
   const handlePopupClose = () => {
     setShowcategoryPopup(false);
     setshowCartItems(0);
@@ -25,7 +25,7 @@ const Cart = (props) => {
         <div className="popup">
           <div className="popup-content1">
             <span className="close" onClick={handlePopupClose}><strong/>&times;</span>
-            <ShowCart cartItems={props.cart} /*onSubmit={getCartback}*/ />
+            <ShowCart cartItems={props.cart} onSubmit={getCartback} />
           </div>
         </div>
       ) : (

@@ -78,7 +78,7 @@ const SignupPage = () => {
                 <input
                   type="text"
                   value={name}
-                  placeholder='Name'
+                  placeholder='Name*'
                   onChange={(e) => setName(e.target.value)}
                   pattern="[A-Za-z]+"
                 />
@@ -88,7 +88,7 @@ const SignupPage = () => {
                 <input
                   type="text"
                   value={mobileNo}
-                  placeholder='📞Contact No'
+                  placeholder='📞Contact No*'
                   onChange={(e) => setMobileNo(e.target.value)}
                   minLength={10}
                   maxLength={10}
@@ -99,7 +99,7 @@ const SignupPage = () => {
                 <input
                   type="email"
                   value={email}
-                  placeholder='📧Email'
+                  placeholder='📧Email*'
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </label>
@@ -108,7 +108,7 @@ const SignupPage = () => {
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  placeholder='🔑Password'
+                  placeholder='🔑Password*'
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </label>

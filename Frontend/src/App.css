@@ -405,7 +405,7 @@ ul li:last-child {
   padding: 15px;
   background-color: #dad6d1;
   width: 200px;
-  height: 250px;
+  height: 350px;
   margin: 5px;
   display: flex;
   flex-wrap: wrap;
@@ -420,7 +420,7 @@ ul li:last-child {
 }
 
 .product-card h3 {
-  
+
   color: #041889;
 }
 
@@ -441,6 +441,12 @@ ul li:last-child {
 
 .product-card button:hover {
   background-color: #45a049;
+}
+
+.quantity {
+  display: flex;
+  align-items: center;
+  
 }
 
 .userview {
@@ -501,7 +507,7 @@ button2:hover {
 /*show product*/
 .product-image {
   width: 190px;
-  height: 100px;
+  height: 150px;
   object-fit: cover;
   border-radius: 0px 0 0 0px;
   overflow: hidden;
@@ -652,7 +658,7 @@ button3:hover {
 button3 {
   height: fit-content;
   width: fit-content;
-  background-color: #9d3e3edf;
+  background-color: #e02a2adf;
 }
 
 button4 {
@@ -674,9 +680,10 @@ button4:hover {
 }
 
 button5 {
-  width: fit-content;
+  text-align: center;
   background-color: rgb(234, 21, 21);
   border-radius: 20px;
+  font-size: 20px;
   cursor: pointer;
 }
 
@@ -727,4 +734,9 @@ button5 {
   background-color: #f0efc0;
   padding: 10px;
   margin: 10px;
+}
+.required::after {
+  content: '*';
+  color: red; /* Or any other color */
+  margin-left: 4px; /* Adjust spacing as needed */
 }

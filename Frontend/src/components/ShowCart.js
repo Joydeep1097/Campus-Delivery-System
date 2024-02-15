@@ -16,6 +16,7 @@ const ShowCart = (props) => {
             });
             const data = await response.json();
             console.log(data);
+            props.onSubmit(cart)
             if(data.message==="Cart not found for the user"){
                 setCart([]);
             }
@@ -45,6 +46,7 @@ const ShowCart = (props) => {
                 alert("Product deleted");
                 // Fetch cart data again after successful deletion
                 fetchCart();
+                
             }
         } catch (error) {
             console.error('Error deleting product:', error);

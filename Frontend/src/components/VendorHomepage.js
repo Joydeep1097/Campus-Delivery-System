@@ -11,6 +11,7 @@ const VendorHomePage = (props) => {
   const [vendor, setVendor] = useState([]);
   const [vendorname, setVendorName] = useState('');
   const [shopname, setShopName] = useState('');
+  const [shopid, setShopid] = useState('');
   const [categories, setCategories] = useState([]);
   const [showcategoryPopup, setShowcategoryPopup] = useState(false);
   const [showproductPopup, setShowproductPopup] = useState(false);
@@ -28,6 +29,7 @@ const VendorHomePage = (props) => {
         setVendor(data.vendor);
         setVendorName(data.vendor.name);
         setShopName(data.vendor.shop.name);
+        setShopid(data.vendor.shop.id)
         setCategories(data.vendor.shop.categories);
       } catch (error) {
         console.error('Error fetching shops:', error);
@@ -44,14 +46,12 @@ const VendorHomePage = (props) => {
 
     try {
       const payload = {
-        [newCategory]: {
-          [newProductName]: {
-            "price": newProductPrice, "returnable": newProductReturnable, "count": newProductCount
-          }
-        }
-      };
+        "shop_id": shopid,
+        "category_name": newCategory
 
-      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/addcategoryproduct', {
+      };
+      console.log(payload)
+      const response = await fetch('http://43.204.192.134:27017/api/v1/vendor/addCategory', {
         method: 'POST',
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -77,10 +77,10 @@ const VendorHomePage = (props) => {
       const formData = new FormData();
       // Append text fields to FormData
       formData.append('cat_id', selectedCategory);
-      formData.append(selectedCategory+'[name]', newProductName);
-      formData.append(selectedCategory+'[price]', newProductPrice);
-      formData.append(selectedCategory+'[returnable]', newProductReturnable);
-      formData.append(selectedCategory+'[count]', newProductCount);
+      formData.append(selectedCategory + '[name]', newProductName);
+      formData.append(selectedCategory + '[price]', newProductPrice);
+      formData.append(selectedCategory + '[returnable]', newProductReturnable);
+      formData.append(selectedCategory + '[count]', newProductCount);
 
       // Append image file to FormData
       formData.append('image', photo);
@@ -142,7 +142,7 @@ const VendorHomePage = (props) => {
         headers: { Authorization: `Bearer ${utoken}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-  
+
       const data = await response.json();
       if (data.success === true) {
         alert("Product deleted successfully");
@@ -165,7 +165,7 @@ const VendorHomePage = (props) => {
       console.error('Error deleting product:', error);
     }
   };
-  
+
   return (
     <div>
       <VendorNavbar name={vendorname} shop={shopname} />
@@ -185,13 +185,13 @@ const VendorHomePage = (props) => {
           <div>
             <h4>{categories.find((c) => c.id === selectedCategory)?.name}</h4>
             <div className="product-list">
-              {categories.find((c) => c.id === selectedCategory)?.products.map((product) => (
+              {categories.find((c) => c.id === selectedCategory)?.products?.map((product) => (
                 <div key={product.id} className="product-card" >
                   {product.image ? <img src={product.image} alt={product.name} className='product-image' /> :
                     <img src="images/defaultproduct.png" alt="not here" className='product-image' />}
                   <h5>{product.name}</h5>
                   <p>Rs.{product.price}</p>
-                  <button5 type="submit"onClick={() => handleUpdateProduct(product.id)}>remove</button5>
+                  <button5 type="submit" onClick={() => handleUpdateProduct(product.id)}>remove</button5>
                 </div>
               ))}
             </div>
@@ -237,7 +237,7 @@ const VendorHomePage = (props) => {
                       }}
                     />
                   </label>
-                  <button type="button" onClick={handleAddProduct}>
+                  <button  onClick={handleAddProduct}>
                     Add Product
                   </button>
                 </form>
@@ -258,26 +258,7 @@ const VendorHomePage = (props) => {
             <form className='container'>
               <label>
                 New Category Name:
-                <input type="text" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
-              </label>
-              <label>
-                New Product Name:
-                <input type="text" value={newProductName} onChange={(e) => setNewProductName(e.target.value)} />
-              </label>
-              <label>
-                New Product Price:
-                <input type="text" value={newProductPrice} onChange={(e) => setNewProductPrice(e.target.value)} />
-              </label>
-              <label>
-                New Product Returnable:
-                <select value={newProductReturnable} onChange={(e) => setNewProductReturnable(e.target.value)}>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-              </label>
-              <label>
-                New Product Count:
-                <input type="number" value={newProductCount} onChange={(e) => setNewProductCount(e.target.value)} />
+                <input type="text" value={newCategory} placeholder='Category name...' onChange={(e) => setNewCategory(e.target.value)} />
               </label>
               <button type="button" onClick={handleAddCategory}>
                 Add Category
