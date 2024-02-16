@@ -26,8 +26,9 @@ const VendorSignup = (props) => {
   };
 
   return (
-    <div className="outer">
+    <>
       {next===1?<ShopRegistration name={name} contactNo={mobileNo} contactMail={email} password={password}/>:
+      <div className="outer">
       <div className='container'>
         <h1>Signup</h1>
         <form>
@@ -96,8 +97,9 @@ const VendorSignup = (props) => {
 
         </form>
       </div>
+      </div>
     }   
-    </div>
+    </>
   );
 };
 

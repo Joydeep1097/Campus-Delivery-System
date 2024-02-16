@@ -74,7 +74,7 @@ const ShopRegistration = (props) => {
       alert("Successful. You can now Log in to your account");
       setGotologin(1);
     }
-    else if(result.message==="User already exists"){
+    else if(result.message==="Vendor already exists"){
       alert("already registerd. Go for log in");
     }
     else{

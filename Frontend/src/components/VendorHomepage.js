@@ -70,7 +70,8 @@ const VendorHomePage = (props) => {
     }
   };
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = async (event) => {
+    event.preventDefault();
     const utoken = localStorage.getItem("token");
 
     try {
