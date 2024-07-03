@@ -8,10 +8,12 @@ BHAKTI DHORAJIYA (12310590)
 CHAYAN PATHAK (12310630)
 <br>
 JAICKEY JOY MINJ (12310700)
-
+<br>
+JOYDEEP PATAR (12310720)
 # Web Application Link:
 	http://43.204.192.134/
 
 # Commands
 1. npm install
 2. npm start
+(http://43.204.192.134:27017)
